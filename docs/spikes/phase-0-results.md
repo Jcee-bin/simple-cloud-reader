@@ -13,6 +13,10 @@
 | Android local book open | PENDING | Requires WSL/Linux Android build toolchain and an Android phone/tablet or emulator. |
 | Windows local book open | PENDING | Requires running the Thorium development application and manually importing the non-DRM EPUB fixture. |
 
+The checked-in `.github/workflows/phase-0.yml` runs the pending KOReader
+locator test on Ubuntu after the repository is published to GitHub. Its workflow
+syntax passes `@action-validator/cli`.
+
 ## Automated Evidence
 
 From the repository root:
@@ -53,6 +57,11 @@ wsl --status
 docker version
 docker compose version
 ```
+
+Automated installation was attempted on 2026-06-12. WSL could not enable its
+optional Windows features without elevation. Docker Desktop downloaded, but
+its elevated installer exited with code `4294967291`; no Docker package or
+service was installed.
 
 Thorium requires npm `>=11.15.0`; this run used Corepack with npm `11.17.0`:
 

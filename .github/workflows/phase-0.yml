@@ -1,0 +1,71 @@
+name: Phase 0
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - phase-0-technical-foundation
+
+jobs:
+  contract-and-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  windows-locator:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/windows/package-lock.json
+      - run: npm ci
+      - run: npm run build --workspace=@simple-cloud-reader/sync-contract
+      - run: corepack npm@11.17.0 ci --ignore-scripts
+        working-directory: apps/windows
+      - run: corepack npm@11.17.0 run testFile -- test/simpleCloud/canonicalLocator.test.ts
+        working-directory: apps/windows
+      - run: |
+          $env:ESLINT_USE_FLAT_CONFIG = "false"
+          corepack npm@11.17.0 exec -- eslint src/common/simpleCloud/canonicalLocator.ts test/simpleCloud/canonicalLocator.test.ts
+        working-directory: apps/windows
+      - run: corepack npm@11.17.0 run build:dev:main
+        working-directory: apps/windows
+
+  android-locator:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            autoconf automake build-essential ccache cmake gettext \
+            libffi-dev libssl-dev libtool nasm ninja-build patch \
+            pkg-config procps-ng unzip wget
+          python3 -m pip install --disable-pip-version-check meson ruamel.yaml
+      - name: Build KOReader base
+        run: |
+          make fetchthirdparty
+          make base
+      - name: Run canonical locator test
+        run: ./kodev test front simplecloud_canonicallocator
