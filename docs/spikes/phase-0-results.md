@@ -8,7 +8,7 @@
 | Upstream imports | PASS | KOReader `5598a6e` and Thorium `c19a45f` imported as squashed subtrees; `apps/android/COPYING` and `apps/windows/LICENSE` verified. |
 | Railway-compatible object storage | PARTIAL | Four API tests pass, including AWS Signature V4 upload/download URL generation and user-scoped object keys. Live MinIO verification requires Docker Desktop. |
 | Cursor sync and idempotency | PASS | `services/api/test/sync.test.ts` proves retry deduplication and cursor pull; full API suite and strict typecheck pass. |
-| Readium locator round trip | PASS | Focused Thorium Jest test preserves normalized progression and restores the exact engine locator; focused ESLint passes. |
+| Readium locator round trip | PASS | Focused Thorium Jest test preserves normalized progression and restores the exact engine locator; focused ESLint and the Electron main-process webpack build pass. |
 | KOReader locator round trip | PENDING | Busted test and Lua adapter are present; WSL/Linux runtime is required to execute `./kodev test front simplecloud_canonicallocator`. |
 | Android local book open | PENDING | Requires WSL/Linux Android build toolchain and an Android phone/tablet or emulator. |
 | Windows local book open | PENDING | Requires running the Thorium development application and manually importing the non-DRM EPUB fixture. |
@@ -37,6 +37,9 @@ ESLINT_USE_FLAT_CONFIG=false eslint \
   src/common/simpleCloud/canonicalLocator.ts \
   test/simpleCloud/canonicalLocator.test.ts
   passed
+
+corepack npm@11.17.0 run build:dev:main
+  webpack compiled successfully
 ```
 
 ## Host Prerequisites Still Required

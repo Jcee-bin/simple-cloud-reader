@@ -1,4 +1,5 @@
 import type { Locator } from "@r2-navigator-js/electron/common/locator";
+import { describe, expect, it } from "@jest/globals";
 import { fromReadiumLocator, toReadiumLocator } from "readium-desktop/common/simpleCloud/canonicalLocator";
 
 describe("Readium canonical locator adapter", () => {
