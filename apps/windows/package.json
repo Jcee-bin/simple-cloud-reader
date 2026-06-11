@@ -316,6 +316,7 @@
     }
   },
   "dependencies": {
+    "@simple-cloud-reader/sync-contract": "file:../../packages/sync-contract",
     "@flatten-js/core": "^1.6.12",
     "@flatten-js/polygon-offset": "^1.1.4",
     "@floating-ui/dom": "^1.7.6",
