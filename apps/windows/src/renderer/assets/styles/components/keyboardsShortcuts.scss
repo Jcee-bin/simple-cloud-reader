@@ -1,0 +1,176 @@
+.CSS_START_components_keyboardsShortcuts {
+    display: none;
+}
+
+.keyshortElement {
+    &_container {
+        display: flex;
+        flex-direction: column;
+        margin: 10px 0;
+        border-bottom: 1px solid var(--color-gray-300);
+    }
+
+    &_title {
+        font-size: 16px;
+        margin: 5px;
+        font-weight: bold;
+    }
+
+    &_shortcut {
+        display: flex;
+        place-items: center center;
+        color: var(--color-brand-primary);
+        background-color: var(--color-brand-secondary);
+        padding: 3px;
+        gap: 5px;
+        width: fit-content;
+        font-size: 16px;
+
+        span {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        button {
+            height: 20px;
+            width: 20px;
+            padding-bottom: 5px;
+            padding-left: 5px;
+        }
+
+        &_container {
+            margin-bottom: 10px;
+
+            svg {
+                color: var(--color-brand-primary)!important;
+                width: 15px;
+                height: 15px;
+                transition: 200ms;
+
+                &:hover {
+                    scale: 1.2;
+                }
+            }
+
+            &_edit {
+                border-left: 2px solid var(--color-brand-primary);
+                width: 100%;
+                color: var(--color-text-primary);
+                background-color: var(--color-brand-secondary);
+                padding: 5px;
+
+                .keyshortElement_shortcut {
+                    color: var(--color-text-primary);
+                    background-color: transparent;
+
+                    span {
+                        display: flex;
+                        gap: 5px;
+                        align-items: center;
+
+                        svg {
+                            width: 20px;
+                        }
+                    }
+
+                    > button {
+                        display: none;
+                    }
+                }
+
+                > * {
+                    margin-left: 5px;
+                }
+
+                &_input {
+                    position: absolute;
+                    left: -2000px;
+
+                    &:focus + label {
+                        outline: var(--color-brand-primary) solid 1px !important;
+                        outline-offset: 2px;
+                        border-radius: 5px;
+                        background-color: var(--color-brand-primary);
+                        color: var(--color-neutral-base);
+                    }
+
+                    &:checked + label {
+                        border: 1px solid var(--color-brand-primary);
+                        background-color: var(--color-neutral-base);
+                        color: var(--color-brand-primary);
+
+                        svg {
+                            fill: var(--color-brand-primary);
+                        }
+                    }
+                }
+
+                label {
+                    border: 1px solid transparent;
+                    border-radius: 6px;
+                    color: var(--color-text-primary);
+                    padding: 3px;
+                    background-color: var(--color-gray-200);
+                    display: flex;
+                    align-items: center;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    &:focus {
+                        outline-color: var(--color-brand-primary)!important;
+                    }
+                }
+
+                .form_group {
+                    width: 100px;
+                    height: 30px;
+                    margin-bottom: 0!important;
+                    color: var(--color-text-primary);
+                    background-color: var(--color-neutral-base);
+                }
+
+                .outline {
+                    background-color: var(--color-neutral-base);
+                    width: 50px;
+                }
+            }
+        }
+    }
+
+    &_description {
+        font-size: 14px;
+    }
+}
+
+.action_buttons_container {
+    display: flex;
+    gap: 10px;
+}
+
+.advanced_trigger {
+    min-width: 20px!important;
+    height: 20px;
+    width: fit-content!important;
+    border: 1px solid;
+    border-color: transparent;
+    background-color: transparent;
+    transition: 200ms linear;
+    padding: 3px;
+
+    &:hover{
+        background-color: var(--color-brand-secondary);
+        border-color: var(--color-brand-primary);
+    }
+}
+
+.CSS_END_components_keyboardsShortcuts {
+    display: none;
+}

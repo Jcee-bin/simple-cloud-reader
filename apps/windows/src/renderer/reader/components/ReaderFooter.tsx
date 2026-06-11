@@ -1,0 +1,743 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import * as stylesReaderFooter from "readium-desktop/renderer/assets/styles/components/readerFooter.scss";
+
+import debounce from "debounce";
+
+// import * as BackIcon from "readium-desktop/renderer/assets/icons/baseline-skip_previous-24px.svg";
+// import * as ForwardIcon from "readium-desktop/renderer/assets/icons/baseline-skip_next-24px.svg";
+// import * as BackIcon from "readium-desktop/renderer/assets/icons/double_arrow_left_black_24dp.svg";
+// import * as ForwardIcon from "readium-desktop/renderer/assets/icons/double_arrow_right_black_24dp.svg";
+import * as BackIcon from "readium-desktop/renderer/assets/icons/backward-icon.svg";
+import * as ForwardIcon from "readium-desktop/renderer/assets/icons/forward-icon.svg";
+
+import classNames from "classnames";
+import * as React from "react";
+import { isAudiobookFn } from "readium-desktop/common/isManifestType";
+import { formatTime } from "readium-desktop/common/utils/time";
+import {
+    TranslatorProps, withTranslator,
+} from "readium-desktop/renderer/common/components/hoc/translator";
+import SVG from "readium-desktop/renderer/common/components/SVG";
+import {
+    TKeyboardEventOnAnchor, TMouseEventOnAnchor, TMouseEventOnSpan,
+} from "readium-desktop/typings/react";
+
+import { MiniLocatorExtended } from "readium-desktop/common/redux/states/locatorInitialState";
+
+import { Locator as R2Locator } from "@r2-navigator-js/electron/common/locator";
+import { Publication as R2Publication } from "@r2-shared-js/models/publication";
+import { Link } from "@r2-shared-js/models/publication-link";
+import * as Tooltip from "@radix-ui/react-tooltip";
+import * as ValidatedIcon from "readium-desktop/renderer/assets/icons/validated-icon.svg";
+import { TDispatch } from "readium-desktop/typings/redux";
+import { publicationActions } from "readium-desktop/common/redux/actions";
+import { connect } from "react-redux";
+import { PublicationView } from "readium-desktop/common/views/publication";
+import { IReaderRootState } from "readium-desktop/common/redux/states/renderer/readerRootState";
+
+const isFixedLayout = (link: Link, publication: R2Publication): boolean => {
+    if (link && link.Properties) {
+        if (link.Properties.Layout === "fixed") {
+            return true;
+        }
+        if (typeof link.Properties.Layout !== "undefined") {
+            return false;
+        }
+    }
+
+    if (publication &&
+        publication.Metadata &&
+        publication.Metadata.Rendition) {
+        return publication.Metadata.Rendition.Layout === "fixed";
+    }
+    return false;
+};
+
+function throttle(callback: (...args: any) => void, limit: number) {
+    let waiting = false;
+    return function(this: any) {
+        if (!waiting) {
+            // eslint-disable-next-line prefer-rest-params
+            callback.apply(this, arguments as any);
+            waiting = true;
+            setTimeout(() => {
+                waiting = false;
+            }, limit);
+        }
+    };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface IBaseProps extends TranslatorProps {
+    navLeftOrRight: (left: boolean) => void;
+    gotoBegin: () => void;
+    gotoEnd: () => void;
+    fullscreen: boolean;
+    historyCanGoBack: boolean;
+    historyCanGoForward: boolean;
+    currentLocation: MiniLocatorExtended;
+    goToLocator: (locator: R2Locator, closeNavPanel?: boolean, isFromOnPopState?: boolean) => void;
+    handleLinkClick: (event: TMouseEventOnSpan | TMouseEventOnAnchor | TKeyboardEventOnAnchor, url: string, closeNavPanel?: boolean, isFromOnPopState?: boolean) => void;
+    isDivina: boolean;
+    isDivinaLocation: (data: any) => data is { pageIndex: number | undefined, nbOfPages: number | undefined, locator: R2Locator };
+    divinaNumberOfPages: number;
+    divinaContinousEqualTrue: boolean;
+
+    disableRTLFlip: boolean;
+    isRTLFlip: () => boolean;
+
+    isPdf: boolean;
+    publicationView: PublicationView;
+}
+
+// IProps may typically extend:
+// RouteComponentProps
+// ReturnType<typeof mapStateToProps>
+// ReturnType<typeof mapDispatchToProps>
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface IProps extends IBaseProps, ReturnType<typeof mapStateToProps>, ReturnType<typeof mapDispatchToProps> {
+}
+
+interface IState {
+    // moreInfo: boolean;
+    chapters_markers_width: number;
+}
+
+const MIN_chapters_markers_width = 30;
+
+export class ReaderFooter extends React.Component<IProps, IState> {
+
+    private resizeDebounced: (divEl: HTMLDivElement) => void;
+
+    constructor(props: IProps) {
+        super(props);
+
+        this.state = {
+            // moreInfo: false,
+            chapters_markers_width: 0,
+        };
+
+        this.resizeDebounced = debounce((divEl: HTMLDivElement) => {
+            const divStyle = window.getComputedStyle(divEl);
+            if (divStyle) {
+                const w = parseInt(divStyle.width, 10);
+                if (!isNaN(w) && w > MIN_chapters_markers_width) {
+                    this.setState({ chapters_markers_width: w });
+                }
+            }
+        }, 500).bind(this);
+
+        // this.handleMoreInfoClick = this.handleMoreInfoClick.bind(this);
+
+        this.navLeftOrRightThrottled = throttle(this.navLeftOrRightThrottled, 500).bind(this);
+    }
+
+    public render(): React.ReactElement<{}> {
+        const { currentLocation, r2Publication, isDivina, isPdf } = this.props;
+
+        // console.log(r2Publication, currentLocation);
+
+        if (!r2Publication || !currentLocation) {
+            return (<></>);
+        }
+
+        const isAudioBook = isAudiobookFn(r2Publication);
+
+        const { __ } = this.props;
+        // const { moreInfo } = this.state;
+
+        let spineTitle = currentLocation.locator?.title || currentLocation.locator.href;
+
+        // SEE isDivinaLocation duck typing hack with totalProgression injection!!
+        if (isDivina && this.props.isDivinaLocation(currentLocation)) {
+            try {
+                spineTitle = this.props.divinaContinousEqualTrue
+                    ? `${Math.floor(currentLocation.locator.locations.progression * r2Publication.Spine.length)}`
+                    : `${(currentLocation.locator?.locations.position || 0) + 1}`;
+            } catch (_e) {
+                // ignore
+            }
+        }
+
+        const isEnding = (isDivina
+            ? parseInt(spineTitle, 10)
+            : isPdf ?
+                parseInt(currentLocation.locator?.href, 10).toString()
+                :
+                ((r2Publication.Spine.findIndex((spineLink) => spineLink.Href === currentLocation.locator?.href)) + 1).toString()
+        ) ==
+            (isPdf ? (r2Publication.Metadata?.NumberOfPages ? r2Publication.Metadata.NumberOfPages : 0) :
+                (isDivina
+                    ? (this.props.divinaContinousEqualTrue ? r2Publication.Spine.length : this.props.divinaNumberOfPages)
+                    : r2Publication.Spine.length)
+            );
+
+        let afterCurrentLocation = false;
+
+        const isRTL = this.props.isRTLFlip();
+
+        let _chunkIndex = -1;
+        let _chunkIndexMapped = -1;
+        return (
+            <div className={classNames(stylesReaderFooter.reader_footer,
+                this.props.fullscreen ? stylesReaderFooter.reader_footer_fullscreen : undefined)}
+                onWheel={(ev) => {
+                    if (ev.deltaY < 0 || ev.deltaX < 0) {
+                        this.navLeftOrRightThrottled(true);
+                    } else if (ev.deltaY > 0 || ev.deltaX > 0) {
+                        this.navLeftOrRightThrottled(false);
+                    }
+                }}>
+                {
+                // !this.props.fullscreen &&
+                        <nav className={stylesReaderFooter.history}
+                            role="navigation"
+                            aria-label={this.props.__("reader.navigation.history")}>
+                            <button
+                                className={(isRTL ? this.props.historyCanGoForward : this.props.historyCanGoBack) ? undefined : stylesReaderFooter.disabled}
+                                aria-disabled={(isRTL ? this.props.historyCanGoForward : this.props.historyCanGoBack) ? undefined : true}
+                                onClick={() => {
+
+                                    // console.log("#+$%".repeat(5)  + " history back()", JSON.stringify(document.location), JSON.stringify(window.location), JSON.stringify(window.history.state), window.history.length);
+                                    if (isRTL) {
+                                      window.history.forward();
+                                    } else {
+                                      window.history.back();
+                                    }
+                                    // window.history.go(-1);
+
+                                }}
+                                title={isRTL ? __("reader.navigation.historyNext") : __("reader.navigation.historyPrevious")}
+                            >
+                                <SVG ariaHidden={true} svg={BackIcon} />
+                            </button>
+                            <button
+                                className={(isRTL ? this.props.historyCanGoBack : this.props.historyCanGoForward) ? undefined : stylesReaderFooter.disabled}
+                                aria-disabled={(isRTL ? this.props.historyCanGoBack : this.props.historyCanGoForward) ? undefined : true}
+                                onClick={() => {
+
+                                    // console.log("#+$%".repeat(5)  + " history forward()", JSON.stringify(document.location), JSON.stringify(window.location), JSON.stringify(window.history.state), window.history.length);
+                                    if (isRTL) {
+                                      window.history.back();
+                                    } else {
+                                      window.history.forward();
+                                    }
+                                    // window.history.go(1);
+
+                                }}
+                                title={isRTL ? __("reader.navigation.historyPrevious") : __("reader.navigation.historyNext")}
+                            >
+                                <SVG ariaHidden={true} svg={ForwardIcon} />
+                            </button>
+                        </nav>
+                }
+                {/* {!isAudioBook &&
+                    <div className={stylesReaderFooter.arrows}>
+                        <button onClick={(ev) => {
+                            if (ev.shiftKey) {
+                                if (isRTL) {
+                                    this.props.gotoEnd();
+                                } else {
+                                    this.props.gotoBegin();
+                                }
+                            } else {
+                                this.props.navLeftOrRight(true);
+                            }
+                        }}
+                        title={__("reader.svg.left")}
+                        >
+                            <SVG ariaHidden={true} svg={ArrowLeftIcon} />
+                        </button>
+                        <button onClick={(ev) => {
+                            if (ev.shiftKey) {
+                                if (isRTL) {
+                                    this.props.gotoBegin();
+                                } else {
+                                    this.props.gotoEnd();
+                                }
+                            } else {
+                                this.props.navLeftOrRight(false);
+                            }
+                        }}
+                        title={__("reader.svg.right")}
+                        >
+                            <SVG ariaHidden={true} svg={ArrowRightIcon} />
+                        </button>
+                    </div>
+                } */}
+                {!this.props.fullscreen &&
+                    <div aria-hidden="true" className={classNames(stylesReaderFooter.track_reading_wrapper,
+                        isAudioBook ? stylesReaderFooter.track_reading_wrapper_noArrows : undefined)}>
+
+                        { // <div id={stylesReader.current}></div>
+                            <div id={stylesReaderFooter.track_reading}>
+                                <div id={stylesReaderFooter.chapters_markers}
+                                    className={classNames(isRTL ? stylesReaderFooter.RTL_FLIP : undefined /* , moreInfo ? stylesReaderFooter.more_information : undefined */)}
+                                    ref={(divEl) => {
+                                        if (divEl) {
+                                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                            if (!(divEl as any)._resizeObserver) {
+                                                const resizeObserver = new ResizeObserver((_entries: ResizeObserverEntry[], _observer: ResizeObserver) => {
+                                                    this.setState({ chapters_markers_width: 0 });
+                                                    this.resizeDebounced(divEl);
+                                                });
+                                                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                                (divEl as any)._resizeObserver = resizeObserver;
+                                                resizeObserver.observe(divEl);
+                                            }
+                                        }
+                                    }}
+                                >
+                                    {this.state.chapters_markers_width <= 0 ? <></> :
+                                        (isPdf
+                                            ? Array.from({ length: r2Publication.Metadata?.NumberOfPages || 1 }, (_v, i) => {
+                                                const link = new Link();
+                                                link.Href = String(i+1);
+                                                return link;
+                                            })
+                                            : r2Publication.Spine
+                                        ).map((link, index, arr) => {
+                                            // console.log("arr.length", arr.length);
+                                            const arrItemWidth = this.state.chapters_markers_width / arr.length;
+                                            // console.log("arrItemWidth", arrItemWidth);
+                                            const nChunks = Math.floor(this.state.chapters_markers_width / MIN_chapters_markers_width);
+                                            // console.log("nChunks", nChunks);
+                                            const chunkWidth = this.state.chapters_markers_width / nChunks;
+                                            // console.log("chunkWidth", arrItemWidth);
+
+                                            // console.log("=====> index", index);
+
+                                            let atCurrentLocation = false;
+                                            // SEE isDivinaLocation duck typing hack with totalProgression injection!!
+                                            if (isDivina && this.props.isDivinaLocation(currentLocation)) {
+                                                atCurrentLocation = this.props.divinaContinousEqualTrue
+                                                    ? (Math.floor(currentLocation.locator.locations.progression * r2Publication.Spine.length)-1) === index
+                                                    : (currentLocation.locator?.locations.position || 0) === index; // see divinaNumberOfPages
+                                            } else if (isPdf) {
+                                                // let href = link.Href;
+                                                // try {
+                                                //     const n = parseInt(href, 10);
+                                                //     href = Number.isInteger(n) ? String(n) : "1"; // NaN
+                                                // } catch (_e) {
+                                                //     href = "1";
+                                                // }
+                                                // console.log(link.Href, href, currentLocation.locator?.href);
+                                                // atCurrentLocation = currentLocation.locator?.href === href;
+                                                // console.log(link.Href, currentLocation.locator?.href);
+                                                atCurrentLocation = currentLocation.locator?.href === link.Href;
+                                            } else {
+                                                atCurrentLocation = currentLocation.locator?.href === link.Href;
+                                            }
+                                            // console.log(atCurrentLocation, currentLocation.locator?.href, link.Href);
+                                            if (atCurrentLocation) {
+                                                afterCurrentLocation = true;
+                                            }
+
+                                            if (arrItemWidth < chunkWidth
+                                                && index > 0 && index < (arr.length - 1) // first and last always render, middle chunks might skip
+                                                // && index !== (_chunkIndexMapped + 1)
+                                            ) {
+                                                const startX = index * arrItemWidth;
+                                                const endX = (_chunkIndex + 1) * chunkWidth;
+                                                const skipRender = startX < endX;
+                                                // console.log("----> skipRender", skipRender);
+
+                                                if (skipRender && !atCurrentLocation) {
+                                                    return <></>;
+                                                }
+                                            }
+
+                                            _chunkIndex++;
+                                            _chunkIndexMapped = index;
+                                            return (
+                                                <Tooltip.Provider key={`chunk${index}`}>
+                                                    <Tooltip.Root>
+                                                        <Tooltip.Trigger asChild>
+                                                            <span
+                                                                data-index={_chunkIndexMapped}
+                                                                onClick={(e) => {
+                                                                    // e.preventDefault();
+                                                                    // e.stopPropagation();
+                                                                    const isDockedMode = this.props.readerConfig.readerDockingMode !== "full";
+                                                                    if (isDivina) {
+                                                                        // alert(link?.Href);
+                                                                        // alert(this.props.divinaContinousEqualTrue);
+                                                                        if (this.props.divinaContinousEqualTrue) {
+                                                                            this.props.handleLinkClick(e, link.Href, !isDockedMode);
+                                                                        } else {
+                                                                            this.props.handleLinkClick(e, link.Href, !isDockedMode);
+
+                                                                            // const loc = {
+                                                                            //     // href: index.toString(),
+                                                                            //     href: String(this.props.r2Publication?.Spine?.findIndex((lnk) => lnk.Href === link?.Href)),
+                                                                            //     // progression generate in divina pagechange event
+                                                                            // };
+                                                                            // // alert(loc.href);
+                                                                            // this.props.goToLocator(loc as any, !isDockedMode);
+                                                                        }
+                                                                    } else if (isPdf) {
+                                                                        // let href = link.Href;
+                                                                        // try {
+                                                                        //     const n = parseInt(href, 10);
+                                                                        //     href = Number.isInteger(n) ? String(n) : "1"; // NaN
+                                                                        // } catch (_e) {
+                                                                        //     href = "1";
+                                                                        // }
+                                                                        // alert(`${link.Href} - ${href}`);
+                                                                        // alert(link.Href);
+                                                                        const loc: R2Locator = {
+                                                                            href: link.Href,
+                                                                            locations: {
+                                                                                progression: 0,
+                                                                            },
+                                                                        };
+                                                                        this.props.goToLocator(loc, !isDockedMode);
+                                                                    } else {
+                                                                        const el = e.nativeEvent.target as HTMLElement;
+                                                                        const deltaX = e.nativeEvent.offsetX;
+                                                                        let element = el;
+                                                                        let w: number | undefined;
+                                                                        while (element && element.classList) {
+                                                                            if (
+                                                                                element.classList.contains("progressChunkSpineItem")
+                                                                            ) {
+                                                                                w = element.offsetWidth;
+                                                                                break;
+                                                                            }
+                                                                            element = element.parentNode as HTMLElement;
+                                                                        }
+                                                                        if (!w) {
+                                                                            w = element.offsetWidth;
+                                                                        }
+                                                                        const percent = deltaX / w;
+                                                                        const loc: R2Locator = {
+                                                                            href: link.Href,
+                                                                            locations: {
+                                                                                progression: percent,
+                                                                            },
+                                                                        };
+                                                                        this.props.goToLocator(loc, !isDockedMode);
+                                                                        // this.props.handleLinkClick(e, link.Href);
+                                                                    }
+                                                                }}
+
+                                                                className={
+                                                                    classNames(
+                                                                        stylesReaderFooter.progressChunkSpineItem,
+                                                                        atCurrentLocation ? stylesReaderFooter.currentSpineItem : undefined)
+                                                                }
+                                                            >
+                                                            {
+                                                                atCurrentLocation
+                                                                    ? <span style={this.getProgressionStyle()}></span>
+                                                                    : afterCurrentLocation ? <></> : <span></span>
+                                                            }
+                                                        </span>
+                                                    </Tooltip.Trigger>
+                                                    <Tooltip.Portal>
+                                                            <Tooltip.Content className={stylesReaderFooter.tooltip_content}>
+                                                                <div
+                                                                    id={stylesReaderFooter.arrow_box}
+                                                                    style={this.getStyle()}
+                                                                >
+                                                                    <span>{`[${this.getCurrentChapter(link)+1} / ${this.getTotalChapters()}] `} {
+                                                                        isPdf ? "" :
+                                                                        ` ${link.Title ? `${link.Title}${atCurrentLocation && spineTitle ? ` (${spineTitle})` : ""}` : (atCurrentLocation && spineTitle ? spineTitle : "")}`}</span>
+                                                                    {atCurrentLocation ?
+                                                                        this.getProgression(link, isAudioBook).map((str, i) => {
+                                                                            return !str ? <></> :
+                                                                            i === 0 ?
+                                                                            <p key={`p${i}`}>{str}</p>
+                                                                            :
+                                                                            <p style={{fontSize:"revert"}} key={`p${i}`}>{str}</p>;
+                                                                        })
+                                                                        : <></>
+                                                                    }
+                                                                    {/* <span
+                                                                        style={this.getStyle()}
+                                                                        className={stylesReaderFooter.after}
+                                                                    /> */}
+                                                                </div>
+                                                                <Tooltip.Arrow width={15} height={10} />
+                                                            </Tooltip.Content>
+                                                        </Tooltip.Portal>
+                                                    </Tooltip.Root>
+                                                </Tooltip.Provider>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+                        }
+                        {isEnding ? <button className={stylesReaderFooter.finishedIcon}
+                             onClick={() => this.props.finishReading(this.props.publicationView.identifier)}
+                             title={__("publication.markAsRead")}
+                             ><SVG ariaHidden svg={ValidatedIcon} /></button> : <></>}
+                    </div>
+                }
+            </div>
+        );
+    }
+
+    // 0-based
+    private getCurrentChapter(link: Link): number {
+        const { r2Publication, isDivina, isPdf } = this.props;
+
+        // let spineTitle = currentLocation.locator?.title || currentLocation.locator.href;
+        // SEE isDivinaLocation duck typing hack with totalProgression injection!!
+        // if (isDivina && isDivinaLocation(currentLocation)) {
+        //     try {
+        //         spineTitle = this.props.divinaContinousEqualTrue
+        //             ? `${Math.floor(currentLocation.locator.locations.progression * r2Publication.Spine.length)}`
+        //             : `${(currentLocation.locator?.locations.position || 0) + 1}`;
+        //     } catch (_e) {
+        //         // ignore
+        //     }
+        // }
+        // console.log(this.props.divinaContinousEqualTrue, this.props.r2Publication?.Spine?.length, link.Href, link.Title);
+        try {
+            const n = isDivina // 1-based
+                ? // this.props.divinaContinousEqualTrue ? (parseInt(link.Href, 10) - 1) :
+                r2Publication?.Spine?.length ? r2Publication.Spine.findIndex((lnk) => lnk.Href === link.Href) : 0
+                : isPdf ? // 1-based
+                    parseInt(link.Href, 10) - 1
+                    : // audiobook, EPUB reflow / FXL, etc. => 0-based
+                    r2Publication.Spine.findIndex((spineLink) => spineLink.Href === link.Href);
+            return Number.isInteger(n) ? n : 0; // NaN
+        } catch (_e) {
+            return 0;
+        }
+    }
+
+    // [0-N]
+    private getTotalChapters(): number {
+        const { r2Publication, isDivina, isPdf } = this.props;
+
+        const totalChapters =
+        isPdf ?
+        (r2Publication.Metadata?.NumberOfPages ? r2Publication.Metadata.NumberOfPages : 0) :
+        isDivina
+            ? (this.props.divinaContinousEqualTrue ? r2Publication.Spine.length : this.props.divinaNumberOfPages)
+            : r2Publication.Spine.length;
+        return totalChapters;
+    }
+
+    private navLeftOrRightThrottled(left: boolean) {
+        this.props.navLeftOrRight(left);
+    }
+
+    private getProgressionStyle(): React.CSSProperties {
+        const { currentLocation } = this.props;
+        if (!currentLocation) {
+            return {};
+        }
+
+        let progression = this.props.isPdf ?  1 : currentLocation.locator.locations?.progression || 0;
+        if (progression >= 0.97) {
+            progression = 1;
+        }
+        return {
+            width: `${progression * 100}%`,
+        };
+    }
+
+    private getProgression(link: Link, isAudioBook: boolean): string[] {
+        const { currentLocation, isDivina, isPdf, __, r2Publication } = this.props;
+
+        if (!currentLocation) {
+            return ["", ""];
+        }
+
+        // can return -1 (not found)
+        const currentChapter = this.getCurrentChapter(link);
+        // can return 0!
+        const totalChapters =  this.getTotalChapters();
+
+        const globalPercent =
+            totalChapters > 0 // division by zero
+            ?
+            Math.round(
+                (((isPdf ? 1 : (currentLocation.locator.locations?.progression || 0)) + (currentChapter >= 0 ? currentChapter : 0)) / totalChapters)
+                * 100,
+            )
+            :
+            0;
+
+        if (currentLocation.paginationInfo) {
+            return [
+                `${__("reader.navigation.currentPageTotal", { current: `${(currentLocation.paginationInfo.currentColumn || 0) + 1}`, total: `${currentLocation.paginationInfo.totalColumns || 0} (${Math.round(100 * (currentLocation.locator.locations?.progression || 0))}%)` })}`,
+                `${__("publication.progression.title")} ${globalPercent}%`,
+            ];
+        } else if (isAudioBook && currentLocation.audioPlaybackInfo) {
+            return [
+                `${formatTime(currentLocation.audioPlaybackInfo.localTime || 0)} / ${formatTime(currentLocation.audioPlaybackInfo.localDuration || 0)} (${Math.round(currentLocation.audioPlaybackInfo.localProgression * 100)}%)`,
+                `${formatTime(currentLocation.audioPlaybackInfo.globalTime || 0)} / ${formatTime(currentLocation.audioPlaybackInfo.globalDuration || 0)} (${Math.round(currentLocation.audioPlaybackInfo.globalProgression * 100)}%)`,
+            ];
+        } else {
+            return [!isPdf && !isDivina && !isFixedLayout(link, r2Publication) && typeof currentLocation.locator.locations?.progression !== "undefined" ? `${Math.round(currentLocation.locator.locations.progression * 100)}%${!isAudioBook && !isDivina ? ` (${__("reader.settings.scrolled")})` : ""}` : "", `${__("publication.progression.title")} ${globalPercent}%`];
+        }
+    }
+
+    // Get the style of the differents element of the arrow box
+    // Take a function returning the good left css property
+    private getStyle(): React.CSSProperties {
+
+        const { currentLocation, r2Publication, isPdf, isDivina } = this.props;
+
+        if (!r2Publication || !currentLocation) {
+            return undefined;
+        }
+
+        let _chunkIndex = -1;
+        // let _chunkIndexMapped = -1;
+        let _chunkIndexAtCurrentLocation = -1;
+
+        const chunks =
+        (isPdf
+            ? Array.from({ length: r2Publication.Metadata?.NumberOfPages || 1 }, (_v, i) => {
+                const link = new Link();
+                link.Href = String(i + 1);
+                return link;
+            })
+            : r2Publication.Spine
+        ).map((link, index, arr) => {
+            // console.log("arr.length", arr.length);
+            const arrItemWidth = this.state.chapters_markers_width / arr.length;
+            // console.log("arrItemWidth", arrItemWidth);
+            const nChunks = Math.floor(this.state.chapters_markers_width / MIN_chapters_markers_width);
+            // console.log("nChunks", nChunks);
+            const chunkWidth = this.state.chapters_markers_width / nChunks;
+            // console.log("chunkWidth", arrItemWidth);
+
+            // console.log("=====> index", index);
+
+            let atCurrentLocation = false;
+            // SEE isDivinaLocation duck typing hack with totalProgression injection!!
+            if (isDivina && this.props.isDivinaLocation(currentLocation)) {
+                atCurrentLocation = this.props.divinaContinousEqualTrue
+                    ? (Math.floor(currentLocation.locator.locations.progression * r2Publication.Spine.length) - 1) === index
+                    : (currentLocation.locator?.locations.position || 0) === index; // see divinaNumberOfPages
+            } else if (isPdf) {
+                // let href = link.Href;
+                // try {
+                //     const n = parseInt(href, 10);
+                //     href = Number.isInteger(n) ? String(n) : "1"; // NaN
+                // } catch (_e) {
+                //     href = "1";
+                // }
+                // console.log(link.Href, href, currentLocation.locator?.href);
+                // atCurrentLocation = currentLocation.locator?.href === href;
+                // console.log(link.Href, currentLocation.locator?.href);
+                atCurrentLocation = currentLocation.locator?.href === link.Href;
+            } else {
+                atCurrentLocation = currentLocation.locator?.href === link.Href;
+            }
+            // console.log(atCurrentLocation, currentLocation.locator?.href, link.Href);
+
+            if (arrItemWidth < chunkWidth
+                && index > 0 && index < (arr.length - 1) // first and last always render, middle chunks might skip
+                // && index !== (_chunkIndexMapped + 1)
+            ) {
+                const startX = index * arrItemWidth;
+                const endX = (_chunkIndex + 1) * chunkWidth;
+                const skipRender = startX < endX;
+                // console.log("----> skipRender", skipRender);
+
+                if (skipRender && !atCurrentLocation) {
+                    return null;
+                }
+            }
+
+            _chunkIndex++;
+            // _chunkIndexMapped = index;
+            if (atCurrentLocation) {
+                _chunkIndexAtCurrentLocation = _chunkIndex;
+            }
+            return link;
+        }).filter((v) => !!v);
+
+        let spineItemId = 0;
+        if (currentLocation) {
+            if (_chunkIndexAtCurrentLocation >= 0) {
+                spineItemId = _chunkIndexAtCurrentLocation;
+            } else {
+                if (isPdf) {
+                    spineItemId = parseInt(currentLocation.locator?.href, 10) || 1;
+                } else {
+                    spineItemId = r2Publication.Spine.findIndex((value) => value.Href === currentLocation.locator?.href);
+                }
+            }
+        }
+
+        // (isPdf
+        //     ? Array.from({ length: r2Publication.Metadata?.NumberOfPages || 1 }, (_v, i) => {
+        //         const link = new Link();
+        //         link.Href = String(i+1);
+        //         return link;
+        //     })
+        //     : r2Publication.Spine
+        const onePourcent = 100 /
+            _chunkIndexAtCurrentLocation >= 0 ?
+            chunks.length :
+            (isPdf ? r2Publication.Metadata?.NumberOfPages || 1 : r2Publication.Spine?.length)
+            ;
+
+        let progression = currentLocation.locator?.locations?.progression;
+        if (progression >= 0.97) {
+            progression = 1;
+        }
+
+        let arrowBoxPosition = ((onePourcent * spineItemId) + (onePourcent * progression));
+
+        const isRTL = this.props.isRTLFlip();
+
+        if (isRTL) {
+          arrowBoxPosition = 100 - arrowBoxPosition;
+        }
+        let multiplicator = 1;
+        const rest = Math.abs(arrowBoxPosition - 50);
+
+        if (arrowBoxPosition > 50) {
+            multiplicator = -1;
+        }
+        const style = {
+            left: `calc(${arrowBoxPosition}% + ${(multiplicator * (450 * (rest / 100) - 30 * rest / 100))}px)`,
+        };
+        return style;
+    }
+
+    // private getArrowStyle(arrowBoxPosition: number, multiplicator: number, rest: number) {
+    //     return `calc(${arrowBoxPosition}% + ${multiplicator * 30 * rest / 100}px)`;
+    // }
+
+    // private handleMoreInfoClick() {
+    //     this.setState({ moreInfo: !this.state.moreInfo });
+    // }
+}
+
+const mapStateToProps = (state: IReaderRootState, _props: IBaseProps) => {
+    return {
+        readerConfig: state.reader.config,
+        r2Publication: state.reader.info.r2Publication,
+        locale: state.i18n.locale, // refresh
+    };
+};
+
+const finishReadingDebounce = debounce((dispatch: TDispatch, pubId: string) => {
+    dispatch(publicationActions.readingFinished.build(pubId));
+}, 500);
+
+const mapDispatchToProps = (dispatch: TDispatch) => {
+    return {
+        finishReading: (pubId: string) => {
+            finishReadingDebounce(dispatch, pubId);
+        },
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withTranslator(ReaderFooter));

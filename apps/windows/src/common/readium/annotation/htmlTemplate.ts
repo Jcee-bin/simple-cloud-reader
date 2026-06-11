@@ -1,0 +1,151 @@
+
+export const noteExportHtmlMustacheTemplate = `
+<!DOCTYPE html>
+<!-- mustache.js template https://mustache.github.io/mustache.5.html -->
+<!-- https://github.com/edrlab/thorium-reader/blob/develop/src/common/readium/annotation/htmlTemplate.ts -->
+<html>
+<head>
+    <title>Annotations about {{#dc:title}}{{.}}{{/dc:title}}</title>
+    {{#generator}}
+    <meta name=generator content="{{name}}" />
+    <meta name="dc:identifier" content="{{id}}" />
+    {{/generator}}
+    {{#about}}
+    <meta name="dc:date" content="{{dc:date}}" />
+    {{/about}}
+    <style>
+        body {margin: 2rem; }
+        header, footer { color: #666; padding: 1rem; }
+        .metadata { background-color: #f8f9fa; padding: 1rem; margin: 1rem 0; }
+        .annotations { margin: 2rem 0; padding: 1rem; border-left: thin solid rgb(150, 150, 150); }
+        .selector { background-color: #f5f5f5; padding: 1rem; margin: 1rem 0; }
+        .highlight { padding: 0.2em; }
+        .annotation {margin: 10px; padding: 10px; border-left-style: solid; border-left-width: thin; }
+        .annotationmetadata { font-style: italic; color: #888; }
+        blockquote
+
+    </style>
+</head>
+<body>
+    <!-- Header Section with Collection Metadata -->
+    <header>
+        <h1>Annotations about {{#dc:title}}<cite>{{.}}</cite>{{/dc:title}}</h1>
+        <section class="metadata">
+            {{#about}}
+                <h2>Informations about the annotated publication</h2>
+                {{#dc:title}}<p>Title: <cite>{{.}}</cite></p>{{/dc:title}}
+                {{#dc:creator}}<p>Creator: {{.}}</p>{{/dc:creator}}
+                {{#dc:publisher}}<p>Publisher: {{.}}</p>{{/dc:publisher}}
+                <details>
+                    <summary>More about this publication</summary> 
+                    <ul>
+                    {{#dc:date}}<li>Date: {{.}}</li>{{/dc:date}}
+                    {{#dc:format}}<li>Format: {{.}}</li>{{/dc:format}}
+                    {{#dc:identifier}}<li>Identifier: {{.}}</li>{{/dc:identifier}}
+                    </ul>
+                </details>
+            {{/about}}
+        </section>
+    </header>
+
+    <!-- Main Content - Annotations -->
+    <main>
+        {{#items}}
+            <section class="annotations">
+                <!-- Annotation Body -->
+                <section class="annotation" style="border-color: {{#body.color}}{{body.color}}{{/body.color}};">
+                    <h2>{{#motivation}}{{motivation}}{{/motivation}}</h2>
+        
+<!-- Selected text is provided for context -->
+                    <blockquote class="highlight">
+                        {{#target.selector}}
+                           {{#exact}}{{exact}}{{/exact}}
+                        {{/target.selector}}
+                    </blockquote>
+
+<!-- Header Section with Collection Metadata -->    
+                    {{#body.htmlValue}}
+                    <article class="markdown-body">
+                        {{{body.htmlValue}}}
+                    </article>
+                    {{/body.htmlValue}}
+                    {{#body.value}}
+                    <details>
+                        <summary>Raw annotation (not converted to HTML)</summary>
+                        <p lang="{{body.language}}" {{#body.format}}data-format="{{body.format}}"{{/body.format}}>
+                            {{body.value}}
+                        </p>
+                    </details>
+                    {{/body.value}}
+                    <!-- Annotation Metadata -->
+                    <p class="annotationmetadata">
+                        {{#body.tag}} | Tag: {{body.tag}}{{/body.tag}}
+                        {{#body.color}} | Color: {{body.color}}{{/body.color}}
+                        {{#body.highlight}} | Highlight type: {{body.highlight}}{{/body.highlight}};
+                        {{#body.textDirection}}TextDirection:  | {{body.textDirection}}{{/body.textDirection}}
+                     | </p>
+
+                <!-- Creator Information -->
+                <section class="creator">
+                    <p><small>Created by {{creator.name}} ({{creator.id}}) ({{creator.type}}) on: {{created}} and modified on: {{modified}}</small></p>
+                </section>
+
+                <!-- Target Information -->
+                <section class="target">
+                    <h3>Source</h3>
+                    
+                    {{#target.meta}}
+                    <section class="meta">
+                        {{#page}}<p>Page: {{page}}</p>{{/page}}
+                        <h4>This annotation happens in the context of the following publication title hierarchy</h4>
+                        <ul>
+                            {{#headings}}
+                            {{#.}}<li>Level {{level}}: {{txt}}</li>{{/.}}
+                            {{/headings}}
+                        </ul>
+                    </section>
+                    {{/target.meta}}
+
+                    <!-- Selectors -->
+                    <section class="selectors">
+                        <details>
+                            <summary>Selectors</summary>
+                            {{#target.selector}}
+                            <p>{{target.source}}</p>
+                                <strong>{{type}}</strong>
+                                <ul>
+                                    {{#start}}<li>Start: {{start}}</li>{{/start}}
+                                    {{#end}}<li>End: {{end}}</li>{{/end}}
+                                    {{#exact}}<li>Exact: {{exact}}</li>{{/exact}}
+                                    {{#prefix}}<li>Prefix: {{prefix}}</li>{{/prefix}}
+                                    {{#suffix}}<li>Suffix: {{suffix}}</li>{{/suffix}}
+                                    {{#value}}<li>Value: {{value}}</li>{{/value}}
+                                    {{#conformsTo}}<li>Conforms to: {{conformsTo}}</li>{{/conformsTo}}
+                                    {{#refinedBy}}<div class="refined">{{> selector}}</div>{{/refinedBy}}
+                                </ul>
+                            {{/target.selector}}
+                        </details>
+                        </section>
+                    </section>
+                </section>
+                {{^isLast}}<hr>{{/isLast}}
+            </section>
+        {{/items}}
+    </main>
+
+    <footer>
+        <p><strong>Generated by <a href="https://thorium.edrlab.org">{{#generator}}{{name}}{{/generator}}</a> 
+        on:</strong> {{#generated}}{{generated}}{{/generated}}
+            {{#generator}}
+            <section class="generator">
+            <details>
+            <summary>
+                Generator details
+            </summary>
+                <p>ID: {{id}} | Type: {{type}} |  | Context: {{@context}} </p   
+            </section>
+            {{/generator}}
+    </footer>
+</body>
+</html>
+`;

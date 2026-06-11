@@ -1,0 +1,89 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import { BrowserWindow, Rectangle } from "electron";
+import { Action } from "readium-desktop/common/models/redux";
+import { locatorInitialState } from "readium-desktop/common/redux/states/locatorInitialState";
+import { IReaderStateReaderSession } from "readium-desktop/common/redux/states/renderer/readerRootState";
+import { PublicationView } from "readium-desktop/common/views/publication";
+import { diMainGet } from "readium-desktop/main/di";
+
+import {
+    convertHttpUrlToCustomScheme, READIUM2_ELECTRON_HTTP_PROTOCOL,
+} from "@r2-navigator-js/electron/common/sessions";
+import { readerConfigInitialState } from "readium-desktop/common/redux/states/reader";
+
+export const ID = "WIN_SESSION_REGISTER_READER";
+
+export interface Payload {
+    readerWindow: BrowserWindow;
+    publicationIdentifier: string;
+    windowIdentifier: string;
+    winBound: Rectangle;
+    filesystemPath: string;
+    manifestUrl: string;
+    reduxStateReader: IReaderStateReaderSession;
+}
+
+export function build(
+    readerWindow: BrowserWindow,
+    publicationIdentifier: string,
+    publicationView: PublicationView,
+    manifestUrl: string,
+    filesystemPath: string,
+    winBound: Rectangle, // window rectangle of the current reader window
+    // reduxStateReader: Partial<IReaderStateReaderPersistence>,
+    windowIdentifier: string,
+    ):
+    Action<typeof ID, Payload> {
+
+    // we lose purity !!
+    const store = diMainGet("store");
+
+    const disableRTLFlip = store.getState().reader.disableRTLFlip;
+
+    const manifestUrlR2Protocol = manifestUrl.startsWith(READIUM2_ELECTRON_HTTP_PROTOCOL)
+        ? manifestUrl : convertHttpUrlToCustomScheme(manifestUrl);
+
+    const reduxStateReaderHydrated: IReaderStateReaderSession = {
+        ...{
+            // see issue https://github.com/edrlab/thorium-reader/issues/2532
+            config: readerConfigInitialState,
+            disableRTLFlip,
+            locator: locatorInitialState,
+        },
+        // ...reduxStateReader,
+        ...{
+            info: {
+                filesystemPath,
+                manifestUrlHttp: manifestUrl,
+                manifestUrlR2Protocol,
+                publicationIdentifier,
+                r2Publication: undefined,
+                publicationView,
+                navigator: undefined,
+            },
+            lock: false,
+        },          
+        note: [], // hydrated by sagas/win/reader/winOpen
+    };
+
+    return {
+        type: ID,
+        payload: {
+            readerWindow,
+            publicationIdentifier,
+            manifestUrl,
+            filesystemPath,
+            winBound,
+            windowIdentifier,
+            reduxStateReader: reduxStateReaderHydrated,
+        },
+    };
+}
+build.toString = () => ID; // Redux StringableActionCreator
+export type TAction = ReturnType<typeof build>;

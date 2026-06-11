@@ -1,0 +1,1350 @@
+{
+    "accessibility": {
+        "bookMenu": "菜单",
+        "closeDialog": "关闭",
+        "leftSlideButton": "将列表划至左侧",
+        "mainContent": "主要内容",
+        "rightSlideButton": "将列表划至右侧",
+        "skipLink": "跳转至内容",
+        "toolbar": "工具栏"
+    },
+    "apiapp": {
+        "documentation": "Thorium 文档",
+        "howItWorks": "如何工作的？",
+        "informations": "在法国，许多公共图书馆提供机器可读目录（类似于 OPDS 但不完全相同），允许读者从他们的个人书架下载数字出版物。将这项技术集成到 Thorium 阅读器中，您可以将电子书或有声读物直接下载到 Thorium 阅读器中，以便即时阅读。\n如何将您的法国公共图书馆帐户连接到 Thorium 阅读器？很简单。在搜索字段中输入法国城市（“巴黎”）或图书馆名称的一部分，然后点击搜索按钮。将显示与您的搜索相对应的公共图书馆列表。选择一个图书馆，然后点击添加。在更新的目录列表中，选择此图书馆：将显示一个身份验证表单。输入您的用户名/电子邮件地址和密码，然后点击登录。您现在可以查看您个人书架的内容，从中下载和阅读您之前借阅的电子书和有声读物。",
+        "noLibraryFound": "未发现图书馆 ({{- name}})"
+    },
+    "app": {
+        "edit": {
+            "copy": "复制",
+            "cut": "剪切",
+            "paste": "粘贴",
+            "print": "打印",
+            "redo": "重做",
+            "selectAll": "全选",
+            "title": "编辑",
+            "undo": "撤销"
+        },
+        "hide": "隐藏 {{- appName}}",
+        "quit": "退出 {{- appName}}",
+        "session": {
+            "exit": {
+                "askBox": {
+                    "button": {
+                        "no": "否",
+                        "yes": "是"
+                    },
+                    "help": "如果您希望在关闭应用程序时，已打开的阅读器窗口在下次启动时自动重新打开，请激活此选项。",
+                    "message": "保存和恢复阅读会话",
+                    "title": "保存会话？"
+                }
+            }
+        },
+        "update": {
+            "message": "有新版本可用，点击了解更多信息。",
+            "title": "{{- appName}} 软件更新。"
+        },
+        "window": {
+            "showLibrary": "显示 书库/书架"
+        }
+    },
+    "catalog": {
+        "AddToFavorites": "添加到收藏",
+        "about": {
+            "title": "关于 {{- appName}} （在线）"
+        },
+        "addBookToLib": "导入",
+        "addTags": "添加标签",
+        "addTagsButton": "添加",
+        "allBooks": "全部图书",
+        "bookInfo": "关于此书",
+        "column": {
+            "ascending": "升序",
+            "descending": "降序",
+            "unsorted": "乱序"
+        },
+        "customization": {
+            "fallback": {
+                "description": "无配置文件描述",
+                "publications": "配置文件发行日期",
+                "screen": "无标题",
+                "title": "配置文件标题"
+            }
+        },
+        "delete": "删除",
+        "deleteBook": "删除图书",
+        "deleteTag": "删除标签",
+        "description": "概要",
+        "emptyTagList": "未带标签的电子书。",
+        "entry": {
+            "continueReading": "继续阅读",
+            "lastAdditions": "最近添加"
+        },
+        "export": "导出",
+        "exportAnnotation": "导出笔记",
+        "format": "格式",
+        "importAnnotation": "导入笔记",
+        "lang": "语言",
+        "lastRead": "上次阅读",
+        "login": "登录",
+        "logout": "登出",
+        "missing": "缺失文件",
+        "missingUnavailableDescription": "打不开这个出版物，因为储存文件无法访问。请重新导入出版物，或导航至“设置-储存”，添加或改变附加储存位置。",
+        "moreInfo": "更多信息",
+        "myBooks": "我的图书",
+        "noPublicationHelpL1": "将文件拖放到此处",
+        "noPublicationHelpL2": "或者使用上面的\"{{- importTitle }}\"按钮。",
+        "noPublicationHelpL3": "支持受 LCP 保护的文件。",
+        "noPublicationHelpL4": "支持的扩展名：",
+        "numberOfPages": "页码",
+        "opds": {
+            "auth": {
+                "cancel": "取消",
+                "external": "登录页面将会在您的网络浏览器中打开，请跟随引导操作。完成登录后，网络浏览器会使您回到该应用程序。",
+                "fallback": "注意：若遇到默认浏览器登录问题，请尝试使用备选的应用内登录方式。",
+                "login": "登录",
+                "password": "密码",
+                "register": "注册",
+                "retry": "再试一次",
+                "unauthorized": "未授权",
+                "unauthorizedUnsupportedType": "未授权(不支持的WWW认证类型 '{{- type}}')",
+                "username": "用户名/电子邮件地址"
+            },
+            "info": {
+                "availableSince": "开始时间",
+                "availableState": {
+                    "available": "在售",
+                    "ready": "准备中",
+                    "reserved": "已预订",
+                    "unavailable": "售空",
+                    "unknown": "不明"
+                },
+                "availableUntil": "结束时间",
+                "copyAvalaible": "在售数",
+                "copyTotal": "拷贝数",
+                "holdPosition": "你的持仓位置",
+                "holdTotal": "已持有",
+                "numberOfItems": "项目数",
+                "priveValue": "价格",
+                "state": "状态"
+            }
+        },
+        "openFolder": "打开文件夹",
+        "publisher": "出版社",
+        "readBook": "阅读",
+        "released": "出版日期",
+        "removeFromFavorites": "从收藏中移除",
+        "selectTableHeaders": "选择您想显示的列",
+        "sort": "排序方式",
+        "tag": "标签",
+        "tags": "标签",
+        "update": "编辑"
+    },
+    "dialog": {
+        "annotations": {
+            "descAuthor": "作者 “{{- author}}”",
+            "descCreator": "创建者",
+            "descList": "{{- count}} 条笔记（由 {{- creator}} 创建）将被导入到“{{- title}}”（{{- author}} 著）中",
+            "descNewer": "冲突：{{- count}} 条较新的笔记",
+            "descOlder": "冲突：{{- count}} 条较旧的笔记",
+            "descTitle": "注释标题： ",
+            "importAll": "导入所有笔记",
+            "importWithoutConflict": "仅导入无冲突的笔记",
+            "origin": "原始出版物：“{{- title}}”（{{- author}} 著）",
+            "title": "您要导入笔记吗？"
+        },
+        "cancel": "取消",
+        "customization": {
+            "splashscreen": {
+                "fallbackWelcomeScreen": "未提供欢自定义迎屏幕",
+                "state": "状态: {{- state}}",
+                "title": "准备并激活自定义配置文件"
+            }
+        },
+        "deleteAnnotations": "您要删除笔记吗？",
+        "deleteAnnotationsText": "您确定要删除 {{- count}} 条笔记吗？",
+        "deleteBookmarks": "删除书签？",
+        "deleteBookmarksText": "确认删除{{- count}}个书签？",
+        "deleteFeed": "您真的要删除此出版目录吗？",
+        "deletePublication": "您真的要删除此出版物吗?",
+        "deletePublicationWithNotes": "警告：此出版物包含注释和/或书签，这些也将被删除！（如果您想保留它们，请在移除该出版物前确保已导出笔记）",
+        "import": "您真的要导入这些文件吗:",
+        "importError": "出现错误, 请确认文件的扩展名({{acceptedExtension}})",
+        "renew": "您真的要更新此出版物的许可证吗?",
+        "return": "您真的要归还此出版物的许可证吗?",
+        "yes": "是"
+    },
+    "error": {
+        "errorBox": {
+            "error": "错误信息：",
+            "message": "{{- filename}} 出现错误",
+            "title": "内部 {{- appName}} 错误"
+        }
+    },
+    "header": {
+        "allBooks": "全部图书",
+        "catalogs": "出版目录",
+        "downloads": "下载",
+        "fitlerTagTitle": "按标签筛选",
+        "gridTitle": "网格视图",
+        "home": "书架菜单",
+        "homeTitle": "主页",
+        "importTitle": "导入出版物",
+        "listTitle": "列表视图",
+        "myCatalogs": "我的目录",
+        "refreshTitle": "重载",
+        "searchPlaceholder": "搜索",
+        "searchTitle": "开始搜索",
+        "settings": "设置",
+        "settingsLabel": "应用设置",
+        "viewMode": "查看模式"
+    },
+    "library": {
+        "filter": {
+            "addFilters": "添加筛选器",
+            "filterBy": "筛选方式",
+            "selectOption": "请选择一项"
+        },
+        "lcp": {
+            "hidePassphrase": "隐藏密码",
+            "hint": "提示：",
+            "open": "打开",
+            "password": "密码",
+            "sentence": "此出版物需要 LCP 密码才能打开：",
+            "showPassphrase": "显示密码",
+            "urlHint": "忘记密码？点击此处获取帮助。",
+            "whatIsLcp?": "什么是LCP？",
+            "whatIsLcpInfoDetails": "LCP 表示“许可内容保护”。",
+            "whatIsLcpInfoDetailsLink": "要了解更多信息，请单击此链接前往 EDRLab 网站。"
+        },
+        "sorting": {
+            "addSorting": "添加分类",
+            "author": "作者",
+            "language": "语言",
+            "readingState": "阅读状态",
+            "sortBy": "分类方式: ",
+            "title": "标题"
+        }
+    },
+    "message": {
+        "annotations": {
+            "alreadyImported": "所有笔记已经导入。",
+            "emptyFile": "文件中没有可用的笔记。",
+            "errorParsing": "文件解析时发生错误： ",
+            "noBelongTo": "无法导入笔记，至少有一条笔记不属于此出版物。",
+            "nothing": "没有可导入的笔记，导入已终止",
+            "success": "导入已成功完成。"
+        },
+        "download": {
+            "cancelled": "",
+            "error": "下载{{- title}}失败: [{{- err}}]",
+            "errors": {
+                "hashMismatch": "",
+                "httpGet": "",
+                "invalidFilename": "",
+                "invalidLink": "",
+                "invalidTempDirectory": "",
+                "lengthMismatch": "",
+                "readStreamMissing": "",
+                "tooManyFilenameAttempts": ""
+            }
+        },
+        "import": {
+            "alreadyImport": "[{{- title}}] 已被导入。",
+            "fail": "导入{{- path}}失败。{{- err}}",
+            "success": "导入{{- title}}完成。"
+        },
+        "open": {
+            "error": "无法打开出版物: {{- err}}",
+            "folderNotFound": "出版物文件路径无法找到。重新导入，或者在“设置>储存”选项中调整附加储存位置。"
+        },
+        "storage": {
+            "removed": "出版物文件路径被移除。",
+            "updateFailed": "更新出版物文件路径失败: {{- message}}",
+            "updated": "出版物文件路径已更新。"
+        },
+        "wipeData": "登录数据已清空(包括访问令牌及本地身份文件)"
+    },
+    "opds": {
+        "addForm": {
+            "addButton": "添加",
+            "name": "名称：",
+            "namePlaceholder": "名称",
+            "url": "链接：",
+            "urlPlaceholder": "链接"
+        },
+        "addFormApiapp": {
+            "title": "添加图书馆账户"
+        },
+        "addMenu": "添加 OPDS 订阅源",
+        "breadcrumbRoot": "出版目录",
+        "documentation": "OPDS 官方网站",
+        "empty": "未找到出版物",
+        "firstPage": "首页",
+        "informations": "想象一个世界，您只需点击几下鼠标，就可以浏览和下载来自公共图书馆和数字书店的数字出版物。这正是开放出版物分发系统 (OPDS) 目录格式所提供的便利。借助 OPDS，您可以浏览来自各种电子书提供商的目录、注册、借阅、购买出版物，或访问您的个人书架。您甚至可以将电子书或有声读物直接下载到 Thorium 阅读器中进行即时阅读。\n那么，如何找到 OPDS 目录呢？很简单。查找指向目录的超链接 (URL)。将此 URL 复制到上方的“链接”字段中。请注意，没有一站式商店可以获取所有活动的 OPDS 目录。您需要联系您的首选图书馆或书店，并索取他们的 OPDS 目录 URL。如果您不确定从哪里开始，维基百科上提供了几个不同语言的 OPDS 目录可能会有所帮助。\n“名称”字段可由您自行决定；它提供了一种在 Thorium 阅读器中轻松识别源的简便方法。",
+        "lastPage": "尾页",
+        "menu": {
+            "aboutBook": "关于此书",
+            "addExtract": "导入摘录",
+            "goBuyBook": "购买此书",
+            "goLoanBook": "借阅此书",
+            "goRevokeLoanBook": "归还此书",
+            "goSubBook": "订阅"
+        },
+        "network": {
+            "error": "无法访问 OPDS 订阅源",
+            "noInternet": "未接入因特网",
+            "noInternetMessage": "请尝试: 检查网线, 调制解调器, 路由或wifi",
+            "reject": "抱歉，意外错误！",
+            "timeout": "网络连接超时, 请稍后重试"
+        },
+        "next": "下一个",
+        "previous": "上一个",
+        "resumeBrowsing": "继续浏览",
+        "shelf": "书架",
+        "updateForm": {
+            "name": "名称：",
+            "title": "编辑 OPDS 订阅源",
+            "updateButton": "编辑",
+            "url": "链接："
+        },
+        "whatIsOpds": "什么是 OPDS？"
+    },
+    "publ-a11y-display-guide": {
+        "accessibility-summary": {
+            "accessibility-summary-title": "辅助功能摘要"
+        },
+        "additional-accessibility-information": {
+            "additional-accessibility-information-aria": {
+                "compact": "包含 ARIA 角色",
+                "descriptive": "内容通过添加 ARIA 角色得到增强，以优化结构并便于导航"
+            },
+            "additional-accessibility-information-audio-descriptions": {
+                "compact": "音频描述",
+                "descriptive": "音频描述"
+            },
+            "additional-accessibility-information-braille": {
+                "compact": "点字",
+                "descriptive": "点字"
+            },
+            "additional-accessibility-information-full-ruby-annotations": {
+                "compact": "完整的 Ruby 注释",
+                "descriptive": "完整的 Ruby 注释"
+            },
+            "additional-accessibility-information-high-contrast-between-foreground-and-background-audio": {
+                "compact": "前景音与背景音之间的对比度高",
+                "descriptive": "前景音与背景音之间的对比度高"
+            },
+            "additional-accessibility-information-high-contrast-between-text-and-background": {
+                "compact": "前景文本与背景之间的对比度高",
+                "descriptive": "前景文本与背景之间的对比度高"
+            },
+            "additional-accessibility-information-large-print": {
+                "compact": "大字印刷",
+                "descriptive": "大字印刷"
+            },
+            "additional-accessibility-information-page-breaks": {
+                "compact": "包含分页符",
+                "descriptive": "包含原始来源的分页符"
+            },
+            "additional-accessibility-information-ruby-annotations": {
+                "compact": "一些 Ruby 注释",
+                "descriptive": "一些 Ruby 注释"
+            },
+            "additional-accessibility-information-sign-language": {
+                "compact": "手语",
+                "descriptive": "手语"
+            },
+            "additional-accessibility-information-tactile-graphics": {
+                "compact": "包含触觉图形",
+                "descriptive": "已整合触觉图形，以方便盲人获取视觉元素"
+            },
+            "additional-accessibility-information-tactile-objects": {
+                "compact": "触觉 3D 物体",
+                "descriptive": "触觉 3D 物体"
+            },
+            "additional-accessibility-information-text-to-speech-hinting": {
+                "compact": "提供文本转语音提示",
+                "descriptive": "提供文本转语音提示"
+            },
+            "additional-accessibility-information-title": "额外的无障碍信息"
+        },
+        "conformance": {
+            "conformance-a": {
+                "compact": "本出版物符合最低无障碍标准",
+                "descriptive": "该出版物包含一份符合性声明，表明其符合 EPUB 无障碍标准和 WCAG 2 A 级标准"
+            },
+            "conformance-aa": {
+                "compact": "本出版物符合公认的无障碍标准",
+                "descriptive": "该出版物包含一份符合性声明，表明其符合 EPUB 无障碍标准和 WCAG 2 AA 级标准"
+            },
+            "conformance-aaa": {
+                "compact": "本出版物超出了公认的无障碍标准",
+                "descriptive": "该出版物包含一份符合性声明，表明其符合 EPUB 无障碍标准和 WCAG 2 AAA 级标准"
+            },
+            "conformance-certifier": {
+                "compact": "该出版物已通过以下机构认证 "
+            },
+            "conformance-certifier-credentials": {
+                "compact": "认证机构的资质为 "
+            },
+            "conformance-details-certifier-report": {
+                "compact": "有关更多信息，请参阅认证机构的报告"
+            },
+            "conformance-details-claim": {
+                "compact": "本出版物声称符合",
+                "descriptive": "本出版物声称符合"
+            },
+            "conformance-details-epub-accessibility-1-0": {
+                "compact": "EPUB 可访问性 1.0",
+                "descriptive": "EPUB 可访问性 1.0"
+            },
+            "conformance-details-epub-accessibility-1-1": {
+                "compact": "EPUB 可访问性 1.1",
+                "descriptive": "EPUB 可访问性 1.1"
+            },
+            "conformance-details-level-a": {
+                "compact": "A 级",
+                "descriptive": "A 级"
+            },
+            "conformance-details-level-aa": {
+                "compact": "AA 级",
+                "descriptive": "AA 级"
+            },
+            "conformance-details-level-aaa": {
+                "compact": "AAA 级",
+                "descriptive": "AAA 级"
+            },
+            "conformance-details-wcag-2-0": {
+                "compact": "WCAG 2.0"
+            },
+            "conformance-details-wcag-2-1": {
+                "compact": "WCAG 2.1",
+                "descriptive": "Web 内容可访问性指南 (WCAG) 2.1"
+            },
+            "conformance-details-wcag-2-2": {
+                "compact": "WCAG 2.2",
+                "descriptive": "Web 内容可访问性指南 (WCAG) 2.2"
+            },
+            "conformance-no": {
+                "compact": "无可用信息",
+                "descriptive": "无可用信息"
+            },
+            "conformance-title": "符合性",
+            "conformance-unknown-standard": {
+                "compact": "无法确定本出版物在可访问性方面是否符合公认标准",
+                "descriptive": "无法确定本出版物在可访问性方面是否符合公认标准"
+            }
+        },
+        "hazards": {
+            "hazards-flashing": {
+                "compact": "闪烁内容",
+                "descriptive": "该出版物包含闪烁内容，可能引发光敏性癫痫发作"
+            },
+            "hazards-flashing-none": {
+                "compact": "无闪烁内容",
+                "descriptive": "该出版物不包含闪烁内容"
+            },
+            "hazards-flashing-unknown": {
+                "compact": "闪烁内容的存在未知",
+                "descriptive": "闪烁内容的存在未知"
+            },
+            "hazards-motion": {
+                "compact": "运动模拟",
+                "descriptive": "该出版物包含可能引发晕动症的运动模拟内容"
+            },
+            "hazards-motion-none": {
+                "compact": "无运动模拟",
+                "descriptive": "该出版物不包含运动模拟内容"
+            },
+            "hazards-motion-unknown": {
+                "compact": "运动模拟的存在未知",
+                "descriptive": "运动模拟的存在未知"
+            },
+            "hazards-no-metadata": {
+                "compact": "无可用信息",
+                "descriptive": "无可用信息"
+            },
+            "hazards-none": {
+                "compact": "无危害内容",
+                "descriptive": "该出版物不包含任何危害内容"
+            },
+            "hazards-sound": {
+                "compact": "声音",
+                "descriptive": "该出版物包含可能令人不适的声音"
+            },
+            "hazards-sound-none": {
+                "compact": "无声音",
+                "descriptive": "该出版物不包含声音"
+            },
+            "hazards-sound-unknown": {
+                "compact": "该出版物不包含声音",
+                "descriptive": "该出版物不包含声音"
+            },
+            "hazards-title": "危害内容",
+            "hazards-unknown": {
+                "compact": "危害内容的存在未知",
+                "descriptive": "危害内容的存在未知"
+            }
+        },
+        "navigation": {
+            "navigation-index": {
+                "compact": "索引",
+                "descriptive": "包含指向引用条目的链接的索引"
+            },
+            "navigation-no-metadata": {
+                "compact": "无可用信息",
+                "descriptive": "无可用信息"
+            },
+            "navigation-page-navigation": {
+                "compact": "转到页面",
+                "descriptive": "用于从纸质版来源跳转到页面的页码列表"
+            },
+            "navigation-structural": {
+                "compact": "标题",
+                "descriptive": "用于结构化导航的元素，如标题、表格等"
+            },
+            "navigation-title": "导航",
+            "navigation-toc": {
+                "compact": "目录",
+                "descriptive": "通过链接跳转到文本所有章节的目录"
+            }
+        },
+        "rich-content": {
+            "rich-content-accessible-chemistry-as-latex": {
+                "compact": "LaTeX 中的化学式",
+                "descriptive": "以可访问格式（LaTeX）呈现的化学式"
+            },
+            "rich-content-accessible-chemistry-as-mathml": {
+                "compact": "MathML 中的化学式",
+                "descriptive": "以可访问格式（MathML）呈现的化学式"
+            },
+            "rich-content-accessible-math-as-latex": {
+                "compact": "数学公式（LaTeX）",
+                "descriptive": "以可访问格式（LaTeX）呈现的数学公式"
+            },
+            "rich-content-accessible-math-as-mathml": {
+                "compact": "数学公式（MathML）",
+                "descriptive": "以可访问格式（MathML）呈现的数学公式"
+            },
+            "rich-content-accessible-math-described": {
+                "compact": "提供了数学公式的文本描述",
+                "descriptive": "提供了数学公式的文本描述"
+            },
+            "rich-content-closed-captions": {
+                "compact": "视频配有隐藏式字幕",
+                "descriptive": "出版物中包含的视频配有隐藏式字幕"
+            },
+            "rich-content-extended": {
+                "compact": "信息丰富的图像由扩展描述进行说明",
+                "descriptive": "信息丰富的图像由扩展描述进行说明"
+            },
+            "rich-content-open-captions": {
+                "compact": "视频配有开放式字幕",
+                "descriptive": "出版物中包含的视频配有开放式字幕"
+            },
+            "rich-content-title": "富媒体内容",
+            "rich-content-transcript": {
+                "compact": "提供了文字记录",
+                "descriptive": "提供了文字记录"
+            },
+            "rich-content-unknown": {
+                "compact": "无可用信息",
+                "descriptive": "无可用信息"
+            }
+        },
+        "ways-of-reading": {
+            "ways-of-reading-nonvisual-reading-alt-text": {
+                "compact": "包含替代文本",
+                "descriptive": "为图像提供了替代文本描述"
+            },
+            "ways-of-reading-nonvisual-reading-no-metadata": {
+                "compact": "关于非视觉阅读的信息不可用",
+                "descriptive": "关于非视觉阅读的信息不可用"
+            },
+            "ways-of-reading-nonvisual-reading-none": {
+                "compact": "无法通过朗读或动态盲文阅读",
+                "descriptive": "内容无法以朗读语音或动态盲文形式阅读"
+            },
+            "ways-of-reading-nonvisual-reading-not-fully": {
+                "compact": "无法完全通过朗读或动态盲文阅读",
+                "descriptive": "并非所有内容都可作为朗读语音或动态盲文阅读"
+            },
+            "ways-of-reading-nonvisual-reading-readable": {
+                "compact": "可通过朗读或动态盲文阅读",
+                "descriptive": "所有内容均可作为朗读语音或动态盲文阅读"
+            },
+            "ways-of-reading-prerecorded-audio-complementary": {
+                "compact": "预录的音频片段",
+                "descriptive": "内容中嵌入了预录的音频片段"
+            },
+            "ways-of-reading-prerecorded-audio-only": {
+                "compact": "仅包含预录音频",
+                "descriptive": "有声书，无文本替代"
+            },
+            "ways-of-reading-prerecorded-audio-synchronized": {
+                "compact": "预录音频与文本同步",
+                "descriptive": "所有内容均以与文本同步的预录音频形式提供"
+            },
+            "ways-of-reading-title": "阅读方式",
+            "ways-of-reading-visual-adjustments-modifiable": {
+                "compact": "可修改外观",
+                "descriptive": "文本和页面布局的外观可根据阅读系统的功能进行修改（包括字体、字号、段落、句子、单词和字母间的间距，以及背景和文本的颜色）"
+            },
+            "ways-of-reading-visual-adjustments-unknown": {
+                "compact": "关于外观可修改性的信息不可用",
+                "descriptive": "关于外观可修改性的信息不可用"
+            },
+            "ways-of-reading-visual-adjustments-unmodifiable": {
+                "compact": "外观无法修改",
+                "descriptive": "文本和页面布局无法修改，因阅读体验已接近印刷版本，但阅读系统仍可提供文本缩放选项"
+            }
+        }
+    },
+    "publication": {
+        "accessibility": {
+            "accessModeSufficient": {
+                "textual": "所有内容均可作为朗读演说或动态布莱叶盲文被读出"
+            },
+            "accessibilityFeature": {
+                "alternativeText": "包含替代文本",
+                "displayTransformability": "文本和布局可调",
+                "longDescription": "完整描述的图形资源",
+                "printPageNumbers": "印刷书籍页码参考",
+                "readingOrder": "包含阅读顺序",
+                "synchronizedAudioText": "文本与音频同步",
+                "tableOfContents": "包含目录"
+            },
+            "accessibilityHazard": {
+                "flashing": "闪烁",
+                "motionSimulation": "运动模拟",
+                "name": "危险：",
+                "noFlashing": "无闪烁",
+                "noMotionSimulation": "无运动",
+                "noSound": "无声音",
+                "none": "无",
+                "sound": "声音",
+                "unknown": "未知"
+            },
+            "certifierReport": "认证报告：",
+            "conformsTo": "符合：",
+            "moreInformation": "更多信息",
+            "name": "可访问性",
+            "noA11y": "无可用的可访问性信息"
+        },
+        "actions": "动作",
+        "audio": {
+            "tracks": "音轨"
+        },
+        "author": "作者",
+        "cancelledLcp": "此书无法阅读，因为LCP许可证已被取消。",
+        "certificateRevoked": "LCP 授权已被撤销。",
+        "certificateSignatureInvalid": "无效的 LCP 许可证证书签名。",
+        "cover": {
+            "img": "封面图像"
+        },
+        "day": "天",
+        "days": "天",
+        "duration": {
+            "title": "播放时长"
+        },
+        "encryptedNoLicense": "出版物已加密，但缺少 LCP 许可证！",
+        "expired": "借阅已到期",
+        "expiredLcp": "此书无法阅读，因为LCP许可证已到期。",
+        "incorrectPassphrase": "没有任何已存储的密码与该出版物匹配，或输入的密码错误。",
+        "lcpEnd": "结束",
+        "lcpNotSupported": "警告: 此为 Thorium Desktop 阅读器的预发布版本，不支持生产环境下的 LCP 许可证，仅支持无证书验证的 LCP“基础配置”解密。",
+        "lcpRightsCopy": "许可证拷贝",
+        "lcpRightsPrint": "许可证打印",
+        "lcpStart": "开始",
+        "licenceLCP": "许可证（LCP）",
+        "licenseCertificateDateInvalid": "LCP 提供商证书在许可证颁发日期（{{- dateTime}}）之前已过期。",
+        "licenseOutOfDate": "过期的 LCP 许可证。",
+        "licenseSignatureInvalid": "无效的 LCP 许可证签名。",
+        "licensed": "已授权",
+        "markAsRead": "标记为已读",
+        "notStarted": "尚未开始",
+        "onGoing": "进行中",
+        "progression": {
+            "title": "进度"
+        },
+        "read": "完成",
+        "remainingTime": "借阅（剩余时间）",
+        "renewButton": "更新",
+        "returnButton": "归还",
+        "returnedLcp": "此书无法阅读，因为LCP许可证已被归还。",
+        "revokedLcp": "此书无法阅读，因为LCP许可证已被撤销。",
+        "seeLess": "察看更少",
+        "seeMore": "查看更多",
+        "timeLeft": "剩余时间",
+        "title": "标题",
+        "userKeyCheckInvalid": "密码不正确。"
+    },
+    "reader": {
+        "annotations": {
+            "Color": "颜色",
+            "addNote": "注解",
+            "advancedMode": "即时模式（选择后自动创建）",
+            "annotationsExport": {
+                "description": "请为导出的笔记命名：",
+                "title": "标题"
+            },
+            "annotationsOptions": "选项",
+            "date": "修改日期",
+            "error": {
+                "pdf": {
+                    "validationSelection": "无法在选择文本上创建PDF注释。"
+                }
+            },
+            "export": "将笔记另存为...",
+            "filter": {
+                "all": "全部",
+                "filterByColor": "按颜色筛选",
+                "filterByCreator": "按创建者筛选",
+                "filterByDrawtype": "按类型筛选",
+                "filterByTag": "按标签筛选",
+                "filterOptions": "筛选选项",
+                "none": "无"
+            },
+            "hide": "不显示",
+            "highlight": "高亮",
+            "noSelectionToast": "未选择",
+            "note": "{{- color}} 笔记",
+            "quickAnnotations": "快速创建（跳过编辑器）",
+            "saveNote": "保存",
+            "sorting": {
+                "lastcreated": "最近创建",
+                "lastmodified": "最近修改",
+                "progression": "进度",
+                "sortingOptions": "排序选项"
+            },
+            "toggleMarginMarks": "在页边距中显示",
+            "type": {
+                "outline": "大纲",
+                "solid": "纯色背景",
+                "strikethrough": "删除线",
+                "underline": "强调"
+            }
+        },
+        "bookmarks": {
+            "index": "书签 {{- index}}"
+        },
+        "divina": {
+            "mute": "静音",
+            "unmute": "取消静音"
+        },
+        "dock": {
+            "dockDefault": "将面板显示为模态弹框",
+            "dockLeft": "将面板停靠在左侧",
+            "dockRight": "将面板停靠在右侧"
+        },
+        "fxl": {
+            "fit": "自适应"
+        },
+        "goToContent": "跳转到正文",
+        "imgViewer": {
+            "title": "图片查看器（缩放）",
+            "zoomIn": "放大",
+            "zoomOut": "缩小",
+            "zoomReset": "重置缩放"
+        },
+        "marks": {
+            "annotations": "注解",
+            "bookmarks": "书签",
+            "delete": "删除",
+            "edit": "编辑",
+            "goTo": "转到页码",
+            "landmarks": "结构",
+            "saveMark": "保存书签",
+            "search": "检索",
+            "searchResult": "检索 [{{- searchText}}]",
+            "toc": "目录"
+        },
+        "media-overlays": {
+            "activate": "激活语音朗读",
+            "captions": "字幕 / 简明视图",
+            "captionsDescription": "具有最少字幕样式的简化文本视图。",
+            "disableContinuousPlay": "禁用连续播放",
+            "disableContinuousPlayDescription": "当前项播放结束后立即暂停，不自动播放下一项内容。",
+            "ignoreAndUseTTS": "忽略预录音频，使用 TTS",
+            "ignoreAndUseTTSDescription": "忽略 EPUB 媒体覆盖，改用文本转语音朗读",
+            "next": "朗读下一段",
+            "pause": "暂停朗读",
+            "play": "开始朗读",
+            "previous": "朗读上一段",
+            "skip": "自动跳过功能",
+            "skipDescription": "跳过/忽略附加内容，例如分页符、脚注/尾注等。",
+            "speed": "语音朗读速度",
+            "stop": "停止朗读",
+            "title": "语音朗读",
+            "useTTSHighlightsForMO": "",
+            "useTTSHighlightsForMODescription": ""
+        },
+        "navigation": {
+            "ZenModeExit": "退出禅模式",
+            "ZenModeTitle": "禅模式",
+            "annotationTitle": "注解",
+            "backHomeTitle": "返回书架",
+            "bookmarkTitle": "书签",
+            "currentPage": "当前页面: {{- current}}",
+            "currentPageTotal": "当前页面: {{- current}}/{{- total}}",
+            "detachWindowTitle": "显示 书库/书架 窗口",
+            "goTo": "转到",
+            "goToError": "页码不存在",
+            "goToPlaceHolder": "输入页码",
+            "goToTitle": "转到页",
+            "history": "导航历史",
+            "historyNext": "在导航历史中向前跳转",
+            "historyPrevious": "在导航历史中向后跳转",
+            "infoTitle": "信息",
+            "magnifyingGlassButton": "在出版物中搜索",
+            "openTableOfContentsTitle": "导航",
+            "page": "页",
+            "pdfscalemode": "适合页面宽度",
+            "print": "打印",
+            "printDisabled": "禁止打印",
+            "screenNext": "向前浏览",
+            "screenPrevious": "向后浏览",
+            "settingsTitle": "阅读器设置"
+        },
+        "notes": {
+            "colors": {
+                "cyan": "青色",
+                "darkorange": "",
+                "darkyellow": "",
+                "green": "绿色",
+                "orange": "橙色",
+                "purple": "紫色",
+                "red": "红色",
+                "yellow": "黄色"
+            }
+        },
+        "picker": {
+            "search": {
+                "founds": "{{- count}}个匹配",
+                "input": "输入搜索文本",
+                "next": "后一个",
+                "notFound": "无匹配",
+                "previous": "前一个",
+                "results": "结果",
+                "submit": "查找"
+            },
+            "searchTitle": "搜索："
+        },
+        "print": {
+            "descriptionLcpCount": "剩余页面限制：{{- count}}",
+            "descriptionLcpPrintable": "先前已打印的页面：{{- printable}}（{{- count}}）",
+            "howTo": "如何选择要打印的页面范围",
+            "lcpInfo": "本出版物的可打印页数限制为 {{- count}} 页。请在此选择您需要的页面。",
+            "noPagesLcpLimitReached": "您已达到 LCP 限制",
+            "noPrintablePages": "无可打印页面",
+            "pageHelpInfo": "页面选择器语法：",
+            "pageHelpInfo1": "输入页码以引用单个页面（例如“6”）",
+            "pageHelpInfo2": "输入两个由短横线分隔的页码以引用连续的页面范围（例如“6-13”）",
+            "pageHelpInfo3": "使用分号分隔多个页面或页面范围（例如“5;14-20;37”）",
+            "pageHelpInfo4": "省略范围的起始页或结束页，以引用出版物的第一页或最后一页（例如，“-16”等同于“1-16”，“34-”等同于“34-100”，假设图书总页数为100页）",
+            "pages": "页面",
+            "preview": "预览",
+            "print": "打印",
+            "printablePages": "可打印页面（总计）",
+            "title": "可打印页面的选择"
+        },
+        "settings": {
+            "column": {
+                "auto": "自动",
+                "one": "1栏",
+                "title": "栏",
+                "two": "2栏"
+            },
+            "customFontSelected": "您已选择自定义字体",
+            "customizeReader": "自定义文本格式",
+            "defaultValue": "",
+            "disabled": "已禁用",
+            "display": "显示",
+            "disposition": {
+                "title": "布局"
+            },
+            "font": "字体",
+            "fontSize": "字体大小",
+            "increaseFontSize": "",
+            "infoCustomFont": "通过输入名称从操作系统中选择自定义字体",
+            "justification": "排版",
+            "justify": "两端对齐",
+            "letterSpacing": "字符间距",
+            "lineSpacing": "行间距",
+            "margin": "页边距",
+            "mathjax": "启用 MathJax",
+            "mathjaxDescription": "",
+            "noFootnotes": "禁用脚注",
+            "noRTLFlip": "禁用从右到左的界面布局",
+            "noRuby": "隐藏日文振假名",
+            "noTemporaryNavTargetOutline": "禁用视觉导航指示",
+            "paginated": "已分页",
+            "paraSpacing": "段落间距",
+            "pdfZoom": {
+                "name": {
+                    "100pct": "100 %",
+                    "150pct": "150 %",
+                    "200pct": "200 %",
+                    "300pct": "300 %",
+                    "500pct": "500 %",
+                    "50pct": "50 %",
+                    "fit": "适合页面",
+                    "width": "页面宽度"
+                },
+                "title": "放大"
+            },
+            "preset": {
+                "apply": "应用",
+                "applyDetails": "将您的偏好设置应用到当前出版物。",
+                "detail": "保存 /应用 /重置您的偏好设置。",
+                "reset": "重置",
+                "resetDetails": "重置您的偏好设置（默认设置）。",
+                "save": "保存",
+                "saveDetails": "此操作将保存当前配置(您的显示和文本格式偏好设置)。之后，您可以在其它阅读窗口中点击“应用”按钮来将这些设置应用到其它出版物。",
+                "title": "偏好设置"
+            },
+            "preview": "预览",
+            "reduceFontSize": "",
+            "reduceMotion": "减少动态效果",
+            "scrolled": "滚屏",
+            "spacing": "间距",
+            "spreadModeEven": "展开偶数页(默认为奇数)",
+            "text": "文字",
+            "theme": {
+                "name": {
+                    "Contrast1": "对比度1",
+                    "Contrast2": "对比度2",
+                    "Contrast3": "对比度3",
+                    "Contrast4": "对比度4",
+                    "Neutral": "无色",
+                    "Night": "夜间",
+                    "Paper": "纸张",
+                    "Sepia": "茶色"
+                },
+                "title": "主题"
+            },
+            "wordSpacing": "文字间距"
+        },
+        "svg": {
+            "left": "左",
+            "right": "右"
+        },
+        "toc": {
+            "publicationNoToc": "此出版物没有目录"
+        },
+        "tts": {
+            "activate": "激活文本语音转换",
+            "language": "TTS 语言",
+            "next": "下一段",
+            "options": "TTS 选项",
+            "pause": "暂停",
+            "play": "播放",
+            "previous": "上一段",
+            "sentenceDetect": "句子检测",
+            "sentenceDetectDescription": "将长段落分成句子。",
+            "speed": "语速",
+            "stop": "停止",
+            "voice": "声音"
+        }
+    },
+    "settings": {
+        "annotationCreator": {
+            "creator": "笔记创建者（可选）",
+            "help": "如果指定，此名称将包含在导出的笔记元数据中。",
+            "name": "名称",
+            "organization": "组织",
+            "person": "个人",
+            "type": "类型："
+        },
+        "auth": {
+            "help": "此操作将删除所有 OPDS 登录凭据。",
+            "title": "访问出版物目录",
+            "wipeData": "清除登录数据"
+        },
+        "keyboard": {
+            "advancedMenu": "菜单",
+            "cancel": "取消",
+            "disclaimer": "应用程序的默认设置是根据 QWERTY 键盘布局上按键的物理位置设计的",
+            "editUserJson": "编辑用户文件...",
+            "exportToHTML": "导出为HTML",
+            "keyboardShortcuts": "键盘快捷键",
+            "list": {
+                "AddBookmarkWithLabel": {
+                    "description": "打开书签创建对话框，编辑文本标签（注释）、颜色和标签",
+                    "name": "创建带标签的书签"
+                },
+                "AnnotationsCreate": {
+                    "description": "打开所选文档文本的注释创建对话框，并编辑文本注释、高亮颜色和类型，以及标签",
+                    "name": "创建注释"
+                },
+                "AnnotationsCreateQuick": {
+                    "description": "为所选文本快速创建注释，使用上一次使用的高亮颜色和类型（注释和标签将为空）",
+                    "name": "快速创建注释"
+                },
+                "AnnotationsToggleMargin": {
+                    "description": "交替显示注释和书签的视觉标记，位置可在文档页边或文本中",
+                    "name": "切换注释边距"
+                },
+                "AudioNext": {
+                    "description": "向前移动到叙述中的下一个音频片段（EPUB3 媒体覆盖、文本转语音或预录有声读物）",
+                    "name": "下一个音频片段"
+                },
+                "AudioNextAlt": {
+                    "description": "向前移动到叙述中的下一个音频片段（EPUB3 媒体覆盖、文本转语音朗读或预录有声读物）。此操作将跳过当前任何可跳过的结构",
+                    "name": "下一个音频片段（跳过）"
+                },
+                "AudioPlayPause": {
+                    "description": "切换当前叙述的播放/暂停（EPUB3 媒体覆盖、文本转语音朗读或预录有声读物）",
+                    "name": "播放/暂停音频"
+                },
+                "AudioPrevious": {
+                    "description": "返回到叙述中的上一个音频片段（EPUB3 媒体覆盖、文本转语音朗读或预录有声读物）",
+                    "name": "上一个音频片段"
+                },
+                "AudioPreviousAlt": {
+                    "description": "返回到叙述中的上一个音频片段（EPUB3 媒体覆盖、文本转语音朗读或预录有声读物）。此操作将跳过当前任何可跳过的结构",
+                    "name": "上一个音频片段（跳过）"
+                },
+                "AudioSpeedDecrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedIncrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedReset": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioStop": {
+                    "description": "停止当前音频（EPUB3 媒体覆盖、文本转语音朗读或预录有声读物）",
+                    "name": "停止音频"
+                },
+                "CloseReader": {
+                    "description": "关闭阅读器窗口并返回到书架",
+                    "name": "关闭阅读器"
+                },
+                "FXLZoomIn": {
+                    "description": "放大固定布局的单页或双页跨页。",
+                    "name": "FXL 放大"
+                },
+                "FXLZoomOut": {
+                    "description": "缩小固定布局的单页或双页跨页。",
+                    "name": "FXL 缩小"
+                },
+                "FXLZoomReset": {
+                    "description": "重置固定布局的单页或双页跨页的缩放。",
+                    "name": "重置 FXL 缩放"
+                },
+                "FocusMain": {
+                    "description": "将键盘焦点移动到图形用户界面的“主”区域。在阅读器窗口中，这会进入出版物内容",
+                    "name": "聚焦主要内容"
+                },
+                "FocusMainDeep": {
+                    "description": "在阅读器窗口中，此操作使用对屏幕阅读器更可靠的技巧将键盘焦点移至出版物内容",
+                    "name": "深度聚焦主要内容"
+                },
+                "FocusReaderGotoPage": {
+                    "description": "将键盘焦点移动到阅读器窗口导航面板的“转到页面”部分",
+                    "name": "聚焦“转到页面”"
+                },
+                "FocusReaderNavigation": {
+                    "description": "将键盘焦点移动到阅读器窗口的导航面板",
+                    "name": "聚焦导航面板"
+                },
+                "FocusReaderNavigationAnnotations": {
+                    "description": "将键盘焦点移动到阅读器窗口导航面板的“注释”部分",
+                    "name": "聚焦“注释”"
+                },
+                "FocusReaderNavigationBookmarks": {
+                    "description": "将键盘焦点移动到阅读器窗口导航面板的“书签”部分",
+                    "name": "聚焦“书签”"
+                },
+                "FocusReaderNavigationSearch": {
+                    "description": "将键盘焦点移动到阅读器窗口导航面板的“搜索”部分",
+                    "name": "聚焦“搜索”"
+                },
+                "FocusReaderNavigationTOC": {
+                    "description": "将键盘焦点移到阅读器窗口导航面板的 '目录' 部分",
+                    "name": "聚焦“目录”"
+                },
+                "FocusReaderSettings": {
+                    "description": "将键盘焦点移至阅读器窗口的设置面板（显示偏好设置等）",
+                    "name": "聚焦于阅读器设置"
+                },
+                "FocusSearch": {
+                    "description": "将键盘焦点移动到阅读器窗口的文本搜索输入框，或在图书馆窗口中搜索书架或活动的 OPDS 提要",
+                    "name": "搜索命令"
+                },
+                "FocusToolbar": {
+                    "description": "将键盘焦点移至图形用户界面中紧邻“跳过链接”的定位区域（该链接本身会将焦点移至图书馆或阅读器窗口的主内容区域）",
+                    "name": "聚焦工具栏"
+                },
+                "NavigateNextChapter": {
+                    "description": "在阅读器窗口中，导航到出版物阅读顺序中的下一个文档(例如书脊中的章节)。请注意，除了这个默认快捷键，还有一个可选的快捷键",
+                    "name": "转到下一章"
+                },
+                "NavigateNextChapterAlt": {
+                    "description": "在阅读器窗口中，按照出版物的阅读顺序（例如书脊中的章节）导航到下一个文档。这是默认快捷键的替代快捷键",
+                    "name": "转到下一章（替代）"
+                },
+                "NavigateNextHistory": {
+                    "description": "在阅读器窗口中，向前单步跳转至导航历史记录",
+                    "name": "转到下一历史记录"
+                },
+                "NavigateNextLibraryPage": {
+                    "description": "在图书馆窗口中，显示出版物分页列表的下一页。请注意，此默认快捷键有一个替代的键盘快捷键",
+                    "name": "转到下一个图书馆页面"
+                },
+                "NavigateNextLibraryPageAlt": {
+                    "description": "在库窗口中，显示出版物分页列表的下一页。这是默认快捷键的另一种快捷键",
+                    "name": "转到下一个库页（可选）"
+                },
+                "NavigateNextOPDSPage": {
+                    "description": "在目录/ OPDS提要的库窗口中，点击下一个分页链接。请注意，对于这个默认快捷键，还有一个可选的键盘快捷键",
+                    "name": "转到下一个OPDS页面"
+                },
+                "NavigateNextOPDSPageAlt": {
+                    "description": "在目录/OPDS提要的库窗口中，点击下一个分页链接。这是默认快捷键的替代快捷键",
+                    "name": "转到下一个OPDS页面（备选）"
+                },
+                "NavigateNextPage": {
+                    "description": "在阅读器窗口中，转到出版物的下一个“页面”。请注意，此默认键盘快捷键有一个替代快捷键",
+                    "name": "转到下一页"
+                },
+                "NavigateNextPageAlt": {
+                    "description": "在阅读器窗口中，转到出版物的下一个“页面”。这是默认快捷键的替代快捷键",
+                    "name": "转到下一页 (备选)"
+                },
+                "NavigatePreviousChapter": {
+                    "description": "在阅读器窗口中，导航到书籍阅读顺序中的前一个文档（例如，书脊中的章节）。请注意，还有一个替代的键盘快捷键可以使用",
+                    "name": "转到上一章"
+                },
+                "NavigatePreviousChapterAlt": {
+                    "description": "在阅读器窗口中，导航到书籍阅读顺序中的前一个文档（例如，书脊中的章节）。请注意，还有一个替代的键盘快捷键可以使用",
+                    "name": "转到前一章节（备选）"
+                },
+                "NavigatePreviousHistory": {
+                    "description": "在阅读器窗口中，跳转到前一条浏览历史记录",
+                    "name": "转到上一条历史记录"
+                },
+                "NavigatePreviousLibraryPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousLibraryPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousOPDSPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousOPDSPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateToBegin": {
+                    "description": "",
+                    "name": "转到开始"
+                },
+                "NavigateToEnd": {
+                    "description": "在阅读器窗口中，转到出版物的末尾",
+                    "name": "转到结尾"
+                },
+                "OpenReaderInfo": {
+                    "description": "在阅读窗口中，打开出版物的信息对话框",
+                    "name": "显示书籍信息"
+                },
+                "OpenReaderInfoWhereAmI": {
+                    "description": "在阅读窗口中，打开弹出对话框以显示有关出版物的信息，并将键盘焦点放在显示当前阅读位置上下文的部分上",
+                    "name": "显示出版信息，显示阅读位置"
+                },
+                "Print": {
+                    "description": "在阅读器窗口中，打开打印对话框",
+                    "name": "打印"
+                },
+                "SearchNext": {
+                    "description": "在阅读器窗口的搜索工具中，转到下一个搜索结果。请注意，还有一个替代的键盘快捷键可以使用",
+                    "name": "下一个搜索结果"
+                },
+                "SearchNextAlt": {
+                    "description": "在阅读器窗口的搜索工具中，转到下一个搜索结果。这是一个替代默认快捷键的组合",
+                    "name": "下一个搜索结果（备选）"
+                },
+                "SearchPrevious": {
+                    "description": "在阅读器窗口的搜索工具中，转到上一个搜索结果。请注意，还有一个替代的键盘快捷键可以使用",
+                    "name": "上一个搜索结果"
+                },
+                "SearchPreviousAlt": {
+                    "description": "在阅读器窗口的搜索工具中，返回上一个搜索结果。这是一个替代默认快捷键的快捷方式",
+                    "name": "上一个搜索结果（备选）"
+                },
+                "SpeakReaderInfoWhereAmI": {
+                    "description": "在阅读器窗口中，描述当前阅读位置的上下文，使用与屏幕阅读器兼容的语音文本",
+                    "name": "描述阅读地点（演讲）"
+                },
+                "ToggleBookmark": {
+                    "description": "添加新书签或删除当前选中的现有书签",
+                    "name": ""
+                },
+                "ToggleReaderFullscreen": {
+                    "description": "",
+                    "name": ""
+                }
+            },
+            "loadUserJson": "从用户文件加载",
+            "noShortcutFound": "",
+            "resetDefaults": "重置 (加载初始设置)",
+            "save": "保存",
+            "searchPlaceholder": "搜索快捷键"
+        },
+        "language": {
+            "languageChoice": "选择语言"
+        },
+        "library": {
+            "enableAPIAPP": "激活“PNB”图书馆系统",
+            "title": "访问法国图书馆帐户"
+        },
+        "note": {
+            "export": {
+                "applyDefaultTemplate": "",
+                "enableCheckbox": "",
+                "overrideHTMLTemplate": "导出笔记 (注释和书签)"
+            }
+        },
+        "profiles": {
+            "info": "",
+            "thorium": {
+                "description": "Thorium Vanilla 配置文件是原始版本，由 EDRLab 设计。",
+                "title": ""
+            },
+            "version": ""
+        },
+        "screenReaderActivate": {
+            "help": "",
+            "message": "",
+            "title": ""
+        },
+        "session": {
+            "title": "保存登录状态"
+        },
+        "sharedComputer": {
+            "lcpAutoDeleteExpiredPublications": "",
+            "lcpAutoDeleteExpiredPublicationsDescription": "",
+            "title": ""
+        },
+        "storage": {
+            "actions": {
+                "addDirectory": "",
+                "changeDirectory": "",
+                "removeStorageDirectory": ""
+            },
+            "beta": {
+                "availability": "",
+                "integrity": "",
+                "migration": "",
+                "summary": "",
+                "warning": ""
+            },
+            "configuration": {
+                "chooseFolderDescription": "",
+                "configuredDescription": "",
+                "notConfiguredDescription": ""
+            },
+            "dialogs": {
+                "add": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "edit": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "remove": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                }
+            },
+            "locations": {
+                "defaultDescription": "",
+                "defaultInternal": "",
+                "externalStorage": "",
+                "title": ""
+            }
+        },
+        "tabs": {
+            "appearance": "外观",
+            "general": "常规",
+            "keyboardShortcuts": "键盘快捷键",
+            "profiles": "配置文件",
+            "storage": ""
+        },
+        "theme": {
+            "auto": "自动",
+            "dark": "深色",
+            "description": "跟随操作系统主题。",
+            "light": "浅色",
+            "title": "应用主题"
+        }
+    },
+    "tts": {
+        "highlight": {
+            "mainColor": "",
+            "maskBlockWordOutline": "",
+            "maskBlockWordSolidBackground": "",
+            "maskBlockWordUnderline": "",
+            "maskWordOutline": "",
+            "maskWordSolidBackground": "",
+            "maskWordUnderline": "",
+            "outlineWordOutline": "",
+            "outlineWordSolidBackground": "",
+            "outlineWordUnderline": "",
+            "preview": "",
+            "solidBackgroundWordOutline": "",
+            "solidBackgroundWordSolidBackground": "",
+            "solidBackgroundWordUnderline": "",
+            "style": "",
+            "underlineWordOutline": "",
+            "underlineWordSolidBackground": "",
+            "underlineWordUnderline": "",
+            "wordColor": ""
+        }
+    },
+    "wizard": {
+        "buttons": {
+            "discover": "发掘 Thorium 桌面版",
+            "goToBooks": "查看我的出版物"
+        },
+        "description": {
+            "home": "Thorium 3.4 带来一系列用户体验改进并修复了一组问题。如果你之后决定回到旧版程序，强烈建议先用旧版程序备份电子书标注和书签，办法是将它们导出到外部文件。然后在装好旧版程序后把它们导回去。这是因为在 3.4 版本以略微不同的内部格式存储标注和书签。这解决了性能问题，但破坏了标注的向后兼容性。",
+            "resources": ""
+        },
+        "dontShow": "不再显示",
+        "resources": {
+            "discord": "",
+            "website": ""
+        },
+        "tab": {
+            "home": "主页",
+            "resources": ""
+        },
+        "title": {
+            "resources": "",
+            "welcome": "欢迎使用 Thorium 3.4"
+        }
+    }
+}

@@ -1,0 +1,106 @@
+@use '../partials/mixin' as mx;
+
+.CSS_START_components_alertModals {
+  display: none;
+}
+
+.AlertDialogOverlay {
+  background-color: rgb(0 0 0 / 50%);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 110;
+}
+
+.AlertDialogContent {
+  background-color: var(--color-neutral-base);
+  border-radius: 6px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+  padding: 25px;
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 110;
+  border: 1px solid var(--color-gray-250);
+
+  @include mx.scrollbar_styling;
+}
+
+.AlertDialogContent:focus {
+  outline: none;
+}
+
+.AlertDialogTitle {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.AlertDialogDescription {
+  margin-bottom: 20px;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  padding-left: 20px;
+  list-style-type: "- ";
+
+}
+
+.AlertDialogButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.AlertDialogButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 500;
+  height: 35px;
+}
+
+.AlertDialogButton.yes {
+  color: var(--color-neutral-base);
+  background-color: var(--color-brand-primary);
+  transition: 200ms;
+
+  svg {
+    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    fill: var(--color-neutral-base);
+  }
+}
+
+.AlertDialogButton.abort {
+  color: var(--color-brand-primary);
+  border: 1px solid var(--color-brand-primary);
+  background-color: var(--color-brand-secondary);
+  transition: 200ms;
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+.AlertDialogButton.delete {
+  color: var(--color-brand-primary);
+  border: 1px solid var(--color-brand-primary);
+  background-color: var(--color-brand-secondary);
+  transition: 200ms;
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+.CSS_END_components_alertModals {
+  display: none;
+}

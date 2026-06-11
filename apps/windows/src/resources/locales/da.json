@@ -1,0 +1,1356 @@
+{
+    "accessibility": {
+        "bookMenu": "Menu",
+        "closeDialog": "Luk",
+        "leftSlideButton": "Flyt listen til venstre",
+        "mainContent": "hovedindhold",
+        "rightSlideButton": "Flyt listen til højre",
+        "skipLink": "Spring til indholdet",
+        "toolbar": "værktøjslinje"
+    },
+    "apiapp": {
+        "documentation": "Thorium Dokumentation",
+        "howItWorks": "Hvordan virker det?",
+        "informations": "I Frankrig leverer mange offentlige biblioteker et maskinlæsbart katalog (ligner OPDS, men ikke identisk), der lader lånere downloade e-bøger fra deres personlige boghylde. Ved at integrere denne teknologi i Thorium Reader kan du downloade en e-bog eller lydbog direkte i Thorium Reader til øjeblikkelig læsning.\nHvordan forbinder du din franske offentlige bibliotekskonto til Thorium Reader? Det er simpelt. Indtast en fransk by ('Paris') eller en del af bibliotekets navn i søgefeltet, og tryk på knappen Søg. En liste over offentlige biblioteker, der svarer til din søgning, vises. Vælg et bibliotek, og tryk på Tilføj. I den opdaterede liste over kataloger skal du vælge dette bibliotek: en godkendelsesformular vises. Indtast dit brugernavn/e-mail-adresse og adgangskode, og tryk på Login. Du kan nu se indholdet af din personlige boghylde, hvorfra du kan downloade og læse de e- og lydbøger, du tidligere har lånt.",
+        "noLibraryFound": "Intet bibliotek fundet ({{- name}})"
+    },
+    "app": {
+        "edit": {
+            "copy": "Kopier",
+            "cut": "Klip",
+            "paste": "Sæt ind",
+            "print": "Print",
+            "redo": "Gendan",
+            "selectAll": "Vælg alt",
+            "title": "Rediger",
+            "undo": "Fortryd"
+        },
+        "hide": "Skjul {{- appName}}",
+        "quit": "Luk {{- appName}}",
+        "session": {
+            "exit": {
+                "askBox": {
+                    "button": {
+                        "no": "Nej",
+                        "yes": "Ja"
+                    },
+                    "help": "Aktivér denne, hvis du ønsker at dine åbne bog-vinduer åbnes igen, når programmet lukkes og startes op igen.",
+                    "message": "Ønsker du at gemme denne session?",
+                    "title": "Gem session?"
+                }
+            }
+        },
+        "update": {
+            "message": "En ny version er tilgængelig. Klik her for at læse mere.",
+            "title": "{{- appName}} programopdatering."
+        },
+        "window": {
+            "showLibrary": "Vis bibliotek / boghylde"
+        }
+    },
+    "catalog": {
+        "AddToFavorites": "Føj til favoritter",
+        "about": {
+            "title": "Om {{- appName}}"
+        },
+        "addBookToLib": "Importér",
+        "addTags": "Tilføj tag",
+        "addTagsButton": "Tilføj",
+        "allBooks": "Alle bøger",
+        "bookInfo": "Om denne bog",
+        "column": {
+            "ascending": "stigende",
+            "descending": "faldende",
+            "unsorted": "usorteret"
+        },
+        "customization": {
+            "fallback": {
+                "description": "Ingen profilbeskrivelse",
+                "publications": "Profil-udgivelser",
+                "screen": "Ingen titel",
+                "title": "Profil titel"
+            }
+        },
+        "delete": "Slet",
+        "deleteBook": "Slet",
+        "deleteTag": "Slet tag",
+        "description": "Beskrivelse",
+        "emptyTagList": "Du har ingen taggede bøger.",
+        "entry": {
+            "continueReading": "Genoptag læsning",
+            "lastAdditions": "Senest tilføjet"
+        },
+        "export": "Gem som",
+        "exportAnnotation": "Gem noter som...",
+        "format": "Format",
+        "importAnnotation": "Importér noter",
+        "lang": "Sprog",
+        "lastRead": "Senest læst",
+        "login": "Log ind",
+        "logout": "Log ud",
+        "missing": "",
+        "missingUnavailableDescription": "Denne bog kan ikke åbnes, da dens filer ikke er tilgængelige. Re-importér eller gå til Indstillinger og Lagerplads for at ændre eller tilføje mere lagerplads.",
+        "moreInfo": "Bogdetaljer",
+        "myBooks": "Mine bøger",
+        "noPublicationHelpL1": "Træk en bog hertil",
+        "noPublicationHelpL2": "eller brug \"{{- importTitle }}\" knappen ovenfor.",
+        "noPublicationHelpL3": "Understøtter LCP-beskyttede filer.",
+        "noPublicationHelpL4": "Understøttede filtyper:",
+        "numberOfPages": "Antal sider",
+        "opds": {
+            "auth": {
+                "cancel": "Annullér",
+                "external": "Login-siden åbnes i din webbrowser. Følg venligst instruktionerne. Når du er logget ind, fører webbrowseren dig tilbage til denne applikation.",
+                "fallback": "Bemærk: Hvis du oplever problemer med at logge ind med din standard webbrowser, kan du prøve igen med den alternative metode inde i applikationen.",
+                "login": "Log ind",
+                "password": "Adgangskode",
+                "register": "Registrér",
+                "retry": "Prøv igen",
+                "unauthorized": "Uautoriseret",
+                "unauthorizedUnsupportedType": "Uautoriseret (ikke-understøttet type i WWWAuthenticate: '{{- type}}')",
+                "username": "Brugernavn / email-adresse"
+            },
+            "info": {
+                "availableSince": "Siden",
+                "availableState": {
+                    "available": "Til rådighed",
+                    "ready": "Klar",
+                    "reserved": "Reserveret",
+                    "unavailable": "Ikke til rådighed",
+                    "unknown": "Ukendt"
+                },
+                "availableUntil": "Indtil",
+                "copyAvalaible": "Til rådighed",
+                "copyTotal": "Kopier",
+                "holdPosition": "Din position på ventelisten",
+                "holdTotal": "På venteliste",
+                "numberOfItems": "Antal bøger",
+                "priveValue": "Pris",
+                "state": "Tilstand"
+            }
+        },
+        "openFolder": "Åben mappe",
+        "publisher": "Udgiver",
+        "readBook": "Læs bog",
+        "released": "Udgivelsesdato",
+        "removeFromFavorites": "Fjern fra favoritter",
+        "selectTableHeaders": "Vælg kolonner der skal vises",
+        "sort": "Sortér efter",
+        "tag": "Tag",
+        "tags": "Tags",
+        "update": "Rediger"
+    },
+    "dialog": {
+        "annotations": {
+            "descAuthor": "af {{- author}}",
+            "descCreator": "lavet af",
+            "descList_one": "{{- count}} note fra {{- creator}} vil blive knyttet til {{- title}} {{- author}}",
+            "descList_other": "{{- count}} noter fra {{- creator}} vil blive knyttet til {{- title}} {{- author}}",
+            "descNewer_one": "Konflikt: {{- count}} note knyttet til bogen er nyere",
+            "descNewer_other": "Konflikt: {{- count}} noter knyttet til bogen er nyere",
+            "descOlder_one": "Konflikt: {{- count}} note knyttet til bogen er ældre",
+            "descOlder_other": "Konflikt: {{- count}} noter knyttet til bogen er ældre",
+            "descTitle": "Navn på notesamling: ",
+            "importAll": "Importér alle noter",
+            "importWithoutConflict": "Importér noter uden sammenfald",
+            "origin": "Kilde: '{{- title}}' {{- author}}",
+            "title": "Ønsker du at importere disse noter?"
+        },
+        "cancel": "Annullér",
+        "customization": {
+            "splashscreen": {
+                "fallbackWelcomeScreen": "Ingen velkomstskærm angivet",
+                "state": "Tilstand: {{- state}}",
+                "title": "Tilpasningsprofil for klargøring og aktivering"
+            }
+        },
+        "deleteAnnotations": "Slet alle noter?",
+        "deleteAnnotationsText_one": "Vil du slette {{- count}} note?",
+        "deleteAnnotationsText_other": "Vil du slette {{- count}} noter?",
+        "deleteBookmarks": "Slet bogmærker?",
+        "deleteBookmarksText_one": "Er du sikker på at du vil slette {{- count}} bogmærke?",
+        "deleteBookmarksText_other": "Er du sikker på at du vil slette {{- count}} bogmærker?",
+        "deleteFeed": "Er du sikker på at du vil slette dette katalog?",
+        "deletePublication": "Er du sikker på at du vil fjerne bogen?",
+        "deletePublicationWithNotes": "Advarsel: denne bog har noter og/eller bogmærker, som også vil blive slettet! (hvis du vil beholde dem, så eksporter dem venligst inden du sletter bogen)",
+        "import": "Bekræft at du vil importere disse filer:",
+        "importError": "Der skete en fejl, tjek at filernes type er en af ({{acceptedExtension}})",
+        "renew": "Vil du forlænge licensen til bogen?",
+        "return": "Ønsker du at aflevere bogen?",
+        "yes": "Bekræft"
+    },
+    "error": {
+        "errorBox": {
+            "error": "Fejlbesked:",
+            "message": "Der er opstået en fejl i {{- filename}}",
+            "title": "Intern {{- appName}} fejl"
+        }
+    },
+    "header": {
+        "allBooks": "Alle bøger",
+        "catalogs": "Kataloger",
+        "downloads": "Downloads",
+        "fitlerTagTitle": "Filtrer efter tag",
+        "gridTitle": "Gittervisning",
+        "home": "Boghylde-menu",
+        "homeTitle": "Hjem",
+        "importTitle": "Importér en bog",
+        "listTitle": "Listevisning",
+        "myCatalogs": "Mine kataloger",
+        "refreshTitle": "genindlæs",
+        "searchPlaceholder": "Søg",
+        "searchTitle": "Søg",
+        "settings": "Indstillinger",
+        "settingsLabel": "Programindstillinger",
+        "viewMode": "Visningstilstand"
+    },
+    "library": {
+        "filter": {
+            "addFilters": "Tilføj filtre",
+            "filterBy": "Filtrer efter",
+            "selectOption": "Vælg et element"
+        },
+        "lcp": {
+            "hidePassphrase": "Skjul nøgleord",
+            "hint": "Hint til nøgleord:",
+            "open": "Åben",
+            "password": "Nøgleord",
+            "sentence": "Denne bog kræver et LCP-nøgleord for at åbnes",
+            "showPassphrase": "Vis nøgleord",
+            "urlHint": "Har du glemt dit nøgleord? Få hjælp her.",
+            "whatIsLcp?": "Hvad er LCP?",
+            "whatIsLcpInfoDetails": "LCP står for 'Licensed Content Protection'.",
+            "whatIsLcpInfoDetailsLink": "For at læse mere, følg dette link til EDRLab websitet."
+        },
+        "sorting": {
+            "addSorting": "Tilføj sortering",
+            "author": "Forfatter",
+            "language": "Sprog",
+            "readingState": "Læsestatus",
+            "sortBy": "Sorter efter ",
+            "title": "Titel"
+        }
+    },
+    "message": {
+        "annotations": {
+            "alreadyImported": "Alle noter eksisterer i forvejen, afslutter import.",
+            "emptyFile": "Ingen noter blev fundet i filen.",
+            "errorParsing": "Fejl under læsning af filen: ",
+            "noBelongTo": "Fejl ved import af noter, mindst en af noterne hører ikke til denne bog.",
+            "nothing": "Ingen noter kunne importeres, afslutter import",
+            "success": "Import færdig."
+        },
+        "download": {
+            "cancelled": "",
+            "error": "Download af {{- title}} er stødt på en fejl: [{{- err}}]",
+            "errors": {
+                "hashMismatch": "",
+                "httpGet": "",
+                "invalidFilename": "",
+                "invalidLink": "",
+                "invalidTempDirectory": "",
+                "lengthMismatch": "",
+                "readStreamMissing": "",
+                "tooManyFilenameAttempts": ""
+            }
+        },
+        "import": {
+            "alreadyImport": "{{- title}} er allerede importeret.",
+            "fail": "Import af {{- path}} fejlede. {{- err}}",
+            "success": "{{- title}} er nu importeret."
+        },
+        "open": {
+            "error": "Bogen kan ikke åbnes: {{- err}}",
+            "folderNotFound": "Bogmappen kan ikke findes. Importer den igen, eller konfigurer ekstra lagerplads i Indstillinger under Lagerplads."
+        },
+        "storage": {
+            "removed": "Bogmappe blev fjernet.",
+            "updateFailed": "Fejl ved opdatering af bog-mappe: {{- message}}",
+            "updated": "Bog-mappe blev opdateret."
+        },
+        "wipeData": "Login data blev slettet (adgangsnøgler og cookies)"
+    },
+    "opds": {
+        "addForm": {
+            "addButton": "Tilføj",
+            "name": "Navn:",
+            "namePlaceholder": "Navn",
+            "url": "Link:",
+            "urlPlaceholder": "Link"
+        },
+        "addFormApiapp": {
+            "title": "Tilføj en bibliotekskonto"
+        },
+        "addMenu": "Tilføj OPDS feed",
+        "breadcrumbRoot": "Kataloger",
+        "documentation": "OPDS' officielle hjemmeside",
+        "empty": "Ingen bøger fundet",
+        "firstPage": "Første",
+        "informations": "Forestil dig en verden, hvor du kan udforske og downloade e-bøger fra offentlige biblioteker og digitale boghandlere med blot et par klik. Det er præcis, hvad Open Publication Distribution System (OPDS) katalogformatet tilbyder. Med OPDS kan du navigere gennem kataloger fra forskellige e-bogsudbydere, tilmelde dig, låne, købe en e-bog eller se din personlige boghylde. Du kan endda downloade en e-bog eller lydbog direkte i Thorium Reader for øjeblikkelig læsning.\nSå, hvordan finder du et OPDS-katalog? Det er simpelt. Se efter et link (URL), der fører til kataloget. Kopier denne URL ind i linkfeltet ovenfor. Husk, at der ikke er nogen oversigt over alle aktive OPDS-kataloger. Du skal kontakte dit foretrukne bibliotek eller boghandler og bede om deres OPDS-katalog URL. Hvis du ikke er sikker på, hvor du skal starte, har Wikipedia et par registre over OPDS-kataloger på forskellige sprog, som kan være nyttige.\nNavn-feltet udfyldes som det passer dig; det giver en nem måde at identificere feedet i Thorium Reader.",
+        "lastPage": "Sidste",
+        "menu": {
+            "aboutBook": "Om denne bog",
+            "addExtract": "Importér uddraget",
+            "goBuyBook": "Køb denne bog",
+            "goLoanBook": "Lån denne bog",
+            "goRevokeLoanBook": "Tilbagekald lån",
+            "goSubBook": "Abonnér"
+        },
+        "network": {
+            "error": "Fejl ved hentning af feed",
+            "noInternet": "Ingen internetforbindelse",
+            "noInternetMessage": "Prøv dette: tjek dit netværkskabel, modem, router eller wifi-forbindelse",
+            "reject": "Der skete desværre en uventet fejl ved læsning af feed'et",
+            "timeout": "Der kunne ikke oprettes forbindelse til kilden, prøv venligst igen senere"
+        },
+        "next": "Næste",
+        "previous": "Forrige",
+        "resumeBrowsing": "Genoptag browsing",
+        "shelf": "Boghylde",
+        "updateForm": {
+            "name": "Navn:",
+            "title": "Rediger et OPDS feed",
+            "updateButton": "Rediger",
+            "url": "Link:"
+        },
+        "whatIsOpds": "Hvad er OPDS?"
+    },
+    "publ-a11y-display-guide": {
+        "accessibility-summary": {
+            "accessibility-summary-title": "Oversigt over tilgængelighed"
+        },
+        "additional-accessibility-information": {
+            "additional-accessibility-information-aria": {
+                "compact": "ARIA-roller er til stede",
+                "descriptive": "Indholdet er beriget med ARIA-roller for at optimere organisering og navigation"
+            },
+            "additional-accessibility-information-audio-descriptions": {
+                "compact": "Lydbeskrivelser",
+                "descriptive": "Lydbeskrivelser"
+            },
+            "additional-accessibility-information-braille": {
+                "compact": "Punktskrift",
+                "descriptive": "Punktskrift"
+            },
+            "additional-accessibility-information-full-ruby-annotations": {
+                "compact": "Understøtter \"ruby\" notationer",
+                "descriptive": "Understøtter \"ruby\" notationer"
+            },
+            "additional-accessibility-information-high-contrast-between-foreground-and-background-audio": {
+                "compact": "Høj kontrast imellem forgrund- og baggrunds-lyd",
+                "descriptive": "Høj kontrast imellem forgrund- og baggrunds-lyd"
+            },
+            "additional-accessibility-information-high-contrast-between-text-and-background": {
+                "compact": "Høj kontrast mellem forgrundstekst og baggrund",
+                "descriptive": "Høj kontrast mellem forgrundstekst og baggrund"
+            },
+            "additional-accessibility-information-large-print": {
+                "compact": "Stor skrift",
+                "descriptive": "Stor skrift"
+            },
+            "additional-accessibility-information-page-breaks": {
+                "compact": "Inkluderer sideskift",
+                "descriptive": "Inkluderer sideskift fra det originale materiale"
+            },
+            "additional-accessibility-information-ruby-annotations": {
+                "compact": "Nogle \"ruby\" notationer",
+                "descriptive": "Nogle \"ruby\" notationer"
+            },
+            "additional-accessibility-information-sign-language": {
+                "compact": "Tegnsprog",
+                "descriptive": "Tegnsprog"
+            },
+            "additional-accessibility-information-tactile-graphics": {
+                "compact": "Indeholder taktil grafik",
+                "descriptive": "Taktil grafik er integreret for at facilitere adgang til visuelle elementer for blinde"
+            },
+            "additional-accessibility-information-tactile-objects": {
+                "compact": "Taktile 3D objekter",
+                "descriptive": "Taktile 3D objekter"
+            },
+            "additional-accessibility-information-text-to-speech-hinting": {
+                "compact": "Indeholder hjælp til udtale",
+                "descriptive": "Indeholder hjælp til udtale for tekst-til-tale (TTS)"
+            },
+            "additional-accessibility-information-title": "Yderligere tilgængelighedsinformation"
+        },
+        "conformance": {
+            "conformance-a": {
+                "compact": "Denne bog opfylde minimumskravene til tilgængelighed",
+                "descriptive": "Bogen indeholder en erklæring om, at den opfylder EPUB Accessibility og WCAG 2 niveau A-standarden"
+            },
+            "conformance-aa": {
+                "compact": "Bogen opfylder gængse tilgængelighedsstandarder",
+                "descriptive": "Bogen indeholder en erklæring om, at den opfylder EPUB Accessibility og WCAG 2 niveau AA-standarden"
+            },
+            "conformance-aaa": {
+                "compact": "Bogen overgår gængse tilgængelighedsstandarder",
+                "descriptive": "Bogen indeholder en erklæring om, at den opfylder EPUB Accessibility og WCAG 2 niveau AAA-standarden"
+            },
+            "conformance-certifier": {
+                "compact": "Denne bog er certificeret af "
+            },
+            "conformance-certifier-credentials": {
+                "compact": "Certificeringsorganets legitimationsoplysninger er "
+            },
+            "conformance-details-certifier-report": {
+                "compact": "For yderligere information se certificeringsrapporten"
+            },
+            "conformance-details-claim": {
+                "compact": "Denne bog hævder at opfylde",
+                "descriptive": "Denne bog hævder at opfylde"
+            },
+            "conformance-details-epub-accessibility-1-0": {
+                "compact": "EPUB Tilgængelighed 1.0",
+                "descriptive": "EPUB Tilgængelighed 1.0"
+            },
+            "conformance-details-epub-accessibility-1-1": {
+                "compact": "EPUB Tilgængelighed 1.1",
+                "descriptive": "EPUB Tilgængelighed 1.1"
+            },
+            "conformance-details-level-a": {
+                "compact": "Niveau A",
+                "descriptive": "Niveau A"
+            },
+            "conformance-details-level-aa": {
+                "compact": "Niveau AA",
+                "descriptive": "Niveau AA"
+            },
+            "conformance-details-level-aaa": {
+                "compact": "Niveau AAA",
+                "descriptive": "Niveau AAA"
+            },
+            "conformance-details-wcag-2-0": {
+                "compact": "WCAG 2.0"
+            },
+            "conformance-details-wcag-2-1": {
+                "compact": "WCAG 2.1",
+                "descriptive": "Retningslinjer for tilgængelighed af webindhold (WCAG) 2.1"
+            },
+            "conformance-details-wcag-2-2": {
+                "compact": "WCAG 2.2",
+                "descriptive": "Retningslinjer for tilgængelighed af webindhold (WCAG) 2.2"
+            },
+            "conformance-no": {
+                "compact": "Ingen information tilgængelig",
+                "descriptive": "Ingen information tilgængelig"
+            },
+            "conformance-title": "Overholdelse",
+            "conformance-unknown-standard": {
+                "compact": "Ikke muligt at fastslå overholdelse af gængse standarder for tilgængelighed for denne bog",
+                "descriptive": "Ikke muligt at fastslå overholdelse af gængse standarder for tilgængelighed for denne bog"
+            }
+        },
+        "hazards": {
+            "hazards-flashing": {
+                "compact": "Blinkende indhold",
+                "descriptive": "Denne bog indeholder blinkende indhold, der kan forårsage anfald for personer med lysfølsomhed"
+            },
+            "hazards-flashing-none": {
+                "compact": "Ingen blinkende indhold",
+                "descriptive": "Denne bog indeholder ikke blinkende indhold"
+            },
+            "hazards-flashing-unknown": {
+                "compact": "Uvist om bogen indeholder blinkende indhold",
+                "descriptive": "Det er uvist om bogen indeholder blinkende indhold"
+            },
+            "hazards-motion": {
+                "compact": "Simuleret bevægelse",
+                "descriptive": "Bogen indeholder simuleret bevægelse, som kan skabe svimmelhed"
+            },
+            "hazards-motion-none": {
+                "compact": "Ingen simuleret bevægelse",
+                "descriptive": "Bogen indeholder ikke simuleret bevægelse"
+            },
+            "hazards-motion-unknown": {
+                "compact": "Det er uvist om bogen indeholder simuleret bevægelse",
+                "descriptive": "Det er uvist om bogen indeholder simuleret bevægelse"
+            },
+            "hazards-no-metadata": {
+                "compact": "Ingen information tilgængelig",
+                "descriptive": "Ingen information tilgængelig"
+            },
+            "hazards-none": {
+                "compact": "Intet risikabelt indhold",
+                "descriptive": "Bogen indeholder ikke noget risikabelt indhold"
+            },
+            "hazards-sound": {
+                "compact": "Lyde",
+                "descriptive": "Bogen indeholder lyde, som kan være ubehagelige"
+            },
+            "hazards-sound-none": {
+                "compact": "Ingen lyde",
+                "descriptive": "Bogen indeholder ikke lyd"
+            },
+            "hazards-sound-unknown": {
+                "compact": "Det er uvist om bogen indeholder lyd",
+                "descriptive": "Det er uvist om bogen indeholder lyd"
+            },
+            "hazards-title": "Risikabelt indhold",
+            "hazards-unknown": {
+                "compact": "Uvist om bogen indeholder risikabelt indhold",
+                "descriptive": "Det er uvist om bogen indeholder risikabelt indhold"
+            }
+        },
+        "navigation": {
+            "navigation-index": {
+                "compact": "Stikordsregister",
+                "descriptive": "Indholdsfortegnelse med links til indhold"
+            },
+            "navigation-no-metadata": {
+                "compact": "Ingen information tilgængelig",
+                "descriptive": "Ingen information tilgængelig"
+            },
+            "navigation-page-navigation": {
+                "compact": "Gå til side",
+                "descriptive": "Sideliste hvor du kan gå til sider fra den trykte bog"
+            },
+            "navigation-structural": {
+                "compact": "Overskrifter",
+                "descriptive": "Elementer så som overskrifter, tabeller, osv. til struktureret navigation"
+            },
+            "navigation-title": "Navigation",
+            "navigation-toc": {
+                "compact": "Indholdsfortegnelse",
+                "descriptive": "Indholdsfortegnelse til alle kapitler med tekst via links"
+            }
+        },
+        "rich-content": {
+            "rich-content-accessible-chemistry-as-latex": {
+                "compact": "Kemiske formler i LaTeX format",
+                "descriptive": "Kemiske formler i tilgængeligt format (LaTeX)"
+            },
+            "rich-content-accessible-chemistry-as-mathml": {
+                "compact": "Kemiske formler i MathML format",
+                "descriptive": "Kemiske formler i tilgængeligt format (MathML)"
+            },
+            "rich-content-accessible-math-as-latex": {
+                "compact": "Matematik i LaTeX format",
+                "descriptive": "Matematiske formler i tilgængeligt format (LaTeX)"
+            },
+            "rich-content-accessible-math-as-mathml": {
+                "compact": "Matematik i MathML format",
+                "descriptive": "Matematiske formler i tilgængeligt format (MathML)"
+            },
+            "rich-content-accessible-math-described": {
+                "compact": "Tekstbeskrivelser til matematik",
+                "descriptive": "Indeholder tekstbeskrivelser til matematik"
+            },
+            "rich-content-closed-captions": {
+                "compact": "Videoer har undertekster",
+                "descriptive": "Videoer i bogen indeholder undertekster"
+            },
+            "rich-content-extended": {
+                "compact": "Informationsrige billeder har udvidede beskrivelser",
+                "descriptive": "Informationsrige billeder beskrives med udvidede beskrivelser"
+            },
+            "rich-content-open-captions": {
+                "compact": "Videoer har valgfrie undertekster",
+                "descriptive": "Videoer i bogens indhold har valgfrie undertekster"
+            },
+            "rich-content-title": "Rigt indhold",
+            "rich-content-transcript": {
+                "compact": "Indeholder transskriptioner",
+                "descriptive": "Indeholder transskriptioner"
+            },
+            "rich-content-unknown": {
+                "compact": "Ingen information tilgængelig",
+                "descriptive": "Ingen information tilgængelig"
+            }
+        },
+        "ways-of-reading": {
+            "ways-of-reading-nonvisual-reading-alt-text": {
+                "compact": "Har alternativ tekst",
+                "descriptive": "Har alternative tekstbeskrivelser til billeder"
+            },
+            "ways-of-reading-nonvisual-reading-no-metadata": {
+                "compact": "Ingen information omkring ikke-visuel læsning tilgængelig",
+                "descriptive": "Ingen information omkring ikke-visuel læsning tilgængelig"
+            },
+            "ways-of-reading-nonvisual-reading-none": {
+                "compact": "Ikke læsbar med oplæsning eller dynamisk punktskrift",
+                "descriptive": "Indholdet er Ikke læsbart med oplæsning eller dynamisk punktskrift"
+            },
+            "ways-of-reading-nonvisual-reading-not-fully": {
+                "compact": "Ikke fuldt læsbar med oplæsning eller dynamisk punktskrift",
+                "descriptive": "Ikke alt indholdet i bogen er fuldt læsbart med oplæsning eller dynamisk punktskrift"
+            },
+            "ways-of-reading-nonvisual-reading-readable": {
+                "compact": "Læsbar med oplæsning eller dynamisk punktskrift",
+                "descriptive": "Alt indholdet i bogen er læsbart med oplæsning eller dynamisk punktskrift"
+            },
+            "ways-of-reading-prerecorded-audio-complementary": {
+                "compact": "Forudindspillede lydklip",
+                "descriptive": "Bogen har indhold med forudindspillede lydklip i"
+            },
+            "ways-of-reading-prerecorded-audio-only": {
+                "compact": "Indeholder kun lyd",
+                "descriptive": "Lydbog uden et tekstalternativ"
+            },
+            "ways-of-reading-prerecorded-audio-synchronized": {
+                "compact": "Lydbog med synkroniseret tekst",
+                "descriptive": "Alt indhold i bogen er forudindspillet lyd med synkroniseret tekst"
+            },
+            "ways-of-reading-title": "Læsemåder",
+            "ways-of-reading-visual-adjustments-modifiable": {
+                "compact": "Udseende kan ændres",
+                "descriptive": "Tekstens udseende og sidelayout kan ændres i henhold til læsesystemets muligheder (skrifttype og skriftstørrelse, mellemrum mellem afsnit, sætninger, ord og bogstaver, samt baggrunds- og tekstfarve)"
+            },
+            "ways-of-reading-visual-adjustments-unknown": {
+                "compact": "Ingen information om bogens udseende kan ændres",
+                "descriptive": "Ingen information angiver om bogens udseende kan ændres"
+            },
+            "ways-of-reading-visual-adjustments-unmodifiable": {
+                "compact": "Visningen kan ikke ændres",
+                "descriptive": "Tekst og sidelayout kan ikke ændres, da læseoplevelsen minder om en trykt version, men læsesystemer kan stadig tilbyde zoom indstillinger"
+            }
+        }
+    },
+    "publication": {
+        "accessibility": {
+            "accessModeSufficient": {
+                "textual": "Syntetisk tale & skærmlæser-venlig"
+            },
+            "accessibilityFeature": {
+                "alternativeText": "Indeholder tekst-alternativer",
+                "displayTransformability": "Tilpasseligt tekst og layout",
+                "longDescription": "Fuldt beskrevet grafisk indhold",
+                "printPageNumbers": "Referencer til sider i den trykte bog",
+                "readingOrder": "Indeholder en læserækkefølge",
+                "synchronizedAudioText": "Tekst og lyd er synkroniseret",
+                "tableOfContents": "Har en indholdsfortegnelse"
+            },
+            "accessibilityHazard": {
+                "flashing": "Blinkende indhold",
+                "motionSimulation": "Simuleret bevægelse",
+                "name": "Advarsel:",
+                "noFlashing": "Intet blinkende indhold",
+                "noMotionSimulation": "Ingen simuleret bevægelse",
+                "noSound": "Ingen lyd",
+                "none": "Intet",
+                "sound": "Lyd",
+                "unknown": "Ukendt"
+            },
+            "certifierReport": "Godkendelsesrapport:",
+            "conformsTo": "Overholder:",
+            "moreInformation": "Mere information",
+            "name": "Tilgængelighed",
+            "noA11y": "Ingen tilgængelighedsinformation angivet"
+        },
+        "actions": "Handlinger",
+        "audio": {
+            "tracks": "Spor"
+        },
+        "author": "Forfatter",
+        "cancelledLcp": "Denne bog kan ikke læses, da LCP-licensen er blevet annulleret.",
+        "certificateRevoked": "LCP-licensens certifikat er blevet annuleret.",
+        "certificateSignatureInvalid": "Ugyldig certifikat-signatur på LCP-licensen.",
+        "cover": {
+            "img": "forsidebillede"
+        },
+        "day": "dag",
+        "days": "dage",
+        "duration": {
+            "title": "Spilletid"
+        },
+        "encryptedNoLicense": "Bogen er krypteret, men mangler en LCP licens!",
+        "expired": "Lånet er udløbet",
+        "expiredLcp": "Denne bog kan ikke læses, da LCP-licensen er udløbet.",
+        "incorrectPassphrase": "Intet gemt nøgleord passer til bogen, eller det indtastede nøgleord er forkert.",
+        "lcpEnd": "Slut",
+        "lcpNotSupported": "ADVARSEL: Dette er en pre-release version af Thorium Desktop, som ikke understøtter rigtige LCP-licenser og kun understøtter LCP-dekryptering af 'grundlæggende profil' uden certifikatvalidering.",
+        "lcpRightsCopy": "Kopierede bogstaver",
+        "lcpRightsPrint": "Printede sider",
+        "lcpStart": "Start",
+        "licenceLCP": "Licens (LCP)",
+        "licenseCertificateDateInvalid": "Licensens signatur-dato er ugyldig. ({{- dateTime}}).",
+        "licenseOutOfDate": "Licensen er udløbet.",
+        "licenseSignatureInvalid": "Licensens signatur er ugyldig.",
+        "licensed": "Licenseret",
+        "markAsRead": "Markér som læst",
+        "notStarted": "Ikke læst",
+        "onGoing": "I gang",
+        "progression": {
+            "title": "Læst"
+        },
+        "read": "Læst færdig",
+        "remainingTime": "Lån (dage tilbage)",
+        "renewButton": "Forny",
+        "returnButton": "Aflevér",
+        "returnedLcp": "Denne bog kan ikke åbnes, da LCP-licensen er leveret tilbage.",
+        "revokedLcp": "Denne bog kan ikke åbnes, da LCP-licensen er kaldt tilbage.",
+        "seeLess": "Se mindre",
+        "seeMore": "Se mere",
+        "timeLeft": "Tilbage",
+        "title": "Titel",
+        "userKeyCheckInvalid": "Forkert nøgleord."
+    },
+    "reader": {
+        "annotations": {
+            "Color": "Farve",
+            "addNote": "Lav note",
+            "advancedMode": "Øjeblikkelige noter (oprettes automatisk ved markering)",
+            "annotationsExport": {
+                "description": "Navngiv denne samling af noter:",
+                "title": "Navn"
+            },
+            "annotationsOptions": "Valgmuligheder",
+            "date": "Redigeringsdato",
+            "error": {
+                "pdf": {
+                    "validationSelection": "Det var ikke muligt at oprette PDF-note fra dette valg."
+                }
+            },
+            "export": "Gem noter som...",
+            "filter": {
+                "all": "Alle",
+                "filterByColor": "Filtrér efter Farve",
+                "filterByCreator": "Filtrér efter Opretter",
+                "filterByDrawtype": "Filtrér efter Overstregningstype",
+                "filterByTag": "Filtrer efter tag",
+                "filterOptions": "Filtreringsvalg",
+                "none": "Ingen"
+            },
+            "hide": "Vis ikke",
+            "highlight": "Overstregning",
+            "noSelectionToast": "Intet markeret",
+            "note": "{{- color}} Note",
+            "quickAnnotations": "Hurtig-oprettelse (spring redigering over)",
+            "saveNote": "Gem",
+            "sorting": {
+                "lastcreated": "Sidst oprettet",
+                "lastmodified": "Sidst ændret",
+                "progression": "Fremskridt",
+                "sortingOptions": "Sorteringsvalg"
+            },
+            "toggleMarginMarks": "Vis noter i marginen",
+            "type": {
+                "outline": "Omrids",
+                "solid": "Farvet baggrund",
+                "strikethrough": "Gennemstreg",
+                "underline": "Understreg"
+            }
+        },
+        "bookmarks": {
+            "index": "Bogmærke {{- index}}"
+        },
+        "divina": {
+            "mute": "slå lyd fra",
+            "unmute": "slå lyd til"
+        },
+        "dock": {
+            "dockDefault": "Vis panelet som en popup dialog",
+            "dockLeft": "Fastgør panelet til venstre",
+            "dockRight": "Fastgør panelet til højre"
+        },
+        "fxl": {
+            "fit": "Tilpas"
+        },
+        "goToContent": "Gå til indhold",
+        "imgViewer": {
+            "title": "Billedfremviser",
+            "zoomIn": "Zoom ind",
+            "zoomOut": "Zoom ud",
+            "zoomReset": "Nulstil Zoom"
+        },
+        "marks": {
+            "annotations": "Noter",
+            "bookmarks": "Bogmærker",
+            "delete": "Slet",
+            "edit": "Rediger",
+            "goTo": "Gå til side",
+            "landmarks": "Regioner",
+            "saveMark": "Gem",
+            "search": "Søg",
+            "searchResult": "Søgning [{{- searchText}}]",
+            "toc": "Indholdsfortegnelse"
+        },
+        "media-overlays": {
+            "activate": "Start oplæsning",
+            "captions": "Undertekster",
+            "captionsDescription": "Simpel tekstvisning med minimal styling af billedtekster.",
+            "disableContinuousPlay": "Deaktiver kontinuerlig afspilning",
+            "disableContinuousPlayDescription": "Afspil ikke automatisk næste del. Sæt på pause efter at den nuværende del er afspillet.",
+            "ignoreAndUseTTS": "Ignorer forudindspillet lyd og brug syntetisk tale (TTS)",
+            "ignoreAndUseTTSDescription": "Ignorer EPUB'ens medieindhold og læs bogen højt med syntetisk tale (TTS)",
+            "next": "Næste oplæsnings-stykke",
+            "pause": "Pause oplæsning",
+            "play": "Start oplæsning",
+            "previous": "Forrige oplæsnings-stykke",
+            "skip": "Overspringsmuligheder",
+            "skipDescription": "Hop over ekstra-indhold så som sideskift, fodnoter/slutnoter, osv.",
+            "speed": "Oplæsningshastighed",
+            "stop": "Stop oplæsning",
+            "title": "Oplæsning",
+            "useTTSHighlightsForMO": "Brugerdefineret overstregning",
+            "useTTSHighlightsForMODescription": "Slå bogens indbyggede formatering fra"
+        },
+        "navigation": {
+            "ZenModeExit": "Forlad fokuseret læsetilstand",
+            "ZenModeTitle": "Fokuseret læsetilstand",
+            "annotationTitle": "Note",
+            "backHomeTitle": "tilbage til boghylden",
+            "bookmarkTitle": "Bogmærke",
+            "currentPage": "Nuværende side: {{- current}}",
+            "currentPageTotal": "Nuværende side: {{- current}}/{{- total}}",
+            "detachWindowTitle": "Vis bibliotek / boghylde-vindue",
+            "goTo": "Gå til",
+            "goToError": "Siden kunne ikke findes",
+            "goToPlaceHolder": "Indtast et sidetal",
+            "goToTitle": "Gå til side",
+            "history": "Navigationshistorik",
+            "historyNext": "Hop frem",
+            "historyPrevious": "Hop tilbage i navigationshistorikken",
+            "infoTitle": "Information",
+            "magnifyingGlassButton": "Søg i bogen",
+            "openTableOfContentsTitle": "Indholdsfortegnelse",
+            "page": "Side",
+            "pdfscalemode": "Tilpas til side eller skærmbredde",
+            "print": "Print",
+            "printDisabled": "Print ikke tilladt",
+            "screenNext": "Gå frem",
+            "screenPrevious": "Gå tilbage",
+            "settingsTitle": "Læserindstillinger"
+        },
+        "notes": {
+            "colors": {
+                "cyan": "Cyan",
+                "darkorange": "Mørkeorange",
+                "darkyellow": "Mørkegul",
+                "green": "Grøn",
+                "orange": "Orange",
+                "purple": "Lilla",
+                "red": "Rød",
+                "yellow": "Gul"
+            }
+        },
+        "picker": {
+            "search": {
+                "founds_one": "{{- count}} resultat",
+                "founds_other": "{{- count}} resultater",
+                "input": "søgetekst",
+                "next": "Næste",
+                "notFound": "ingen resultater",
+                "previous": "Forrige",
+                "results": "Resultater",
+                "submit": "Find"
+            },
+            "searchTitle": "Søg:"
+        },
+        "print": {
+            "descriptionLcpCount": "Grænse for antal printede sider: {{- count}}",
+            "descriptionLcpPrintable": "Printede sider: {{- printable}} ({{- count}})",
+            "howTo": "Hvordan man vælger side-intervaller til print",
+            "lcpInfo": "Antallet af sider du kan printe er begrænset til {{- count}}. Vælg de sider du ønsker at printe her.",
+            "noPagesLcpLimitReached": "Du har nået grænsen for tilladte antal print i din LCP licens",
+            "noPrintablePages": "Ingen printbare sider fundet",
+            "pageHelpInfo": "Syntaks for angivelse af sider:",
+            "pageHelpInfo1": "indtast et nummer på en side (fx. \"6\")",
+            "pageHelpInfo2": "indtast to sidetal med en bindestreg imellem, for at angive et side-interval (fx. \"6-13\")",
+            "pageHelpInfo3": "brug semikolon til at opdele flere enkeltsider eller side-intervaller (fx. \"5;14-20;37\")",
+            "pageHelpInfo4": "undlad den første eller sidste del i et side-interval for at medtage alle sider hertil (fx. svarer \"-16\" til \"1-16\" og \"34-\" svarer til \"34-100\" antaget at bogen er på 100 sider)",
+            "pages": "Sider",
+            "preview": "Forhåndsvisning",
+            "print": "Print",
+            "printablePages": "Antal sider der kan printes (totalt)",
+            "title": "Valg af printbare sider"
+        },
+        "settings": {
+            "column": {
+                "auto": "Standard",
+                "one": "1 kolonne",
+                "title": "Kolonner",
+                "two": "2 kolonner"
+            },
+            "customFontSelected": "Du har valgt en personlig skrifttype",
+            "customizeReader": "Tilpas tekstformatering",
+            "defaultValue": "standard værdi",
+            "disabled": "slået fra",
+            "display": "Visning",
+            "disposition": {
+                "title": "Layout"
+            },
+            "font": "Skrifttype",
+            "fontSize": "Skriftstørrelse",
+            "increaseFontSize": "Forstør skriftstørrelsen",
+            "infoCustomFont": "Vælg en anden skrifttype fra operativsystemet ved at skrive dens navn",
+            "justification": "Tekstjustering",
+            "justify": "Lige margener",
+            "letterSpacing": "Bogstav-mellemrum",
+            "lineSpacing": "Linje-mellemrum",
+            "margin": "Margen",
+            "mathjax": "Slå MathJax til",
+            "mathjaxDescription": "MathJax",
+            "noFootnotes": "Slå popup med fodnoter fra",
+            "noRTLFlip": "Slå højre-til-venstre UI fra",
+            "noRuby": "Skjul japansk læsehjælp (Ruby)",
+            "noTemporaryNavTargetOutline": "Slå visuelle navigations-markører fra",
+            "paginated": "Sideinddelt",
+            "paraSpacing": "Paragraf-mellemrum",
+            "pdfZoom": {
+                "name": {
+                    "100pct": "100 %",
+                    "150pct": "150 %",
+                    "200pct": "200 %",
+                    "300pct": "300 %",
+                    "500pct": "500 %",
+                    "50pct": "50 %",
+                    "fit": "tilpas til siden",
+                    "width": "tilpas til skærmbredde"
+                },
+                "title": "Zoom"
+            },
+            "preset": {
+                "apply": "Anvend mit foretrukne læsetema som nuværende læse-indstillinger",
+                "applyDetails": "Anvend dine foretrukne læseindstillinger med den nuværende bog.",
+                "detail": "Gem/Anvend dine foretrukne læseindstillinger.",
+                "reset": "Nulstil mit foretrukne læsetema til standard indstillingerne",
+                "resetDetails": "Nulstil din foretrukne læseindstillinger til standard-indstillingerne.",
+                "save": "Gem de nuværende læse-indstillinger som mit foretrukne læsetema",
+                "saveDetails": "Gem dine ændringer til den nuværende bogs formatering og visningsindstillinger. Disse indstillinger kan anvendes med andre bøger, når de er åbnet, ved at klikke på knappen nedenfor.",
+                "title": "Læsetema"
+            },
+            "preview": "Forhåndsvisning",
+            "reduceFontSize": "Formindsk skriftstørrelsen",
+            "reduceMotion": "Reducér bevægelser",
+            "scrolled": "Scrollbart",
+            "spacing": "Mellemrum",
+            "spreadModeEven": "Sideopslag 'lige' (standard er 'ulige')",
+            "text": "Tekst",
+            "theme": {
+                "name": {
+                    "Contrast1": "Kontrast 1",
+                    "Contrast2": "Kontrast 2",
+                    "Contrast3": "Kontrast 3",
+                    "Contrast4": "Kontrast 4",
+                    "Neutral": "Neutralt",
+                    "Night": "Nat",
+                    "Paper": "Papir",
+                    "Sepia": "Sepia"
+                },
+                "title": "Farvetema"
+            },
+            "wordSpacing": "Ordafstand"
+        },
+        "svg": {
+            "left": "Venstre",
+            "right": "Højre"
+        },
+        "toc": {
+            "publicationNoToc": "Ingen indholdsfortegnelse"
+        },
+        "tts": {
+            "activate": "Aktiver syntetisk tale",
+            "language": "Sprog for tekst-til-tale (TTS)",
+            "next": "Næste",
+            "options": "Indstillinger for syntetisk tale",
+            "pause": "Pause",
+            "play": "Afspil med syntetisk tale",
+            "previous": "Forrige",
+            "sentenceDetect": "Opdel oplæsning i sætninger",
+            "sentenceDetectDescription": "Bryd lange afsnit op i sætninger.",
+            "speed": "Oplæsningshastighed (TTS)",
+            "stop": "Stop syntetisk tale",
+            "voice": "Syntetisk stemme"
+        }
+    },
+    "settings": {
+        "annotationCreator": {
+            "creator": "Opretter",
+            "help": "Hvis angivet, vil dette navn være at finde i metadata for de eksporterede noter.",
+            "name": "Navn",
+            "organization": "Organisation",
+            "person": "Person",
+            "type": "Type:"
+        },
+        "auth": {
+            "help": "Denne handling sletter alle OPDS loginoplysninger.",
+            "title": "Administrér adgang til kataloger",
+            "wipeData": "Nulstil login-data"
+        },
+        "keyboard": {
+            "advancedMenu": "Menu for avancerede tastaturgenveje",
+            "cancel": "Annullér",
+            "disclaimer": "Standard tastaturgenveje er designet ud fra et QWERTY tastaturlayout",
+            "editUserJson": "Rediger brugerfilen...",
+            "exportToHTML": "Eksporter til HTML",
+            "keyboardShortcuts": "Tastaturgenveje",
+            "list": {
+                "AddBookmarkWithLabel": {
+                    "description": "Åben bogmærke dialogen og redigér note, farve og tag for bogmærket",
+                    "name": "Opret bogmærke med note"
+                },
+                "AnnotationsCreate": {
+                    "description": "Åben note dialogen for den markerede tekst og redigér note, overstregnings-farve og type, samt tag",
+                    "name": "Opret Note"
+                },
+                "AnnotationsCreateQuick": {
+                    "description": "Opret hurtigt en note for den markerede tekst, med den senest brugte overstregnings-farve og type (dette åbner ikke redigerings-dialogen)",
+                    "name": "Opret Hurtig-note"
+                },
+                "AnnotationsToggleMargin": {
+                    "description": "Vælg imellem om noter og bogmærker skal vises i side-margen eller som en del af teksten",
+                    "name": "Slå noter i side-margen til/fra"
+                },
+                "AudioNext": {
+                    "description": "Gå frem til næste lydklip i en bog med tilhørende medier, tekst-til-tale eller oplæsning",
+                    "name": "Næste Lydklip"
+                },
+                "AudioNextAlt": {
+                    "description": "Gå frem til næste lydklip i en bog med tilhørende medier, tekst-til-tale eller oplæsning. Dette springer ud af den nuværende struktur, hvis muligt",
+                    "name": "Næste Lydklip (spring ud)"
+                },
+                "AudioPlayPause": {
+                    "description": "Skift imellem afspilning/pause i tilhørende medier, tekst-til-tale eller oplæsning",
+                    "name": "Afspil/Pause Lyd"
+                },
+                "AudioPrevious": {
+                    "description": "Gå tilbage til forrige lydklip i en bog med tilhørende medier, tekst-til-tale eller oplæsning",
+                    "name": "Forrige Lydklip"
+                },
+                "AudioPreviousAlt": {
+                    "description": "Gå tilbage til forrige lydklip i en bog med tilhørende medier, tekst-til-tale eller oplæsning. Dette springer ud af den nuværende struktur, hvis muligt",
+                    "name": "Forrige Lyd (spring ud)"
+                },
+                "AudioSpeedDecrease": {
+                    "description": "Reducer hastigheden på lydafspilning af forudindspillet lyd i EPUB3 eller TTS-højtlæsningshastighed",
+                    "name": "Sænk lydhastigheden"
+                },
+                "AudioSpeedIncrease": {
+                    "description": "Forøg hastigheden på lydafspilning af forudindspillet lyd i EPUB3 eller TTS-højtlæsningshastighed",
+                    "name": "Forøg lydhastigheden"
+                },
+                "AudioSpeedReset": {
+                    "description": "Nulstil hastigheden på lydafspilning af forudindspillet lyd i EPUB3 eller TTS-højtlæsningshastighed",
+                    "name": "Nulstil lydhastigheden"
+                },
+                "AudioStop": {
+                    "description": "Stop afspilning af tilhørende medier, tekst-til-tale eller oplæsning",
+                    "name": "Stop Afspilning"
+                },
+                "CloseReader": {
+                    "description": "Luk læser-vinduet og gå tilbage til biblioteket",
+                    "name": "Luk Læser"
+                },
+                "FXLZoomIn": {
+                    "description": "Zoom ind på et enkelt sideopslag eller et opslag på 2 sider med fast layout.",
+                    "name": "Fast layout - Zoom ind"
+                },
+                "FXLZoomOut": {
+                    "description": "Zoom ud fra et enkelt sideopslag eller et opslag på 2 sider med fast layout.",
+                    "name": "Fast layout - Zoom ud"
+                },
+                "FXLZoomReset": {
+                    "description": "Nulstil zoom for et enkelt sideopslag eller et opslag på 2 sider med fast layout.",
+                    "name": "Fast layout - Nulstil zoom"
+                },
+                "FocusMain": {
+                    "description": "Flyt tastaturfokus til det primære indhold i brugergrænsefladen. I læse-vinduet, flyttes fokus til bogens indhold",
+                    "name": "Fokusér på Primært Indhold"
+                },
+                "FocusMainDeep": {
+                    "description": "I læsevinduet flytter dette fokus til bogens indhold, på en mere pålidelig måde for skærmlæsere",
+                    "name": "Dybt fokus på Primært Indhold"
+                },
+                "FocusReaderGotoPage": {
+                    "description": "Flyt tastaturfokus til 'gå til side' sektionen af læse-vinduets navigationspanel",
+                    "name": "Fokusér på 'Gå til side'"
+                },
+                "FocusReaderNavigation": {
+                    "description": "Flyt tastaturfokus til læse-vinduets navigationspanel",
+                    "name": "Fokusér på Navigationspanelet"
+                },
+                "FocusReaderNavigationAnnotations": {
+                    "description": "Flyt tastaturfokus til 'noter' sektionen af læse-vinduets navigationspanel",
+                    "name": "Fokusér på 'Noter'"
+                },
+                "FocusReaderNavigationBookmarks": {
+                    "description": "Flyt tastaturfokus til 'bogmærker' sektionen af læse-vinduets navigationspanel",
+                    "name": "Fokusér på 'Bogmærker'"
+                },
+                "FocusReaderNavigationSearch": {
+                    "description": "Flyt tastaturfokus til 'søg' sektionen af læse-vinduets navigationspanel",
+                    "name": "Fokusér på 'Søg'"
+                },
+                "FocusReaderNavigationTOC": {
+                    "description": "Flyt tastaturfokus til 'Indholdsfortegnelse' sektionen af læse-vinduets navigationspanel",
+                    "name": "Fokusér på 'Indholdsfortegnelse'"
+                },
+                "FocusReaderSettings": {
+                    "description": "Flyt tastaturfokus til læse-vinduets panel med indstillinger (visningsindstillinger, osv.)",
+                    "name": "Fokusér på Læserindstillinger"
+                },
+                "FocusSearch": {
+                    "description": "Flyt tastaturfokus til læse-vinduets inputfelt til tekst-søgnings. I biblioteketsvinduet påbegyndes en søgning på boghylden eller i det aktive OPDS katalog",
+                    "name": "Søge-kommando"
+                },
+                "FocusToolbar": {
+                    "description": "Flyt tastaturfokus til området i brugergrænsefladen lige før 'spring linket over' (som i sig selv flytter fokus til hovedindholdsområdet i biblioteket eller læservinduet)",
+                    "name": "Fokusér på Værktøjslinjen"
+                },
+                "NavigateNextChapter": {
+                    "description": "I læseren - Naviger til det næste dokument i bogens læserækkefølge. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Næste Kapitel"
+                },
+                "NavigateNextChapterAlt": {
+                    "description": "I læseren - Naviger til næste dokument i bogens læserækkefølgen. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Gå til Næste Kapitel (Alternativ)"
+                },
+                "NavigateNextHistory": {
+                    "description": "I læseren - Gå et trin frem i navigationshistorikken",
+                    "name": "Gå Frem i Historikken"
+                },
+                "NavigateNextLibraryPage": {
+                    "description": "I biblioteksvinduet, gå til den næste side af en sideinddelt bog. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Næste Biblioteksside"
+                },
+                "NavigateNextLibraryPageAlt": {
+                    "description": "I læseren - gå til næste side i en sideinddelt bog. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Gå til Næste Biblioteksside (Alternativ)"
+                },
+                "NavigateNextOPDSPage": {
+                    "description": "I biblioteksvinduet for OPDS kataloger - gå til næste side. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Næste Side i OPDS Katalog"
+                },
+                "NavigateNextOPDSPageAlt": {
+                    "description": "I biblioteksvinduet for OPDS kataloger - gå til næste side. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Gå til Næste Side i OPDS Katalog (Alternativ)"
+                },
+                "NavigateNextPage": {
+                    "description": "Gå til næste side i læseren. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Næste Side"
+                },
+                "NavigateNextPageAlt": {
+                    "description": "I læseren - Gå til næste side i bogen. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Gå til Næste Side (Alternativ)"
+                },
+                "NavigatePreviousChapter": {
+                    "description": "I læseren - Naviger til forrige dokument i læserækkefølgen (f.x. kapitel). Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Forrige Kapitel"
+                },
+                "NavigatePreviousChapterAlt": {
+                    "description": "I læseren - Naviger til forrige dokument i læserækkefølgen (f.x. kapitel). Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Gå til Forrige Kapitel (Alternativ)"
+                },
+                "NavigatePreviousHistory": {
+                    "description": "I læseren - Gå et trin tilbage i navigationshistorikken",
+                    "name": "Gå Tilbage i Historikken"
+                },
+                "NavigatePreviousLibraryPage": {
+                    "description": "I læseren - Vis den forrige side i en sideopdelt bog. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Forrige Biblioteksside"
+                },
+                "NavigatePreviousLibraryPageAlt": {
+                    "description": "I læseren - Vis den forrige side i en sideopdelt bog. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Gå til Forrige Biblioteksside (Alternativ)"
+                },
+                "NavigatePreviousOPDSPage": {
+                    "description": "I biblioteksvinduet for kataloger - Følg det forrige sidelink. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Forrige OPDS Katalogside"
+                },
+                "NavigatePreviousOPDSPageAlt": {
+                    "description": "I biblioteksvinduet for kataloger - Følg det forrige sidelink. Dette er en alternativ tastaturgenvej",
+                    "name": "Gå til Forrige OPDS Katalogside (Alternativ)"
+                },
+                "NavigatePreviousPage": {
+                    "description": "I læseren - Gå til den forrige side i bogen. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Gå til Forrige Side"
+                },
+                "NavigatePreviousPageAlt": {
+                    "description": "I læseren - Gå til den forrige side i bogen. Dette er en alternativ tastaturgenvej",
+                    "name": "Gå til Forrige Side (Alternativ)"
+                },
+                "NavigateToBegin": {
+                    "description": "I læseren - gå tilbage til bogens start",
+                    "name": "Gå til Begyndelsen"
+                },
+                "NavigateToEnd": {
+                    "description": "I læseren - gå til bogens slutning",
+                    "name": "Gå til Slutning"
+                },
+                "OpenReaderInfo": {
+                    "description": "I læseren - åben informationsdialogen om bogen",
+                    "name": "Vis information om bogen"
+                },
+                "OpenReaderInfoWhereAmI": {
+                    "description": "I læseren - åben informationsdialogen om bogen og fokusér keyboardet på sektionen omkring nuværende position i bogen",
+                    "name": "Vis information om bogen - Nuværende position"
+                },
+                "Print": {
+                    "description": "I læseren, åben print dialogen",
+                    "name": "Print"
+                },
+                "SearchNext": {
+                    "description": "I læserens søgeværktøj - gå til næste resultat. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Søgning - Næste"
+                },
+                "SearchNextAlt": {
+                    "description": "I læserens søgeværktøj - gå til næste resultat. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Søgning - Næste (Alternativ)"
+                },
+                "SearchPrevious": {
+                    "description": "I læserens søgeværktøj - gå til forrige resultat. Bemærk at der findes en alternativ tastaturgenvej til denne",
+                    "name": "Søgning - Forrige"
+                },
+                "SearchPreviousAlt": {
+                    "description": "I læserens søgeværktøj - gå til forrige resultat. Dette er et alternativ til standard tastaturgenvejen",
+                    "name": "Søgning - Forrige (Alternativ)"
+                },
+                "SpeakReaderInfoWhereAmI": {
+                    "description": "I læseren - Beskriv den nuværende position i bogen, ved hjælp af tekst der er kompatibelt med skærmlæsere",
+                    "name": "Beskriv Nuværende Position (Tale)"
+                },
+                "ToggleBookmark": {
+                    "description": "Tilføj et nyt bogmærke eller fjern et eksisterende der er markeret",
+                    "name": "Slå bogmærke til/fra"
+                },
+                "ToggleReaderFullscreen": {
+                    "description": "I læseren - Aktivér systemets fuldskærmstilstand eller gå tilbage til normalt vindue. Bemærk at dette er anderledes end 'zen mode', hvilket simplificerer brugergrænsefladen",
+                    "name": "Slå Fuldskærm Til/Fra"
+                }
+            },
+            "loadUserJson": "Indlæs fra brugerfil",
+            "noShortcutFound": "Ingen genveje fundet med dette navn",
+            "resetDefaults": "Nulstil (standardindstillinger)",
+            "save": "Gem",
+            "searchPlaceholder": "Skriv her for at søge efter en genvej"
+        },
+        "language": {
+            "languageChoice": "Sprog"
+        },
+        "library": {
+            "enableAPIAPP": "Aktivér adgang til Dilicom PNB-API",
+            "title": "Tilføj en bibliotekskonto"
+        },
+        "note": {
+            "export": {
+                "applyDefaultTemplate": "Anvend standardskabelon",
+                "enableCheckbox": "Rediger HTML skabelon",
+                "overrideHTMLTemplate": "Eksport af noter (og bogmærker)"
+            }
+        },
+        "profiles": {
+            "info": "Skift profiler for at tilpasse appen med en partnerleverandørs branding og farver. Hver profil tilbyder en skræddersyet oplevelse.",
+            "thorium": {
+                "description": "Thorium Vanilla profilen er den originale profil, designet af EDRLab.",
+                "title": "Thorium vanilla"
+            },
+            "version": "Version: {{- version}}"
+        },
+        "screenReaderActivate": {
+            "help": "Når applikationen registrerer at hjælpeteknologier benyttes, fungerer brugergrænsefladen bedre med skærmlæsere",
+            "message": "Forbedret understøttelse af skærmlæsere",
+            "title": "Forbedret oplevelse med skærmlæser"
+        },
+        "session": {
+            "title": "Gem session"
+        },
+        "sharedComputer": {
+            "lcpAutoDeleteExpiredPublications": "",
+            "lcpAutoDeleteExpiredPublicationsDescription": "",
+            "title": ""
+        },
+        "storage": {
+            "actions": {
+                "addDirectory": "Vælg ekstra lagerplads",
+                "changeDirectory": "Opdater ekstra lagerplads",
+                "removeStorageDirectory": "Fjern ekstra lagerplads"
+            },
+            "beta": {
+                "availability": "Denne funktion virker kun med nyere versioner af Thorium; bøger i eksterne mapper vises ikke i Thorium 3.4 eller tidligere.",
+                "integrity": "Du skal holde denne mappe sikker og tilgængelig. Undgå at slette den, begrænse adgangen til den eller bruge langsom eller ustabil lagring, f.eks. et netværksdrev eller online drev.",
+                "migration": "Thorium overfører ikke automatisk dine bøger: Hvis du opdaterer den ekstra lagerplads, skal du manuelt flytte dine bøger til den nye placering. Hvis du fjerner den, skal du manuelt flytte dine bøger til den oprindelige lagerplads.",
+                "summary": "Læs mere om denne feature, som er i beta test",
+                "warning": "Du må ikke manuelt ændre filerne i denne mappe, da dette kan forårsage problemer med dine bøger eller læseren. Tænk på denne mappe som et sikkert bibliotek, der administreres af Thorium."
+            },
+            "configuration": {
+                "chooseFolderDescription": "Vælg den mappe som Thorium skal benytte som ekstra lagerplads.",
+                "configuredDescription": "Den ekstra lagerplads er nu konfigureret og klar til brug med nye gemte bøger.",
+                "notConfiguredDescription": "Bøger importeret til Thorium Reader gemmes i den valgte mappe. Bøger, der tidligere er importeret, forbliver i det oprindelige systemlager."
+            },
+            "dialogs": {
+                "add": {
+                    "confirm": "Fortsæt",
+                    "description": "Denne feature er lige nu i beta test. Ønsker du at fortsætte med at konfigurere ekstra lagerplads, ved at vælge en mappe?",
+                    "title": "Vælg ekstra lagerplads"
+                },
+                "edit": {
+                    "confirm": "Rediger mappe",
+                    "description": "Opdatering af den ekstra lagerplads kræver omhu. Thorium migrerer ikke eksisterende bøger for dig; du bliver nødt til at gøre det manuelt. Ønsker du at fortsætte?",
+                    "title": "Opdater den ekstra lagerplads"
+                },
+                "remove": {
+                    "confirm": "Fjern mappe",
+                    "description": "Fjernelse af den ekstra lagerplads kræver omhu. Thorium migrerer ikke eksisterende bøger for dig; du bliver nødt til at gøre det manuelt. Ønsker du at fortsætte?",
+                    "title": "Fjern ekstra lagerplads"
+                }
+            },
+            "locations": {
+                "defaultDescription": "Bøger som administreres af denne læser, gemmes som standard i:",
+                "defaultInternal": "Systemlager",
+                "externalStorage": "Eksternt lager",
+                "title": "Placeringer"
+            }
+        },
+        "tabs": {
+            "appearance": "Udseende",
+            "general": "Generelt",
+            "keyboardShortcuts": "Tastaturgenveje",
+            "profiles": "Profiler",
+            "storage": "Lagerplads"
+        },
+        "theme": {
+            "auto": "Automatisk",
+            "dark": "Mørk",
+            "description": "Tilpasser sig operativsystemets farvetilstand.",
+            "light": "Lys",
+            "title": "Programmets farvetema"
+        }
+    },
+    "tts": {
+        "highlight": {
+            "mainColor": "Hovedfarve",
+            "maskBlockWordOutline": "Maskeringsblok, Ord med omrids",
+            "maskBlockWordSolidBackground": "Maskeringsblok, Ord med fast baggrund",
+            "maskBlockWordUnderline": "Maskeringsblok, Understreg ord",
+            "maskWordOutline": "Maskering, Ord med omrids",
+            "maskWordSolidBackground": "Maskering, Ord med fast baggrund",
+            "maskWordUnderline": "Maskering, Understreg ord",
+            "outlineWordOutline": "Omrids, Ord med omrids",
+            "outlineWordSolidBackground": "Omrids, Ord med fast baggrund",
+            "outlineWordUnderline": "Omrids, Understreg ord",
+            "preview": "Forhåndsvisning af TTS-fremhævningsstil",
+            "solidBackgroundWordOutline": "Fast baggrund, Ord med omrids",
+            "solidBackgroundWordSolidBackground": "Fast baggrund, Ord med fast baggrund",
+            "solidBackgroundWordUnderline": "Fast baggrund, Understreg ord",
+            "style": "TTS-fremhævningsstil",
+            "underlineWordOutline": "Understreg, Ord med omrids",
+            "underlineWordSolidBackground": "Understreg, Ord med fast baggrund",
+            "underlineWordUnderline": "Understreg, Understreg ord",
+            "wordColor": "Ord farve"
+        }
+    },
+    "wizard": {
+        "buttons": {
+            "discover": "Gå på opdagelse i Thorium Desktop",
+            "goToBooks": "Gå til dine bøger"
+        },
+        "description": {
+            "home": "Thorium 3.4 bringer en række forbedringer af brugeroplevelsen og retter en række problemer. Hvis du senere beslutter dig for at vende tilbage til en ældre version af applikationen, anbefales det kraftigt, at du sikkerhedskopierer dine e-bogsannotationer og bogmærker ved at eksportere dem til en ekstern fil. Du importerer dem derefter tilbage til den ældre version, når den er installeret. Dette skyldes, at applikationen gemmer noter og bogmærker i et lidt anderledes internt format i version 3.4. Dette løser et ydeevneproblem, men afbryder bagudkompatibiliteten for noter.",
+            "resources": "Få kontakt med os og lær mere om Thorium:"
+        },
+        "dontShow": "Vis ikke igen",
+        "resources": {
+            "discord": "Discord: {{- url}}",
+            "website": "Website: {{- url}}"
+        },
+        "tab": {
+            "home": "Hjem",
+            "resources": "Ressourcer"
+        },
+        "title": {
+            "resources": "Ressourcer & Fællesskab",
+            "welcome": "Velkommen til Thorium 3.4"
+        }
+    }
+}

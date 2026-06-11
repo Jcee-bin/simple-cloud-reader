@@ -1,0 +1,1356 @@
+{
+    "accessibility": {
+        "bookMenu": "Menu",
+        "closeDialog": "Sluiten",
+        "leftSlideButton": "Schuif lijst naar links",
+        "mainContent": "hoofd inhoud",
+        "rightSlideButton": "Schuif lijst naar rechts",
+        "skipLink": "Ga naar inhoud",
+        "toolbar": "werkbalk"
+    },
+    "apiapp": {
+        "documentation": "Thorium-documentatie",
+        "howItWorks": "Hoe werkt het?",
+        "informations": "In Frankrijk bieden veel openbare bibliotheken een machinaal leesbare catalogus aan (vergelijkbaar met OPDS maar niet identiek), waardoor klanten digitale publicaties van hun persoonlijke boekenplank kunnen downloaden. Door deze technologie in Thorium Reader te integreren, kan je een e-boek of audioboek rechtstreeks naar Thorium Reader downloaden, zodat je het direct kunt lezen.\nHoe koppel je jouw Franse openbare bibliotheekaccount aan Thorium Reader? Dat is makkelijk. Voer een Franse stad ('Parijs') of een deel van de bibliotheeknaam in het zoekveld in en klik op de knop Zoeken. Er verschijnt een lijst met openbare bibliotheken die overeenkomen met je zoekopdracht. Selecteer een bibliotheek en klik op Toevoegen. Selecteer deze bibliotheek in de bijgewerkte lijst met catalogi: er wordt een authenticatieformulier weergegeven. Voer je gebruikersnaam/e-mailadres en wachtwoord in en klik op Inloggen. Je kunt nu de inhoud van je persoonlijke boekenplank zien, van waaruit je de e-books en luisterboeken die je eerder hebt geleend, kunt downloaden en lezen.",
+        "noLibraryFound": "Geen bibliotheek gevonden ({{- name}})"
+    },
+    "app": {
+        "edit": {
+            "copy": "Kopieer",
+            "cut": "Knip",
+            "paste": "Plak",
+            "print": "Afdrukken",
+            "redo": "Opnieuw",
+            "selectAll": "Alles selecteren",
+            "title": "Wijzig",
+            "undo": "Ongedaan maken"
+        },
+        "hide": "Verbergen {{- appName}}",
+        "quit": "Verlaat {{- appName}}",
+        "session": {
+            "exit": {
+                "askBox": {
+                    "button": {
+                        "no": "Nee",
+                        "yes": "Ja"
+                    },
+                    "help": "Activeer dit als je wilt dat leesvensters die open zijn wanneer je de applicatie sluit, automatisch opnieuw worden geopend bij de volgende start.",
+                    "message": "De leessessie opslaan en herstellen",
+                    "title": "Bewaar sessie?"
+                }
+            }
+        },
+        "update": {
+            "message": "Nieuwe versie beschikbaar, klik voor meer informatie.",
+            "title": "{{- appName}} software update."
+        },
+        "window": {
+            "showLibrary": "Toon bibliotheek / boekenplank"
+        }
+    },
+    "catalog": {
+        "AddToFavorites": "Voeg toe als favoriet",
+        "about": {
+            "title": "Over {{- appName}}"
+        },
+        "addBookToLib": "Voeg toe",
+        "addTags": "Voeg een label toe",
+        "addTagsButton": "Voeg toe",
+        "allBooks": "Alle boeken",
+        "bookInfo": "Over dit boek",
+        "column": {
+            "ascending": "oplopend",
+            "descending": "aflopend",
+            "unsorted": "niet gesorteerd"
+        },
+        "customization": {
+            "fallback": {
+                "description": "Geen profiel beschrijving",
+                "publications": "Profiel publicaties",
+                "screen": "Geen titel",
+                "title": "Profiel titel"
+            }
+        },
+        "delete": "Verwijder",
+        "deleteBook": "Verwijder",
+        "deleteTag": "Verwijder label",
+        "description": "Beschrijving",
+        "emptyTagList": "Je hebt geen boeken met een label.",
+        "entry": {
+            "continueReading": "Ga verder met lezen",
+            "lastAdditions": "Recent toegevoegd"
+        },
+        "export": "Bewaar als",
+        "exportAnnotation": "Exporteer aantekeningen",
+        "format": "Formaat",
+        "importAnnotation": "Importeer aantekeningen",
+        "lang": "Taal",
+        "lastRead": "Laatst gelezen",
+        "login": "Inloggen",
+        "logout": "Uitloggen",
+        "missing": "",
+        "missingUnavailableDescription": "",
+        "moreInfo": "Meer Informatie",
+        "myBooks": "Mijn boeken",
+        "noPublicationHelpL1": "Sleep een publicatie hier naar toe",
+        "noPublicationHelpL2": "of gebruik \"{{- importTitle }}\" knop hier boven.",
+        "noPublicationHelpL3": "LCP beveiligde bestanden zijn ondersteund.",
+        "noPublicationHelpL4": "Ondersteunde extensies:",
+        "numberOfPages": "Aantal pagina's",
+        "opds": {
+            "auth": {
+                "cancel": "Annuleer",
+                "external": "Deze inlogpagina zal geopend worden in jouw webbrowser, volg alsjeblieft de instructies. Wanneer je ingelogd bent zal de webbrowser je terug sturen naar deze applicatie.",
+                "fallback": "Opmerking: in het geval van login problemen met de default webbrowser methode, probeer opnieuw met alternatieve inlogmanieren in deze applicatie.",
+                "login": "Login",
+                "password": "Wachtwoord",
+                "register": "Registreer",
+                "retry": "Probeer opnieuw",
+                "unauthorized": "",
+                "unauthorizedUnsupportedType": "",
+                "username": "Gebruikersnaam / e-mailadres"
+            },
+            "info": {
+                "availableSince": "Sinds",
+                "availableState": {
+                    "available": "Beschikbaar",
+                    "ready": "Klaar",
+                    "reserved": "Gereserveerd",
+                    "unavailable": "Niet beschikbaar",
+                    "unknown": "Onbekend"
+                },
+                "availableUntil": "Tot",
+                "copyAvalaible": "Aantal beschikbaar",
+                "copyTotal": "Aantal exemplaren",
+                "holdPosition": "Je reserveringen",
+                "holdTotal": "Gereserveerd",
+                "numberOfItems": "Aantal items",
+                "priveValue": "Prijs",
+                "state": "Status"
+            }
+        },
+        "openFolder": "",
+        "publisher": "Uitgever",
+        "readBook": "Gelezen",
+        "released": "Uitgegeven op",
+        "removeFromFavorites": "Verwijder van favorieten",
+        "selectTableHeaders": "",
+        "sort": "Sorteer op",
+        "tag": "Label",
+        "tags": "Labels",
+        "update": "Wijzig"
+    },
+    "dialog": {
+        "annotations": {
+            "descAuthor": "door '{{- author}}'",
+            "descCreator": "gemaakt door",
+            "descList_one": "{{- count}} aantekening(en) {{- creator}} worden geïmporteerd naar '{{- title}}' {{- author}}",
+            "descList_other": "{{- count}} aantekening(en) {{- creator}} worden geïmporteerd naar '{{- title}}' {{- author}}",
+            "descNewer_one": "Conflict(en): {{- count}} nieuwere aantekening(en)",
+            "descNewer_other": "Conflict(en): {{- count}} nieuwere aantekening(en)",
+            "descOlder_one": "Conflict(en): {{- count}} oudere aantekening(en)",
+            "descOlder_other": "Conflict(en): {{- count}} oudere aantekening(en)",
+            "descTitle": "Aantekeningen titel: ",
+            "importAll": "Importeer alle aantekeningen",
+            "importWithoutConflict": "Importeer alleen aantekeningen zonder conflicten",
+            "origin": "Oorsprong publicatie: '{{- title}}' {{- author}}",
+            "title": "Importeer aantekeningen?"
+        },
+        "cancel": "Annuleer",
+        "customization": {
+            "splashscreen": {
+                "fallbackWelcomeScreen": "Geen welkomstscherm wordt weergeven",
+                "state": "{{- status}}",
+                "title": "Voorzieningen en activatie profiel aanpassingen"
+            }
+        },
+        "deleteAnnotations": "Verwijder aantekeningen?",
+        "deleteAnnotationsText_one": "Weet je zeker dat je {{- count}} aantekening(en) wil verwijderen?",
+        "deleteAnnotationsText_other": "Weet je zeker dat je {{- count}} aantekening(en) wil verwijderen?",
+        "deleteBookmarks": "Bladwijzers verwijderen?",
+        "deleteBookmarksText_one": "Ben je zeker om {{- count}} bladwijzer(s) te verwijderen?",
+        "deleteBookmarksText_other": "Ben je zeker om {{- count}} bladwijzer(s) te verwijderen?",
+        "deleteFeed": "Wil je deze catalogus echt verwijderen ?",
+        "deletePublication": "Wil je deze publicatie echt verwijderen ?",
+        "deletePublicationWithNotes": "Waarschuwing: deze publicatie bevat annotaties en/of bladwijzers, deze zullen ook verwijderd worden! (als je deze wilt bewaren, zorg ervoor dat je deze notities exporteert voordat je de publicatie verwijderd)",
+        "import": "Wil je deze bestanden echt importeren :",
+        "importError": "er is een fout opgetreden, controleer je bestandsextensie ({{acceptedExtension}})",
+        "renew": "Wil je de licentie voor deze publicatie echt vernieuwen?",
+        "return": "Wil je de licentie voor deze publicatie echt inleveren?",
+        "yes": "Ja"
+    },
+    "error": {
+        "errorBox": {
+            "error": "Foutmelding:",
+            "message": "Een fout is opgetreden in {{- filename}}",
+            "title": "Interne {{- appName}} fout"
+        }
+    },
+    "header": {
+        "allBooks": "Alle boeken",
+        "catalogs": "Catalogi",
+        "downloads": "Downloads",
+        "fitlerTagTitle": "Filter op label",
+        "gridTitle": "Rasterweergave",
+        "home": "Boekenplank menu",
+        "homeTitle": "home",
+        "importTitle": "Voeg een publicatie toe",
+        "listTitle": "Lijst weergave",
+        "myCatalogs": "Mijn catalogi",
+        "refreshTitle": "laad opnieuw",
+        "searchPlaceholder": "Zoeken",
+        "searchTitle": "Begin met zoeken",
+        "settings": "Instellingen",
+        "settingsLabel": "",
+        "viewMode": "Weergave modus"
+    },
+    "library": {
+        "filter": {
+            "addFilters": "Voeg filters toe",
+            "filterBy": "Filter bij",
+            "selectOption": "Selecteer een item/element"
+        },
+        "lcp": {
+            "hidePassphrase": "Verberg de wachtwoordzin",
+            "hint": "Hint:",
+            "open": "Open",
+            "password": "Wachtwoordzin",
+            "sentence": "Deze publicatie vereist een LCP wachtwoordzin om te openen",
+            "showPassphrase": "Geef wachtwoordzin weer",
+            "urlHint": "Wachtwoordzin vergeten? Vind hulp hier.",
+            "whatIsLcp?": "Wat is LCP?",
+            "whatIsLcpInfoDetails": "LCP staat voor 'Licensed Content Protection'.",
+            "whatIsLcpInfoDetailsLink": "Klik voor meer informatie op deze link naar de EDRLab-website."
+        },
+        "sorting": {
+            "addSorting": "Voeg sortering toe",
+            "author": "Auteur",
+            "language": "Taal",
+            "readingState": "Leesstatus",
+            "sortBy": "Sorteer bij : ",
+            "title": "Titel"
+        }
+    },
+    "message": {
+        "annotations": {
+            "alreadyImported": "Alle aantekeningen zijn reeds geïmporteerd.",
+            "emptyFile": "Geen aantekeningen beschikbaar in het bestand.",
+            "errorParsing": "Fout tijdens het parsen van het bestand: ",
+            "noBelongTo": "Kan aantekeningen niet importeren, ten minste één aantekening behoort niet bij de publicatie.",
+            "nothing": "Er is geen aantekening om geïmporteerd te worden, de import wordt afgebroken",
+            "success": "Import succesvol voltooid."
+        },
+        "download": {
+            "cancelled": "",
+            "error": "Het downloaden van{{- title}} is mislukt: [{{- err}}]",
+            "errors": {
+                "hashMismatch": "",
+                "httpGet": "",
+                "invalidFilename": "",
+                "invalidLink": "",
+                "invalidTempDirectory": "",
+                "lengthMismatch": "",
+                "readStreamMissing": "",
+                "tooManyFilenameAttempts": ""
+            }
+        },
+        "import": {
+            "alreadyImport": "{{- title}} is al toegevoegd.",
+            "fail": "Het toevoegen van {{- path}} is mislukt. {{- err}}",
+            "success": "Het toevoegen van {{- title}} is gelukt."
+        },
+        "open": {
+            "error": "De publicatie kan niet worden geopend: {{- err}}",
+            "folderNotFound": ""
+        },
+        "storage": {
+            "removed": "",
+            "updateFailed": "",
+            "updated": ""
+        },
+        "wipeData": "Login data is verwijderd (toegang tot logintekens en cookies)"
+    },
+    "opds": {
+        "addForm": {
+            "addButton": "Voeg toe",
+            "name": "Naam :",
+            "namePlaceholder": "Naam",
+            "url": "Link :",
+            "urlPlaceholder": "Link"
+        },
+        "addFormApiapp": {
+            "title": "Bibliotheekaccount toevoegen"
+        },
+        "addMenu": "Voeg OPDS feed toe",
+        "breadcrumbRoot": "Catalogi",
+        "documentation": "Officiële website OPDS",
+        "empty": "Geen publicatie gevonden",
+        "firstPage": "Eerste",
+        "informations": "Stel je een wereld voor waarin je met slechts een paar klikken digitale publicaties van openbare bibliotheken en online boekverkopers kunt verkennen en downloaden. Dat is precies wat het catalogusformaat van het Open Publication Distribution System (OPDS) biedt. Met OPDS kan je door catalogi van verschillende e-boekaanbieders navigeren, je aanmelden, lenen, een publicatie kopen of je persoonlijke boekenplank bezoeken. Je kan zelfs een e-boek of audioboek rechtstreeks naar Thorium Reader downloaden, zodat je het direct kunt lezen.\nHoe vind je een OPDS-catalogus? Dat is makkelijk. Zoek naar een hyperlink (URL) die naar de catalogus leidt. Kopieer deze URL naar het linkveld hierboven. Houd er rekening mee dat er geen one-stop-shop is voor alle actieve OPDS-catalogi. Je moet contact opnemen met de bibliotheek of boekhandelaar van je voorkeur en vragen naar hun OPDS-catalogus-URL. Als je niet zeker weet waar je moet beginnen: Wikipedia heeft een aantal registers met OPDS-catalogi in verschillende talen die nuttig kunnen zijn.\nHet veld Naam is bedoelt om het je makkelijk te maken; het biedt een gemakkelijke manier om de feed in Thorium Reader te identificeren.",
+        "lastPage": "Laatste",
+        "menu": {
+            "aboutBook": "Over dit boek",
+            "addExtract": "Voeg de samenvatting toe",
+            "goBuyBook": "Koop dit boek",
+            "goLoanBook": "Leen dit boek",
+            "goRevokeLoanBook": "Herroep lening",
+            "goSubBook": "Abonneer"
+        },
+        "network": {
+            "error": "Het is niet mogelijk om toegang te krijgen tot de OPDS feed",
+            "noInternet": "Geen Internet",
+            "noInternetMessage": "Probeer : controleer de netwerkkabel, modem, router or wifi",
+            "reject": "Sorry, er is een onverwachte fout opgetreden!",
+            "timeout": "Er was een network timeout, probeer het later nog eens"
+        },
+        "next": "Volgende",
+        "previous": "Vorige",
+        "resumeBrowsing": "Terug naar bladeren",
+        "shelf": "Plank",
+        "updateForm": {
+            "name": "Naam:",
+            "title": "Bewerk OPDS feed",
+            "updateButton": "Bewerk",
+            "url": "Link:"
+        },
+        "whatIsOpds": "Wat is OPDS?"
+    },
+    "publ-a11y-display-guide": {
+        "accessibility-summary": {
+            "accessibility-summary-title": "Toegankelijkheid samenvatting"
+        },
+        "additional-accessibility-information": {
+            "additional-accessibility-information-aria": {
+                "compact": "voorzien van ARIA rollen",
+                "descriptive": "Inhoud is verrijkt met ARIA rollen voor beter overzicht en om navigatie te vergemakkelijken"
+            },
+            "additional-accessibility-information-audio-descriptions": {
+                "compact": "Audio beschrijvingen",
+                "descriptive": "Audio beschrijvingen"
+            },
+            "additional-accessibility-information-braille": {
+                "compact": "Braille",
+                "descriptive": "Braille"
+            },
+            "additional-accessibility-information-full-ruby-annotations": {
+                "compact": "Volledige ruby annotaties",
+                "descriptive": "Volledige ruby annotaties"
+            },
+            "additional-accessibility-information-high-contrast-between-foreground-and-background-audio": {
+                "compact": "Groot contrast tussen voorgrond- en achtergrondgeluid",
+                "descriptive": "Hoog contrast tussen voorgrond- en achtergrondgeluid"
+            },
+            "additional-accessibility-information-high-contrast-between-text-and-background": {
+                "compact": "Hoog contrast tussen voorgrond- en achtergrond tekst",
+                "descriptive": "Hoog contrast tussen voorgrond- en achtergrondtekst"
+            },
+            "additional-accessibility-information-large-print": {
+                "compact": "Grootletter",
+                "descriptive": "Grootletter"
+            },
+            "additional-accessibility-information-page-breaks": {
+                "compact": "Pagina-einden inbegrepen",
+                "descriptive": "Pagina-einden overgenomen uit de originele printversie"
+            },
+            "additional-accessibility-information-ruby-annotations": {
+                "compact": "Enkele Ruby annotaties",
+                "descriptive": "Enkele Ruby annotaties"
+            },
+            "additional-accessibility-information-sign-language": {
+                "compact": "Gebarentaal",
+                "descriptive": "Gebarentaal"
+            },
+            "additional-accessibility-information-tactile-graphics": {
+                "compact": "Tactiele afbeeldingen inbegrepen",
+                "descriptive": "Tactiele afbeeldingen zijn toegevoegd om toegang tot visuele elementen mogelijk te maken voor blinden"
+            },
+            "additional-accessibility-information-tactile-objects": {
+                "compact": "Tactiele 3D objecten",
+                "descriptive": "Tactiele 3D objecten"
+            },
+            "additional-accessibility-information-text-to-speech-hinting": {
+                "compact": "Tekst naar spraakt hints voorzien",
+                "descriptive": "Tekst naar spraak hints voorzien"
+            },
+            "additional-accessibility-information-title": "Aanvullende toegankelijkheids-informatie"
+        },
+        "conformance": {
+            "conformance-a": {
+                "compact": "Deze publicatie voldoet aan minimum toegankelijkheidsstandaarden",
+                "descriptive": "Deze publicatie bevat een conformiteitsverklaring dat het voldoet aan de EPUB Accessibility en WCAG 2 Level A standaard"
+            },
+            "conformance-aa": {
+                "compact": "Deze publicatie voldoet aan gangbare toegankelijkheidsstandaarden",
+                "descriptive": "Deze publicatie bevat een conformiteitsverklaring dat het voldoet aan de EPUB Accessibility en WCAG 2 Level AA standaard"
+            },
+            "conformance-aaa": {
+                "compact": "Deze publicatie overtreft gangbare toegankelijkheidsstandaarden",
+                "descriptive": "Deze publicatie bevat een conformiteitsverklaring dat het voldoet aan de EPUB Accessibility en WCAG 2 Level AAA standaard"
+            },
+            "conformance-certifier": {
+                "compact": "Deze publicatie is gecertificeerd door "
+            },
+            "conformance-certifier-credentials": {
+                "compact": "De referentie van de certificeerder is "
+            },
+            "conformance-details-certifier-report": {
+                "compact": "Voor meer informatie raadpleeg het rapport van de certificeerder"
+            },
+            "conformance-details-claim": {
+                "compact": "Deze publicatie zegt te voldoen aan",
+                "descriptive": "Deze publicatie zegt te voldoen aan"
+            },
+            "conformance-details-epub-accessibility-1-0": {
+                "compact": "EPUB Toegankelijkheid 1.0",
+                "descriptive": "EPUB Toegankelijkheid 1.0"
+            },
+            "conformance-details-epub-accessibility-1-1": {
+                "compact": "EPUB Toegankelijkheid 1.1",
+                "descriptive": "EPUB Toegankelijkheid 1.1"
+            },
+            "conformance-details-level-a": {
+                "compact": "Niveau A",
+                "descriptive": "Niveau A"
+            },
+            "conformance-details-level-aa": {
+                "compact": "Niveau AA",
+                "descriptive": "Niveau AA"
+            },
+            "conformance-details-level-aaa": {
+                "compact": "Niveau AAA",
+                "descriptive": "Niveau AAA"
+            },
+            "conformance-details-wcag-2-0": {
+                "compact": "WCAG 2.0"
+            },
+            "conformance-details-wcag-2-1": {
+                "compact": "WCAG 2.1",
+                "descriptive": "De Richtlijnen voor Toegankelijkheid van Webcontent (WCAG) 2.1"
+            },
+            "conformance-details-wcag-2-2": {
+                "compact": "WCAG 2.2",
+                "descriptive": "De Richtlijnen voor Toegankelijkheid van Webcontent (WCAG) 2.2"
+            },
+            "conformance-no": {
+                "compact": "Geen informatie beschikbaar",
+                "descriptive": "Geen informatie beschikbaar"
+            },
+            "conformance-title": "Conformiteit",
+            "conformance-unknown-standard": {
+                "compact": "Conformiteit met gangbare toegankelijkheids-standaarden kunnen niet bepaald voor deze publicatie",
+                "descriptive": "Conformiteit met gangbare toegankelijkheids-standaarden kunnen niet bepaald voor deze publicatie"
+            }
+        },
+        "hazards": {
+            "hazards-flashing": {
+                "compact": "Inhoud met flitsen",
+                "descriptive": "Deze publicatie bevat inhoud met flitsen die kan leiden tot lichtgevoelige aanvallen"
+            },
+            "hazards-flashing-none": {
+                "compact": "Geen inhoud met flitsen",
+                "descriptive": "Deze publicatie bevat geen inhoud met flitsen"
+            },
+            "hazards-flashing-unknown": {
+                "compact": "De aanwezigheid van inhoud met flitsen is onbekend",
+                "descriptive": "De aanwezigheid van inhoud met flitsen is onbekend"
+            },
+            "hazards-motion": {
+                "compact": "Bewegingssimulatie",
+                "descriptive": "Deze publicatie bevat bewegingssimulatie die bewegingsziekte kan veroorzaken"
+            },
+            "hazards-motion-none": {
+                "compact": "Geen bewegingssimulatie",
+                "descriptive": "Deze publicatie bevat geen gewegingssimulatie"
+            },
+            "hazards-motion-unknown": {
+                "compact": "De aanwezigheid van bewegingssimulatie is onbekend",
+                "descriptive": "De aanwezigheid van bewegingssimulatie is onbekend"
+            },
+            "hazards-no-metadata": {
+                "compact": "Geen informatie aanwezig",
+                "descriptive": "Geen informatie aanwezig"
+            },
+            "hazards-none": {
+                "compact": "Geen gevaren",
+                "descriptive": "Deze publicatie bevat geen gevaren"
+            },
+            "hazards-sound": {
+                "compact": "Geluiden",
+                "descriptive": "Deze publicatie bevat geluid die niet prettig kunnen zijn"
+            },
+            "hazards-sound-none": {
+                "compact": "Geen geluiden",
+                "descriptive": "Deze publicatie bevat geen geluiden"
+            },
+            "hazards-sound-unknown": {
+                "compact": "De aanwezigheid van geluiden is onbekend",
+                "descriptive": "De aanwezigheid van geluiden is onbekend"
+            },
+            "hazards-title": "Gevaren",
+            "hazards-unknown": {
+                "compact": "De aanwezigheid van gevaren is onbekend",
+                "descriptive": "De presentatie van gevaren is onbekend"
+            }
+        },
+        "navigation": {
+            "navigation-index": {
+                "compact": "Index",
+                "descriptive": "Index met links naar vermeldingen waar naar wordt verwezen"
+            },
+            "navigation-no-metadata": {
+                "compact": "Geen informatie beschikbaar",
+                "descriptive": "Geen informatie beschikbaar"
+            },
+            "navigation-page-navigation": {
+                "compact": "Ga naar pagina",
+                "descriptive": "Pagina lijst om naar pagina's van de gedrukte bronversie te gaan"
+            },
+            "navigation-structural": {
+                "compact": "Koppen",
+                "descriptive": "Elementen zoals koppen, tabellen, en dergelijk voor gestructureerde navigatie"
+            },
+            "navigation-title": "Navigatie",
+            "navigation-toc": {
+                "compact": "Inhoudsopgave",
+                "descriptive": "Inhoudsopgave naar alle hoofdstukken van de tekst via links"
+            }
+        },
+        "rich-content": {
+            "rich-content-accessible-chemistry-as-latex": {
+                "compact": "Chemische formules in LaTeX",
+                "descriptive": "Chemische formules in toegankelijk formaat (LaTeX)"
+            },
+            "rich-content-accessible-chemistry-as-mathml": {
+                "compact": "Chemische formules in MathML",
+                "descriptive": "Chemische formules in toegankelijk formaat (MathML)"
+            },
+            "rich-content-accessible-math-as-latex": {
+                "compact": "Wiskunde als LaTex",
+                "descriptive": "Wiskundige formules in toegankelijk formaat (LaTeX)"
+            },
+            "rich-content-accessible-math-as-mathml": {
+                "compact": "Wiskunde in MathML",
+                "descriptive": "Wiskundige formules in toegankelijk formaat (MathML)"
+            },
+            "rich-content-accessible-math-described": {
+                "compact": "Tekstuele beschrijving van wiskunde zijn voorzien",
+                "descriptive": "Tekstuele beschrijving van wiskunde zijn voorzien"
+            },
+            "rich-content-closed-captions": {
+                "compact": "Videos hebben gesloten ondertitels",
+                "descriptive": "Videos in de publicatie zijn voorzien van gesloten ondertitels"
+            },
+            "rich-content-extended": {
+                "compact": "Afbeeldingen met veel informatie zijn voorzien van uitgebreide beschrijvingen",
+                "descriptive": "Afbeeldingen met veel informatie zijn voorzien van uitgebreide beschrijvingen"
+            },
+            "rich-content-open-captions": {
+                "compact": "Video's hebben open ondertitels",
+                "descriptive": "Video's in de publicatie zijn voorzien van open ondertitels"
+            },
+            "rich-content-title": "Rijke inhoud",
+            "rich-content-transcript": {
+                "compact": "Voorzien van transcriptie",
+                "descriptive": "Voorzien van transcriptie"
+            },
+            "rich-content-unknown": {
+                "compact": "Geen informatie beschikbaar",
+                "descriptive": "Geen informatie beschikbaar"
+            }
+        },
+        "ways-of-reading": {
+            "ways-of-reading-nonvisual-reading-alt-text": {
+                "compact": "Heeft alternatieve tekst",
+                "descriptive": "Heeft alternatieve tekst voor afbeeldingen"
+            },
+            "ways-of-reading-nonvisual-reading-no-metadata": {
+                "compact": "Geen informatie over niet visueel lezen beschikbaar",
+                "descriptive": "Geen informatie over niet visueel lezen beschikbaar"
+            },
+            "ways-of-reading-nonvisual-reading-none": {
+                "compact": "Niet leesbaar met voorleesfunctie of dynamisch braille",
+                "descriptive": "De inhoud is niet leesbaar middels een voorleesfunctie of dynamische braille"
+            },
+            "ways-of-reading-nonvisual-reading-not-fully": {
+                "compact": "Niet volledig leesbaar met voorleesfunctie of dynamisch braille",
+                "descriptive": "Niet alle inhoud is leesbaar met een voorleesfunctie of dynamisch braille"
+            },
+            "ways-of-reading-nonvisual-reading-readable": {
+                "compact": "Leesbaar middels voorleesfunctie of dynamisch braille",
+                "descriptive": "De volledige inhoud kan worden gelezen met een voorleesfunctie of dynamisch braille"
+            },
+            "ways-of-reading-prerecorded-audio-complementary": {
+                "compact": "Vooraf opgenomen audio fragmenten",
+                "descriptive": "Vooraf opgenomen audio fragmenten zijn opgenomen in de inhoud"
+            },
+            "ways-of-reading-prerecorded-audio-only": {
+                "compact": "Alleen vooraf opgenomen audio",
+                "descriptive": "Luisterboek zonder tekst alternatief"
+            },
+            "ways-of-reading-prerecorded-audio-synchronized": {
+                "compact": "Vooraf opgenomen audio met gesynchroniseerde tekst",
+                "descriptive": "Alle informatie is beschikbaar als vooraf opgenomen audio met gesynchroniseerde tekst"
+            },
+            "ways-of-reading-title": "Manieren van lezen",
+            "ways-of-reading-visual-adjustments-modifiable": {
+                "compact": "Weergave kan worden aangepast",
+                "descriptive": "Weergave van tekst en pagina opmaak kan worden aangepast, afhankelijk van de mogelijkheden van het leessysteem (lettertype, lettergrootte, afstand tussen paragrafen, zinnen, woorden en letters, als ook de kleur van tekst en achtergrond)"
+            },
+            "ways-of-reading-visual-adjustments-unknown": {
+                "compact": "Geen informatie beschikbaar over mogelijkheden weergave aan te passen",
+                "descriptive": "Geen informatie beschikbaar over de mogelijkheid weergave aan te passen"
+            },
+            "ways-of-reading-visual-adjustments-unmodifiable": {
+                "compact": "",
+                "descriptive": ""
+            }
+        }
+    },
+    "publication": {
+        "accessibility": {
+            "accessModeSufficient": {
+                "textual": "TekstNaarSpraak- en schermlezer-vriendelijk"
+            },
+            "accessibilityFeature": {
+                "alternativeText": "Bevat alternatieve tekst",
+                "displayTransformability": "Aanpasbare tekst en lay-out",
+                "longDescription": "Volledig beschreven grafische bronnen",
+                "printPageNumbers": "Pagina referenties conform gedrukte versie",
+                "readingOrder": "Bevat een leesvolgorde",
+                "synchronizedAudioText": "Tekst en audio gesynchroniseerd",
+                "tableOfContents": "Bevat een inhoudsopgave"
+            },
+            "accessibilityHazard": {
+                "flashing": "Flitsen",
+                "motionSimulation": "Bewegingssimulatie",
+                "name": "Gevaar:",
+                "noFlashing": "Geen flitsen",
+                "noMotionSimulation": "Geen bewegingssimulatie",
+                "noSound": "Geen geluid",
+                "none": "Geen",
+                "sound": "Geluid",
+                "unknown": "Onbekend"
+            },
+            "certifierReport": "Certificeringsrapport:",
+            "conformsTo": "Voldoet aan:",
+            "moreInformation": "Meer informatie",
+            "name": "Toegankelijkheid",
+            "noA11y": "Geen toegankelijkheidsinformatie beschikbaar"
+        },
+        "actions": "Acties",
+        "audio": {
+            "tracks": "Tracks"
+        },
+        "author": "Auteur",
+        "cancelledLcp": "Dit boek kan niet worden gelezen omdat de LCP licentie is geannuleerd.",
+        "certificateRevoked": "LCP licentie certificaat is ingetrokken.",
+        "certificateSignatureInvalid": "LCP licentie certificaat handtekening is ongeldig.",
+        "cover": {
+            "img": "cover afbeelding"
+        },
+        "day": "dag",
+        "days": "dagen",
+        "duration": {
+            "title": "Duur"
+        },
+        "encryptedNoLicense": "Publicatie is versleuteld maar heeft geen LCP-licentie!",
+        "expired": "Lening verlopen",
+        "expiredLcp": "Dit boek kan niet gelezen worden omdat de LCP licentie verlopen is.",
+        "incorrectPassphrase": "Geen opgeslagen wachtwoordzin past bij de publicatie of de ingevoerde wachtwoordzin is verkeerd.",
+        "lcpEnd": "Einde",
+        "lcpNotSupported": "",
+        "lcpRightsCopy": "Toegestaan aantal te kopiëren karakters",
+        "lcpRightsPrint": "Toegestaan aantal af te drukken pagina's",
+        "lcpStart": "Start",
+        "licenceLCP": "Licentie (LCP)",
+        "licenseCertificateDateInvalid": "Certificaat LCP aanbieder verlopen. ({{- dateTime}}).",
+        "licenseOutOfDate": "LCP Licentie is verlopen.",
+        "licenseSignatureInvalid": "Ongeldige LCP Licentie handtekening.",
+        "licensed": "Gelicentieerd",
+        "markAsRead": "Markeer als gelezen",
+        "notStarted": "Niet gestart",
+        "onGoing": "Bezig",
+        "progression": {
+            "title": "Voortgang"
+        },
+        "read": "Klaar",
+        "remainingTime": "Lening (resterende tijd)",
+        "renewButton": "Vernieuw",
+        "returnButton": "Lever in",
+        "returnedLcp": "Dit boek kan niet gelezen worden omdat de LCP licentie is ingeleverd.",
+        "revokedLcp": "Dit boek kan niet gelezen worden omdat LCP licenstie is ingetrokken.",
+        "seeLess": "Toon minder",
+        "seeMore": "Toon meer",
+        "timeLeft": "Resterende tijd",
+        "title": "Titel",
+        "userKeyCheckInvalid": "Wachtwoordzin is niet correct."
+    },
+    "reader": {
+        "annotations": {
+            "Color": "Kleur",
+            "addNote": "Annoteren",
+            "advancedMode": "Instantmodus (automatisch maken na selectie)",
+            "annotationsExport": {
+                "description": "Geef de geëxporteerde aantekeningen een naam:",
+                "title": "Titel"
+            },
+            "annotationsOptions": "Opties",
+            "date": "Wijzigingsdatum",
+            "error": {
+                "pdf": {
+                    "validationSelection": ""
+                }
+            },
+            "export": "Bewaar aantekeningen als...",
+            "filter": {
+                "all": "Alle",
+                "filterByColor": "Filter op Kleur",
+                "filterByCreator": "Filter op Maker",
+                "filterByDrawtype": "Filter op Type",
+                "filterByTag": "Filter op Label",
+                "filterOptions": "Filter Opties",
+                "none": "Geen"
+            },
+            "hide": "Geef niet weer",
+            "highlight": "Markeer",
+            "noSelectionToast": "Geen selectie",
+            "note": "{{- color}} Aantekening",
+            "quickAnnotations": "Maak snel (editor overslaan)",
+            "saveNote": "Bewaar",
+            "sorting": {
+                "lastcreated": "Laatst aangemaakt",
+                "lastmodified": "Laatst aangepast",
+                "progression": "Oplopend",
+                "sortingOptions": "Sorteer Opties"
+            },
+            "toggleMarginMarks": "Weergave in marges",
+            "type": {
+                "outline": "Overzicht",
+                "solid": "Effen achtergrond",
+                "strikethrough": "Doorhalen",
+                "underline": "Onderstrepen"
+            }
+        },
+        "bookmarks": {
+            "index": "Bladwijzer {{- index}}"
+        },
+        "divina": {
+            "mute": "demp geluid",
+            "unmute": "geluid aan"
+        },
+        "dock": {
+            "dockDefault": "Laat paneel zien als een modale pop-up",
+            "dockLeft": "Dokpaneel naar links",
+            "dockRight": "Dokpaneel naar rechts"
+        },
+        "fxl": {
+            "fit": "Pas"
+        },
+        "goToContent": "Ga naar de Inhoud",
+        "imgViewer": {
+            "title": "Beeldviewer (zoom)",
+            "zoomIn": "Inzoomen",
+            "zoomOut": "Uitzoomen",
+            "zoomReset": "Herstel Vergroting"
+        },
+        "marks": {
+            "annotations": "Annotaties",
+            "bookmarks": "Bladwijzers",
+            "delete": "Verwijder",
+            "edit": "Wijzig",
+            "goTo": "Ga naar pagina",
+            "landmarks": "structuur elementen",
+            "saveMark": "Sla op",
+            "search": "Zoek",
+            "searchResult": "Zoek [{{- searchText}}]",
+            "toc": "Inhoudsopgave"
+        },
+        "media-overlays": {
+            "activate": "Activeer Voorlezen",
+            "captions": "Ondertitels / schone weergave",
+            "captionsDescription": "Vereenvoudigde tekstweergave met minimale stijl onderschriften.",
+            "disableContinuousPlay": "Schakel doorlopend afspelen uit",
+            "disableContinuousPlayDescription": "Speel niet automatisch het volgende item af, pauzeer onmiddellijk nadat het huidige item is afgespeeld.",
+            "ignoreAndUseTTS": "Negeer vooraf opgenomen audio, gebruik tekst naar spraak",
+            "ignoreAndUseTTSDescription": "Negeer EPUB media overlays, lees met tekst naar spraak",
+            "next": "Volgende Voorlezen",
+            "pause": "Pauzeer Voorlezen",
+            "play": "Speel Voorlezen",
+            "previous": "Vorige Voorlezen",
+            "skip": "Overslaan",
+            "skipDescription": "Spring over/negeer aanvullende inhoud zoals pagina-einden, voetnoten/eindnoten, enz.",
+            "speed": "Voorlezen snelheid",
+            "stop": "Stop Voorlezen",
+            "title": "Voorlezen",
+            "useTTSHighlightsForMO": "",
+            "useTTSHighlightsForMODescription": ""
+        },
+        "navigation": {
+            "ZenModeExit": "Verlaat Zen modus",
+            "ZenModeTitle": "Zen modus",
+            "annotationTitle": "Annotatie",
+            "backHomeTitle": "terug naar de boekenplank",
+            "bookmarkTitle": "Bladwijzer",
+            "currentPage": "Huidige pagina: {{- current}}",
+            "currentPageTotal": "Huidige pagina: {{- current}}/{{- total}}",
+            "detachWindowTitle": "Maak het venster los",
+            "goTo": "Ga naar",
+            "goToError": "Deze paginaovergang bestaat niet",
+            "goToPlaceHolder": "Voer een paginanummer in",
+            "goToTitle": "Ga naar pagina",
+            "history": "Zoekgeschiedenis",
+            "historyNext": "Spring vooruit in de zoekgeschiedenis",
+            "historyPrevious": "Spring terug in de zoekgeschiedenis",
+            "infoTitle": "Informatie",
+            "magnifyingGlassButton": "Zoek in publicatie",
+            "openTableOfContentsTitle": "Navigatie",
+            "page": "Pagina",
+            "pdfscalemode": "Pagina aanpassen aan breedte",
+            "print": "Druk af",
+            "printDisabled": "Verboden te printen",
+            "screenNext": "Ga vooruit",
+            "screenPrevious": "Ga terug",
+            "settingsTitle": "Instellingen"
+        },
+        "notes": {
+            "colors": {
+                "cyan": "Cyaan",
+                "darkorange": "",
+                "darkyellow": "",
+                "green": "Groen",
+                "orange": "Oranje",
+                "purple": "Paars",
+                "red": "Rood",
+                "yellow": "Geel"
+            }
+        },
+        "picker": {
+            "search": {
+                "founds_one": "{{- count}} overeenkomst(en)",
+                "founds_other": "{{- count}} overeenkomst(en)",
+                "input": "zoektekst",
+                "next": "Volgende",
+                "notFound": "geen overeenkomst",
+                "previous": "Vorige",
+                "results": "Resultaten",
+                "submit": "Vind"
+            },
+            "searchTitle": "Zoek:"
+        },
+        "print": {
+            "descriptionLcpCount": "Nog te lezen pagina's: {{- count}}",
+            "descriptionLcpPrintable": "Voorgaand uitgeprinte pagina's: {{- printable}} ({{- count}})",
+            "howTo": "Hoe selecteer je het bereik van uit te printen pagina's",
+            "lcpInfo": "Het aantal van pagina's die je kan uitprinten in deze publicatie is gelimiteerd tot {{- count}}. Kies hier de pagina's die je nodig hebt.",
+            "noPagesLcpLimitReached": "Je hebt het limiet van de LCP paginalading bereikt",
+            "noPrintablePages": "Geen printbare pagina's",
+            "pageHelpInfo": "Pagina bereik hulp informatie:",
+            "pageHelpInfo1": "geef een pagina nummer op om naar een enkele pagina te verwijzen (b.v. \"6\")",
+            "pageHelpInfo2": "geef twee paginanummers op verbonden met een streepje om naar een aangesloten bereik van pagina's te verwijzen (b.v. \"6-13\")",
+            "pageHelpInfo3": "gebruik een puntkomma om meerdere pagina's of pagina bereiken te scheiden (b.v. \"5;14-20;37\")",
+            "pageHelpInfo4": "laat het eerste of laatste paginanummer weg in een bereik om te verwijzen naar de eerste of laatste pagina van een publicatie (b.v. \"-16\" is gelijk aan \"1-16\", en \"34-\" is gelijk aan \"34-100\" uitgaande van een boek met 100 pagina's in totaal)",
+            "pages": "Pagina's",
+            "preview": "Voorbeeld",
+            "print": "Afdrukken",
+            "printablePages": "Pintbare pagina's (totaal)",
+            "title": "Selectie van printbare pagina's"
+        },
+        "settings": {
+            "column": {
+                "auto": "Automatisch",
+                "one": "1 kol",
+                "title": "Kolommen",
+                "two": "2 kol"
+            },
+            "customFontSelected": "Je hebt een eigen lettertype gekozen",
+            "customizeReader": "Pas de tekstopmaak aan",
+            "defaultValue": "",
+            "disabled": "uitgeschakeld",
+            "display": "Weergave",
+            "disposition": {
+                "title": "Indeling"
+            },
+            "font": "Lettertype",
+            "fontSize": "Letter grootte",
+            "increaseFontSize": "",
+            "infoCustomFont": "Selecteer een aangepast lettertype van het besturingssysteem door de naam ervan te typen",
+            "justification": "Uitlijning",
+            "justify": "Uitvullen",
+            "letterSpacing": "Letterafstand",
+            "lineSpacing": "Regelafstand",
+            "margin": "Marge",
+            "mathjax": "Schakel MathJax in",
+            "mathjaxDescription": "",
+            "noFootnotes": "Verberg pop-up voetnoten",
+            "noRTLFlip": "Schakel de rechts-naar-links-UI uit",
+            "noRuby": "Verberg Japanse Ruby",
+            "noTemporaryNavTargetOutline": "Schakel visuele navigatie-indicatoren uit",
+            "paginated": "Als pagina's",
+            "paraSpacing": "Paragraaf afstand",
+            "pdfZoom": {
+                "name": {
+                    "100pct": "100 %",
+                    "150pct": "150 %",
+                    "200pct": "200 %",
+                    "300pct": "300 %",
+                    "500pct": "500 %",
+                    "50pct": "50 %",
+                    "fit": "pagina pas",
+                    "width": "pagina breedte"
+                },
+                "title": "Uitvergroting"
+            },
+            "preset": {
+                "apply": "Pas toe",
+                "applyDetails": "Pas uw voorkeursconfiguratie toe op de huidige publicatie.",
+                "detail": "Bewaar / Pas toe / Reset uw voorkeursconfiguratie.",
+                "reset": "Stel opnieuw in",
+                "resetDetails": "Reset uw voorkeursconfiguratie (standaardinstellingen).",
+                "save": "Bewaar",
+                "saveDetails": "Deze actie slaat de huidige configuratie op, d.w.z. je voorkeursopties voor weergave en tekst-opmaak. De instellingen kunnen vervolgens op andere publicaties worden toegepast door in andere leesvensters op de knop 'Toepassen' te klikken.",
+                "title": "Voorkeuren"
+            },
+            "preview": "Voorbeeld",
+            "reduceFontSize": "",
+            "reduceMotion": "Beperk beweging",
+            "scrolled": "Doorlopend",
+            "spacing": "Afstand",
+            "spreadModeEven": "Page spread 'even' (standaard is 'oneven')",
+            "text": "Tekst",
+            "theme": {
+                "name": {
+                    "Contrast1": "Contrast 1",
+                    "Contrast2": "Contrast 2",
+                    "Contrast3": "Contrast 3",
+                    "Contrast4": "Contrast 4",
+                    "Neutral": "Neutraal",
+                    "Night": "Nacht",
+                    "Paper": "Papier",
+                    "Sepia": "Sepia"
+                },
+                "title": "Thema"
+            },
+            "wordSpacing": "Woord afstand"
+        },
+        "svg": {
+            "left": "Links",
+            "right": "Rechts"
+        },
+        "toc": {
+            "publicationNoToc": "deze publicatie bevat geen inhoudsopgave"
+        },
+        "tts": {
+            "activate": "Activeer Tekst Naar Spraak",
+            "language": "Tekst Naar Spraak taal",
+            "next": "Volgende Tekst Naar Spraak",
+            "options": "Tekst Naar Spraak opties",
+            "pause": "Pauzeer Tekst Naar Spraak",
+            "play": "Speel Tekst Naar Spraak",
+            "previous": "Vorige Tekst Naar Spraak",
+            "sentenceDetect": "Splits Tekst Naar Spraak",
+            "sentenceDetectDescription": "Deel lange alinea's op in zinnen.",
+            "speed": "Tekst Naar Spraak snelheid",
+            "stop": "Stop Tekst Naar Spraak",
+            "voice": "Tekst Naar Spraak stem"
+        }
+    },
+    "settings": {
+        "annotationCreator": {
+            "creator": "Maker aantekeningen (optioneel)",
+            "help": "Indien gespecificeerd, wordt deze naam opgenomen in de metadata van geëxporteerde notities.",
+            "name": "Naam",
+            "organization": "Organisatie",
+            "person": "Persoon",
+            "type": "Type:"
+        },
+        "auth": {
+            "help": "Deze actie verwijdert alle OPDS aanmeldingsgegevens.",
+            "title": "Toegang tot publicatiecatalogi",
+            "wipeData": "Wis authenticatie gegevens"
+        },
+        "keyboard": {
+            "advancedMenu": "Menu",
+            "cancel": "Annuleer",
+            "disclaimer": "Snelkoppelingen zijn gedefinieerd op basis van de QWERTY-toetsenbordindeling",
+            "editUserJson": "Wijzig gebruikersbestand...",
+            "exportToHTML": "Exporteer naar HTML",
+            "keyboardShortcuts": "Toetsenbord shortcuts",
+            "list": {
+                "AddBookmarkWithLabel": {
+                    "description": "Open het bladwijzer aanmaakvenster en pas de tekst label (notitie), kleur en tag aan",
+                    "name": "Maak een Bladwijzer aan met Label"
+                },
+                "AnnotationsCreate": {
+                    "description": "Open het annotatie aanmaakvenster voor de geselecteerde document tekst, en pas de tekst notitie, arceer kleur en type, en de tag aan",
+                    "name": "Maak Annotatie aan"
+                },
+                "AnnotationsCreateQuick": {
+                    "description": "Maak snel een annotatie voor de geselecteerde tekst aan, met de laatst gebruikte arceer kleur en type (notitie en tag zullen leeg zijn)",
+                    "name": "Maak Snelle Annotatie Aan"
+                },
+                "AnnotationsToggleMargin": {
+                    "description": "Verwissel de visuele indicaties van de annotatie en bladwijzer, in of het document marge of de tekst",
+                    "name": "Schakelaar Annotatie Marge"
+                },
+                "AudioNext": {
+                    "description": "Verplaats Vooruit naar het volgende audio fragment in de vertelling (EPUB3 Media Overlappingen, Tekst Naar Spraak, of voorafgaand opgenomen audioboek)",
+                    "name": "Volgend Audiofragment"
+                },
+                "AudioNextAlt": {
+                    "description": "Verplaats Vooruit naar volgend audio fragment in de vertelling (EPUB3 Media Overlappingen, Tekst Naar Spraak, of voorafgaand opgenomen audioboek). Dit slaat alle huidige verlaatbare structuren over",
+                    "name": "Volgend Audiofragment (verlaat)"
+                },
+                "AudioPlayPause": {
+                    "description": "Schakelaar speel/pauzeer voor huidige vertelling (EPUB3 Media Overlappingen, Tekst naar Spraak hardop voorlezen, of vooraf opgenomen audioboek)",
+                    "name": "Speel/Pauzeer Audio"
+                },
+                "AudioPrevious": {
+                    "description": "Spring terug naar vorig audiofragment in de vertelling (EPUB3 Media Overlappingen, Tekst naar Spraak hardop voorlezen, of voorgaand opgenomen audioboek)",
+                    "name": "Vorig Audiofragment"
+                },
+                "AudioPreviousAlt": {
+                    "description": "Spring terug naar vorig audiofragment in de vertelling (EPUB3 Media Overlappingen, Tekst naar Spraak hardop voorlezen, of voorgaand opgenomen audioboek). Dit slaat huidige verlaatbare structuren over",
+                    "name": "Vorig Audiofragment (verlaat)"
+                },
+                "AudioSpeedDecrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedIncrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedReset": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioStop": {
+                    "description": "Stop huidige audio (EPUB3 Media Overlappingen, Tekst naar Spraak hardop voorlezen, of voorgaand opgenomen audioboek)",
+                    "name": "Stop Audio"
+                },
+                "CloseReader": {
+                    "description": "Sluit de leesvenster en ga terug naar de bibliotheek",
+                    "name": "Sluit Lezer"
+                },
+                "FXLZoomIn": {
+                    "description": "Vergoot in een vast lay-out enkele pagina of twee pagina's.",
+                    "name": "FXL Vergroot In"
+                },
+                "FXLZoomOut": {
+                    "description": "Vergoot uit een vaste lay-out enkele pagina of twee pagina's.",
+                    "name": "FXL Vergroot Uit"
+                },
+                "FXLZoomReset": {
+                    "description": "Herstel vergroting in een vaste lay-out enkele pagina of twee pagina's.",
+                    "name": "Herstel FXL Vergroting"
+                },
+                "FocusMain": {
+                    "description": "Verplaats toetsenbordfocus naar 'hoofd' oriëntatiepunt in de grafische gebruikersinterface. In het leesvenster, dit verplaatst tot in de publicatie-inhoud",
+                    "name": "Focus op Hoofdinhoud"
+                },
+                "FocusMainDeep": {
+                    "description": "In het leesvenster, dit verplaats de toetsenbordfocus tot in de publicatie-inhoud door gebruik van een betrouwbaardere techniek voor schermlezers",
+                    "name": "Diepe Focus op Hoofdinhoud"
+                },
+                "FocusReaderGotoPage": {
+                    "description": "Verplaats de toetsenbordfocus naar de 'ga naar pagina' sectie in het navigatiepaneel van het leesvenster",
+                    "name": "Focus op 'Ga naar Pagina"
+                },
+                "FocusReaderNavigation": {
+                    "description": "Verplaats de toetsenbordfocus naar het navigatiepaneel van het leesvenster",
+                    "name": "Focus op Navigatiepaneel"
+                },
+                "FocusReaderNavigationAnnotations": {
+                    "description": "Verplaats de toetsenbordfocus naar de 'annotatie' sectie van het navigatiepaneel van het leesvenster",
+                    "name": "Focus op 'Annotaties'"
+                },
+                "FocusReaderNavigationBookmarks": {
+                    "description": "Verplaats de toetsenbordfocus naar de 'bladwijzers' sectie van het navigatie paneel van het leesvenster",
+                    "name": "Focus op 'Bladwijzers'"
+                },
+                "FocusReaderNavigationSearch": {
+                    "description": "Verplaats de toetsenbordfocus naar de 'zoek' sectie van het navigatie paneel van het leesvenster",
+                    "name": "Focus op 'Zoek'"
+                },
+                "FocusReaderNavigationTOC": {
+                    "description": "Verplaats de toetsenbordfocus naar de 'inhoudsopgave' sectie van het navigatie paneel van het leesvenster",
+                    "name": "Focus op 'inhoudsopgave'"
+                },
+                "FocusReaderSettings": {
+                    "description": "Verplaats de toetsenbordfocus naar het instellingspaneel van het leesvenster (voorvertoning voorkeuren, enz.)",
+                    "name": "Focus op Lezer Instellingen"
+                },
+                "FocusSearch": {
+                    "description": "Verplaats de toetsenbordfocus naar het tekst zoekveld van het leesvenster, of naar het bibliotheekvenster dit doorzoekt de boekenplanken of het actieve OPDS laadpagina",
+                    "name": "Zoek Commando"
+                },
+                "FocusToolbar": {
+                    "description": "Verplaats de toetsenbordfocus direct naar het oriëntatiepunt gebied van de grafische gebruikersinterface voorgaand aan de 'overslaan-link' (deze verplaatst de focus van het hoofdcontent gebied naar de bibliotheek of het leesvenster)",
+                    "name": "Focus op Werkbalk"
+                },
+                "NavigateNextChapter": {
+                    "description": "In het leesvenster, navigeer naar het volgende document in de leesvolgorde van de publicatie (bijv. hoofdstuk in de boek rug). Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar Volgend Hoofdstuk"
+                },
+                "NavigateNextChapterAlt": {
+                    "description": "In het leesvenster, navigeer naar het volgende document in de leesvolgorde van de publicatie (bijv. hoofdstuk in de boek rug). Dit is een alternatieve sneltoets dan de standaard",
+                    "name": "Ga naar Volgend Hoofdstuk (Alternatief)"
+                },
+                "NavigateNextHistory": {
+                    "description": "In het leesvenster, spring één stap vooruit naar de navigatie geschiedenis",
+                    "name": "Ga naar Volgende Geschiedenis"
+                },
+                "NavigateNextLibraryPage": {
+                    "description": "In het bibliotheekventer, toon de volgende pagina van een gepagineerde lijst van publicaties. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar Volgende Bibliotheek Pagina"
+                },
+                "NavigateNextLibraryPageAlt": {
+                    "description": "In het bibliotheekventer, toon de volgende pagina van een gepagineerde lijst van publicaties. Dit is een alternatieve toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar Volgende Bibliotheek Pagina (Alternatief)"
+                },
+                "NavigateNextOPDSPage": {
+                    "description": "In het bibliotheekventer voor catalogen / OPDS laadpagina, volg de volgende gepagineerde link. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar volgende OPDS Cataloogpagina"
+                },
+                "NavigateNextOPDSPageAlt": {
+                    "description": "In het bibliotheekventer voor catalogen / OPDS laadpagina, volg de volgende gepagineerde link. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar de Volgende OPDS Cataloogpagina (Alternatief)"
+                },
+                "NavigateNextPage": {
+                    "description": "In het leesvenster, sla om naar de volgende 'pagina' in de publicatie. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar Volgende Pagina"
+                },
+                "NavigateNextPageAlt": {
+                    "description": "In het leesvenster, sla om naar volgende 'pagina' in de publicatie. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar de Volgende Pagina (Alternatief)"
+                },
+                "NavigatePreviousChapter": {
+                    "description": "In het leesvenster, navigeer naar het volgende document in de leesvolgorde van de publicatie (bijv. hoofdstuk in de boekenrug). Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar Vorig Hoofdstuk"
+                },
+                "NavigatePreviousChapterAlt": {
+                    "description": "In het leesvenster, navigeer nar het vorige document in de voorleesvolgorde van de publicatie (bijv. hoofdstuk in de boekenrug). Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar Vorig Hoofstuk (Alternatief)"
+                },
+                "NavigatePreviousHistory": {
+                    "description": "In het leesvenster, spring één stap terug in de navigatie geschiedenis",
+                    "name": "Ga naar Vorige Geschiedenis"
+                },
+                "NavigatePreviousLibraryPage": {
+                    "description": "In het bibliotheekventer, laat vorige pagina van een gepagineerde lijst van publicaties zien. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar Vorige Bibliotheek Pagina"
+                },
+                "NavigatePreviousLibraryPageAlt": {
+                    "description": "In het bibliotheekvenster, laat vorige pagina van een gepagineerde lijst van publicaties zien. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar Vorige Bibliotheek Pagina (Alternatief)"
+                },
+                "NavigatePreviousOPDSPage": {
+                    "description": "In het bibliotheekventer voor catalogen / OPDS laadpagina, volg de vorige gepagineerde link. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar de Vorige OPDS Cataloogpagina"
+                },
+                "NavigatePreviousOPDSPageAlt": {
+                    "description": "In het bibliotheekventer voor catalogen / OPDS laadpagina, volg de vorige gepagineerde link. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar de vorige OPDS Cataloogpagina (Alternatief)"
+                },
+                "NavigatePreviousPage": {
+                    "description": "In het voorleesvenster, sla de vorige 'pagina' in de publicatie om. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Ga naar de vorige pagina"
+                },
+                "NavigatePreviousPageAlt": {
+                    "description": "In het leesvenster, sla de vorige 'pagina' in de publicatie om. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Ga naar Vorige Pagina (Alternatief)"
+                },
+                "NavigateToBegin": {
+                    "description": "In het leesvenster, ga naar het begin van de publicatie",
+                    "name": "Ga naar Begin"
+                },
+                "NavigateToEnd": {
+                    "description": "In het leesvenster, ga naar einde van de publicatie",
+                    "name": "Ga naar einde"
+                },
+                "OpenReaderInfo": {
+                    "description": "In het leesvenster, open het informatie dialoog voor de publicatie",
+                    "name": "Toon Publicatie Informatie"
+                },
+                "OpenReaderInfoWhereAmI": {
+                    "description": "In het leesvenster, open het pop-up dialoog dat informatie toont over de publicatie, en focus het toetsenbord op de sectie dat de context van de huidige lees locatie toont",
+                    "name": "Toon Publicatie Informatie, Toon Lees Locatie"
+                },
+                "Print": {
+                    "description": "In het leesvenster, open het print dialoog",
+                    "name": "Uitprinten"
+                },
+                "SearchNext": {
+                    "description": "In de zoektool van het leesvenster, ga naar volgend zoekresultaat. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Zoekresultaat Volgende"
+                },
+                "SearchNextAlt": {
+                    "description": "In de zoektool van het leesvenster, ga naar volgend zoekresultaat. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Zoekresultaat Volgende (Alternatief)"
+                },
+                "SearchPrevious": {
+                    "description": "In de zoektool van het leesvenster, ga naar vorig zoekresultaat. Merk op dat er een alternatieve toetsenbord sneltoets is voor deze standaard sneltoets",
+                    "name": "Zoekresultaat Vorige"
+                },
+                "SearchPreviousAlt": {
+                    "description": "In de zoektool van het leesvenster, ga naar het vorige zoekresultaat. Dit is een alternatief toetsenbord sneltoets dan de standaard",
+                    "name": "Zoekresultaat Vorige (Alternatief)"
+                },
+                "SpeakReaderInfoWhereAmI": {
+                    "description": "In het leesvenster, beschrijf de context van de huidige lees locatie, doormiddel van spraak tekst dat compatibel is met schermlezers",
+                    "name": "Beschrijf Lees Locatie (Spraak)"
+                },
+                "ToggleBookmark": {
+                    "description": "Voeg een nieuwe bladwijzer toe of verwijder een bestaande als deze momenteel geselecteerd is",
+                    "name": "Schakelaar Bladwijzer"
+                },
+                "ToggleReaderFullscreen": {
+                    "description": "In het leesvenster, activeer systeem volledig scherm of herstel normaal venster modus. Merk op dat dit anders is van de 'zen modus' wat het gebruikersinterface versimpelt",
+                    "name": "Schakelaar Volledig Scherm"
+                }
+            },
+            "loadUserJson": "Laad uit gebruikersbestand",
+            "noShortcutFound": "Geen snelkoppeling/sneltoets gevonden met dit label",
+            "resetDefaults": "Herstel (naar standaardinstellingen)",
+            "save": "Bewaar",
+            "searchPlaceholder": "Typ om een sneltoets/snelkoppeling te zoeken"
+        },
+        "language": {
+            "languageChoice": "Taal"
+        },
+        "library": {
+            "enableAPIAPP": "Het 'PNB'-bibliotheeksysteem activeren",
+            "title": "Toegang tot Franse bibliotheekaccounts"
+        },
+        "note": {
+            "export": {
+                "applyDefaultTemplate": "Laad standaard template",
+                "enableCheckbox": "Pas het standaard HTML template aan",
+                "overrideHTMLTemplate": "Notities exporteren (annotaties en bladwijzers)"
+            }
+        },
+        "profiles": {
+            "info": "Wissel profielen om de app aan te passen met de merkidentiteit en kleuren van een partner leverancier. Elk profiel biedt een op maat gemaakte ervaring.",
+            "thorium": {
+                "description": "Het Thorium Vanille profiel is de originele, ontworpen door EDRLab.",
+                "title": "Thorium Vanille"
+            },
+            "version": "{{- versie}}"
+        },
+        "screenReaderActivate": {
+            "help": "Wanneer de app de aanwezigheid van hulpsoftware waarneemt, zal het gebruikersinterface beter werken voor schermlezers",
+            "message": "Verbeterde ondersteuning voor schermlezers",
+            "title": "Verbeterde schermlezer ervaring"
+        },
+        "session": {
+            "title": "Stel sessie bewaring in"
+        },
+        "sharedComputer": {
+            "lcpAutoDeleteExpiredPublications": "",
+            "lcpAutoDeleteExpiredPublicationsDescription": "",
+            "title": ""
+        },
+        "storage": {
+            "actions": {
+                "addDirectory": "",
+                "changeDirectory": "",
+                "removeStorageDirectory": ""
+            },
+            "beta": {
+                "availability": "",
+                "integrity": "",
+                "migration": "",
+                "summary": "",
+                "warning": ""
+            },
+            "configuration": {
+                "chooseFolderDescription": "",
+                "configuredDescription": "",
+                "notConfiguredDescription": ""
+            },
+            "dialogs": {
+                "add": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "edit": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "remove": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                }
+            },
+            "locations": {
+                "defaultDescription": "",
+                "defaultInternal": "",
+                "externalStorage": "",
+                "title": ""
+            }
+        },
+        "tabs": {
+            "appearance": "Verschijning",
+            "general": "Algemeen",
+            "keyboardShortcuts": "Toetsenbord sneltoetsen",
+            "profiles": "Profielen",
+            "storage": ""
+        },
+        "theme": {
+            "auto": "Automatisch",
+            "dark": "Donker",
+            "description": "Het applicatiethema is gelijk aan het besturingssysteem.",
+            "light": "Licht",
+            "title": "Applicatie Thema"
+        }
+    },
+    "tts": {
+        "highlight": {
+            "mainColor": "Hoofdkleur",
+            "maskBlockWordOutline": "Maskeer Blok, Woord Omtrek",
+            "maskBlockWordSolidBackground": "Maskeer Blok, Woord Effen Achtergrond",
+            "maskBlockWordUnderline": "Maskeer Blok, Woord Onderstreept",
+            "maskWordOutline": "Maskeer, Woord Omlijnt",
+            "maskWordSolidBackground": "Maskeer, Woord Effen Achtergrond",
+            "maskWordUnderline": "Maskeer, Woord Onderstreept",
+            "outlineWordOutline": "Omlijnt, Woord Omlijnt",
+            "outlineWordSolidBackground": "Omlijnt, Woord Effen Achtergrond",
+            "outlineWordUnderline": "Omlijnt, Woord Onderstreept",
+            "preview": "Tekst Naar Spraak voorbeeld markeerstijl",
+            "solidBackgroundWordOutline": "Effen Achtergrond, Woord Omlijnt",
+            "solidBackgroundWordSolidBackground": "Effen Achtergrond, Woord Effen Achtergrond",
+            "solidBackgroundWordUnderline": "Effen Achtergrond, Woord Onderstreept",
+            "style": "Tekst Naar Spraak, markeer stijl",
+            "underlineWordOutline": "Onderstreept, Woord Omlijnt",
+            "underlineWordSolidBackground": "Onderstreept, Woord Effen Achtergrond",
+            "underlineWordUnderline": "Onderstreept, Woord Onderstreept",
+            "wordColor": "Woord kleur"
+        }
+    },
+    "wizard": {
+        "buttons": {
+            "discover": "Ontdek Thorium Bureaublad",
+            "goToBooks": "Ga naar mijn publicaties"
+        },
+        "description": {
+            "home": "Thorium 3.4 brengt een serie van verbeteringen aan de gebruikerservaring en lost een paar problemen op. Als je ervoor kiest terug te schakelen naar een oudere versie van de applicatie, dan is het zwaar aanbevolen om een back-up van je e-boek annotaties en boekenleggers door deze te exporteren naar een extern bestand. Je kunt deze dan terug importeren in de oudere versie nadat deze geïnstalleerd is. Dit is omdat de applicatie annotaties en boekenleggers op een lichtelijk andere innerlijk formaat in de versie 3.4 opslaat. Dit lost een presteer probleem op, maar breekt helaas de terugwerking compatibiliteit van de annotaties.",
+            "resources": "Verbind met ons en leer meer over Thorium :"
+        },
+        "dontShow": "Niet meer laten zien, verberg",
+        "resources": {
+            "discord": "Discord: {{- url}}",
+            "website": "Website: {{- url}}"
+        },
+        "tab": {
+            "home": "Startpagina",
+            "resources": "Bronnen"
+        },
+        "title": {
+            "resources": "Bronnen & Gemeenschap",
+            "welcome": "Welkom bij Thorium 3.4"
+        }
+    }
+}
