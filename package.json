@@ -12,7 +12,9 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
+    "pretest": "npm run build --workspace=@simple-cloud-reader/sync-contract",
     "test": "npm run test --workspaces --if-present",
+    "pretypecheck": "npm run build --workspace=@simple-cloud-reader/sync-contract",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "devDependencies": {
