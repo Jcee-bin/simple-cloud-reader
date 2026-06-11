@@ -1,0 +1,52 @@
+{
+  "valid": [
+    {
+      "name": "epub cfi",
+      "locator": {
+        "format": "epub",
+        "progression": 0.42,
+        "engine": "readium",
+        "engineLocation": {
+          "href": "chapter-4.xhtml",
+          "type": "application/xhtml+xml",
+          "locations": {
+            "progression": 0.25,
+            "totalProgression": 0.42,
+            "cfi": "/6/8!/4/2/14"
+          }
+        }
+      }
+    },
+    {
+      "name": "koreader page",
+      "locator": {
+        "format": "pdf",
+        "progression": 0.5,
+        "engine": "koreader",
+        "engineLocation": {
+          "page": 50,
+          "pageCount": 100
+        }
+      }
+    }
+  ],
+  "invalid": [
+    {
+      "name": "progression below zero",
+      "locator": {
+        "format": "epub",
+        "progression": -0.1,
+        "engine": "readium",
+        "engineLocation": {}
+      }
+    },
+    {
+      "name": "missing engine location",
+      "locator": {
+        "format": "pdf",
+        "progression": 0.4,
+        "engine": "koreader"
+      }
+    }
+  ]
+}
