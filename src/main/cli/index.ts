@@ -1,0 +1,464 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import debug_ from "debug";
+import { app, dialog } from "electron";
+import * as path from "path";
+import * as fs from "fs";
+import { lockInstance } from "readium-desktop/main/cli/lock";
+import { _APP_NAME, _APP_VERSION } from "readium-desktop/preprocessor-directives";
+import yargs from "yargs";
+// import { hideBin } from "yargs/helpers";
+import { closeProcessLock } from "../di";
+import { EOL } from "os";
+import { diMainGet } from "readium-desktop/main/di";
+import { createStoreFromDi } from "../di";
+import { needToPersistFinalState } from "../redux/sagas/persist";
+import { appActions } from "../redux/actions";
+import { getOpenFileFromCliChannel, getOpenTitleFromCliChannel } from "../event";
+import { isOpenUrl, setOpenUrl } from "./url";
+import { globSync } from "glob";
+import { type Store } from "redux";
+import { settingsActions } from "readium-desktop/common/redux/actions";
+import { PublicationView } from "readium-desktop/common/views/publication";
+import { isAcceptedExtension } from "readium-desktop/common/extension";
+import { FORCE_PROD_DB_IN_DEV, USER_DATA_FOLDER } from "readium-desktop/common/constant";
+import { PersistRootState, RootState } from "../redux/states";
+import { appendFileSyncWithRotation } from "readium-desktop/utils/log";
+import {
+    isSharedComputerCliSwitch,
+    SHARED_COMPUTER_CLI_OPTION,
+} from "./options";
+
+// Logger
+const debug = debug_("readium-desktop:cli:process");
+
+// single Instance Lock
+const gotTheLock = lockInstance();
+
+if (gotTheLock) {
+    debug("GOT THE LOCK ACQUIRED !!! (main process)");
+} else {
+    debug("DID NOT GOT THE LOCK !!!, so this a cli command and need to exit now");
+    app.exit(0);
+}
+// When gotTheLock is true :
+//  the app is typically launched with the GUI,
+//
+// when gotTheLock is false :
+//  the app normally exits immediately, but in our case,
+//  the pure-CLI (no GUI) code is executed to report CLI message into process.stdout/stderr,
+//  and then exits.
+//  The second-instance event is still received, but the argv is ignored for the CLI,
+//  as it has already been executed by the "second instance" itself (see Yargs handlers).
+
+// TODO: check electron app.getPath('logs') instead
+// From electron docs: https://www.electronjs.org/docs/latest/api/app#appgetpathname
+// if is called without called app.setAppLogsPath() being called first, a default log directory will be created equivalent to calling app.setAppLogsPath() without a path parameter.
+const folderPath = path.join(
+    USER_DATA_FOLDER,
+    !FORCE_PROD_DB_IN_DEV && (__TH__IS_DEV__ || __TH__IS_CI__) ? "app-logs-dev" : "app-logs",
+);
+const PROCESS_LOGS = "processLogs.txt";
+const appLogs = path.join(
+    folderPath,
+    PROCESS_LOGS,
+);
+
+if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath);
+}
+
+let __appStarted = false;
+let __returnCode = 0;
+let __pendingCmd = 0;
+
+interface ISharedComputerCliArgv {
+    sharedComputer?: unknown;
+    [SHARED_COMPUTER_CLI_OPTION]?: unknown;
+}
+
+const sharedComputerCliOptionIsEnabled = (argv: ISharedComputerCliArgv) =>
+    argv.sharedComputer === true || argv[SHARED_COMPUTER_CLI_OPTION] === true;
+
+const createStoreFromDiWithCliSettings = async (argv: ISharedComputerCliArgv): Promise<Store<RootState>> => {
+    const store = await createStoreFromDi();
+    if (sharedComputerCliOptionIsEnabled(argv)) {
+        // The command-line flag is a runtime override: it forces the mode without persisting the lock itself.
+        debug("CLI shared computer mode forced");
+        store.dispatch(settingsActions.lcpAutoDeleteExpiredPublicationsForced.build(true));
+    }
+    return store;
+};
+
+// yargs configuration
+const yargsInit = () =>
+    yargs() // hideBin(process.argv)
+        .scriptName(_APP_NAME)
+        .version(_APP_VERSION)
+        .usage("$0 <cmd> [args]")
+        .option(SHARED_COMPUTER_CLI_OPTION, {
+            describe: "force shared computer mode for this session",
+            type: "boolean",
+        })
+        .command("opds <title> <url>",
+            "import opds feed",
+            (y) =>
+                y.positional("title", {
+                    describe: "title opds feed",
+                    type: "string",
+                }).positional("url", {
+                    describe: "url opds feed",
+                    type: "string",
+                }).positional("favorite", {
+                    describe: "favorite opds feed",
+                    type: "boolean",
+                })
+            ,
+            async (argv) => {
+
+                debug("CLI opds import", argv);
+
+                const store = await createStoreFromDiWithCliSettings(argv);
+                const sagaMiddleware = diMainGet("saga-middleware");
+                __pendingCmd++;
+
+                try {
+                    const { title, url, favorite } = argv;
+                    const hostname = (new URL(url)).hostname;
+                    if (hostname) {
+
+                        const sagaMiddleware = diMainGet("saga-middleware");
+                        const opdsApi = diMainGet("opds-api");
+
+                        const feed = await sagaMiddleware.run(opdsApi.addFeed, { title, url, favorite }).toPromise();
+                        process.stdout.write("OPDS import done : " + JSON.stringify(feed) + EOL);
+
+                    } else {
+                        process.stderr.write("OPDS URL not valid, exit with code 1" + EOL);
+                        __returnCode = 1;
+                    }
+
+                } catch (e) {
+                    debug("CLI OPDS ERROR", e);
+                    __returnCode = 1;
+                } finally {
+                    __pendingCmd--;
+                }
+
+                if (!__appStarted && __pendingCmd <= 0 && !closeProcessLock.isLock) {
+
+                    await sagaMiddleware.run(needToPersistFinalState, store.getState() as Partial<PersistRootState>).toPromise();
+                    app.exit(__returnCode);
+                    return ;
+                }
+            },
+        )
+        .command("import <path>",
+            "import epub or lcpl file",
+            (y) =>
+                y.positional("path", {
+                    describe: "absolute, relative or globbing path",
+                    type: "string",
+                    coerce: (arg) => path.resolve(arg),
+                })
+                    .example("import", "\"./myPath/**/*.epub\"")
+                    .example("import", "\"/*.epub\"")
+                    .example("import", "\"myPublication.epub\"")
+            ,
+            async (argv) => {
+
+                debug("CLI import publication", argv);
+
+                const store = await createStoreFromDiWithCliSettings(argv);
+                const sagaMiddleware = diMainGet("saga-middleware");
+                __pendingCmd++;
+
+                try {
+
+                    const pathArray = globSync(argv.path, {
+                        absolute: true,
+                        realpath: true,
+                    }) || [];
+                    const filePathArrayResolved = pathArray.length ? pathArray : argv.path;
+
+                    debug(pathArray, argv.path, filePathArrayResolved);
+                    debug("cliImport", filePathArrayResolved);
+
+                    // import a publication from local path
+                    const filePathArray = Array.isArray(filePathArrayResolved) ? filePathArrayResolved : [filePathArrayResolved];
+
+                    const pubApi = diMainGet("publication-api");
+                    for (const fp of filePathArray) {
+
+                        const ext = path.extname(fp);
+                        const isPDF = isAcceptedExtension("pdf", ext);
+                        if (isPDF) {
+                            process.stderr.write("import PDF from CLI is not allowed: " + fp + EOL);
+                            __returnCode = 1;
+                            continue;
+                        }
+
+                        debug("cliImport filePath in filePathArray: ", fp);
+                        const pubViews = await sagaMiddleware.run(pubApi.importFromFs, fp, false /* willBeImmediatelyFollowedByOpen */).toPromise<PublicationView[]>();
+                        if (pubViews?.length) {
+                            process.stdout.write("import success: " + fp + EOL);
+                        } else {
+                            process.stderr.write("import failed: " + fp + EOL);
+                            __returnCode = 1;
+                        }
+                    }
+
+                    process.stdout.write("import(s) done." + EOL);
+
+                } catch (e) {
+                    debug("CLI IMPORT ERROR", e);
+                    __returnCode = 1;
+                } finally {
+                    __pendingCmd--;
+                }
+
+                if (!__appStarted && __pendingCmd <= 0 && !closeProcessLock.isLock) {
+
+                    await sagaMiddleware.run(needToPersistFinalState, store.getState() as Partial<PersistRootState>).toPromise();
+                    app.exit(__returnCode);
+                    return ;
+                }
+            },
+        )
+        .command("read <title>",
+            "searches already-imported publications with the provided TITLE, and opens the reader with the first match",
+            (y) =>
+                y.positional("title", {
+                    describe: "title of your publication",
+                    type: "string",
+                })
+            ,
+            async (argv) => {
+
+                debug("CLI read", argv);
+                __appStarted = true;
+                await Promise.all([
+                    createStoreFromDiWithCliSettings(argv).then((store) => store.dispatch(appActions.initRequest.build())),
+                    app.whenReady(),
+                ]);
+
+                if (argv.title) {
+                    const openTitleFromCliChannel = getOpenTitleFromCliChannel();
+                    openTitleFromCliChannel.put(argv.title);
+                }
+            },
+        )
+        .command("$0 [path..]",
+            "import and read an epub or lcpl file. Can also be used to provision and activate a custom profile extension",
+            (y) =>
+                y
+                // .positional("profile", {
+                //     describe: "unique profile identifier (if already loaded) of the custom profile extension",
+                //     type: "string",
+                //     array: false,
+                // })
+                .positional("path", {
+                    describe: "path of your publication, it can be an absolute, relative path",
+                    type: "string",
+                    array: true,
+                    // coerce: (arg) => path.resolve(arg),
+                })
+                    .completion()
+            ,
+            async (argv) => {
+
+                let dump = "#############################################\n";
+                dump += "Default command start parsing:\n";
+                dump += `Date: ${(new Date()).toISOString()}\n`;
+
+                __appStarted = true;
+                await Promise.all([
+                    createStoreFromDiWithCliSettings(argv).then((store) => store.dispatch(appActions.initRequest.build())),
+                    app.whenReady(),
+                ]);
+
+                const { path: pathArgv } = argv;
+                dump += `argv: ${JSON.stringify(argv)}\n`;
+                debug("lauch command", argv);
+
+                if (Array.isArray(pathArgv) ? pathArgv.length > 0 : !!pathArgv) {
+
+                    debug("open arg requested", pathArgv);
+                    dump += `pathArgv found: ${JSON.stringify(pathArgv)}\n`;
+
+                    // pathArgv can be an url with deepLinkInvocation in windows
+                    // https://github.com/oikonomopo/electron-deep-linking-mac-win
+                    //
+                    // handle opds:// thorium:// https:// http://
+                    // to add the feed and open it
+                    const urlOrFilePath = pathArgv[0];
+                    if (isOpenUrl(urlOrFilePath)) {
+                        const url = urlOrFilePath;
+
+                        debug("Need to import/open an URL : ", url);
+                        setOpenUrl(url);
+                        dump += `open the url: ${url}\n`;
+                    } else {
+                        debug("not an url or file path");
+                        dump += `pathArgv[0]="${pathArgv[0]}" is not an url or file path\n`;
+                        // not an URL
+                        const openFileFromCliChannel = getOpenFileFromCliChannel();
+                        const pathArgvArray = Array.isArray(pathArgv) ? pathArgv : [pathArgv];
+                        dump += `pathArgvArray = ${JSON.stringify(pathArgvArray)}\n`;
+                        for (const pathArgvName of pathArgvArray) {
+
+                            const pathArgvNameResolve = path.resolve(pathArgvName);
+                            debug(`Push (${pathArgvNameResolve}) to openFileFromCliChannel`);
+                            dump += `Push (${pathArgvNameResolve}) to openFileFromCliChannel\n`;
+                            openFileFromCliChannel.put(pathArgvNameResolve);
+                        }
+                    }
+
+                } else {
+                    debug("pathArgv not defined");
+                    dump += "pathArgv not defined\n";
+                }
+                dump += "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44\n";
+                appendFileSyncWithRotation(appLogs, dump);
+            },
+        )
+        .help()
+        .fail((msg, err) => {
+            if (!app.isReady()) {
+                process.stdout.write(`${msg || ""}${msg ? "" : "\n"}${err || ""}\n`);
+                app.exit(1);
+                return ;
+            }
+        });
+
+/**
+ * main entry of thorium
+ * @param main main function to exec
+ * @param processArgv process.argv
+ */
+export function commandLineMainEntry(
+    processArgv = process.argv,
+) {
+    debug("process.argv", process.argv);
+    debug("process.env", process.env);
+
+    if (!__TH__IS_DEV__ && __TH__IS_PACKAGED__) {
+        // https://nodejs.org/fr/docs/guides/debugging-getting-started/#enable-inspector
+        // SIGUSR1
+
+        // https://www.electronjs.org/docs/latest/api/environment-variables
+        for (const env of Object.keys(process.env)) {
+            debug("env", env);
+            if (env === "NODE_OPTIONS" ||
+                env === "NODE_EXTRA_CA_CERTS" ||
+                // env.startsWith("NODE_")
+                // && env !== "NODE_PATH"
+                // && env !== "NODE_ENV"
+                env.startsWith("ELECTRON_")) {
+                // process.exit(0);
+                app.exit(0);
+                return;
+            }
+        }
+
+        // https://github.com/electron/fuses/issues/2
+        for (const arg of process.argv) {
+            debug("arg", arg);
+            if (arg === "-r" ||
+                arg.includes("--require") ||
+                // arg.includes("--no") // DO NOT UNCOMMENT THIS, see "shared-computer" (`--shared-computer` and `--no-shared-computer`)
+                // https://www.electronjs.org/docs/latest/api/command-line-switches
+                arg.includes("--debug") ||
+                arg.includes("--log") ||
+                arg.includes("--dns") ||
+                arg.includes("--disk") ||
+                arg.includes("--flag") ||
+                arg.includes("--ignore") ||
+                arg.includes("--enable") ||
+                arg.includes("--disable") ||
+                arg.includes("--force") ||
+                arg.includes("--host") ||
+                arg.includes("--auth") ||
+                arg.includes("--proxy") ||
+                arg.includes("--remote") ||
+                arg.includes("--throw") ||
+                arg.includes("--trace") ||
+                arg.includes("--js") ||
+                arg.includes("--experimental") ||
+                // arg.includes("logging") ||
+                // https://www.electronjs.org/docs/api/command-line-switches#--remote-debugging-portport
+                // arg.includes("--remote-debugging-port") ||
+                // https://github.com/electron/electron/blob/73a017577e6d8cf67c76acb8f6a199c2b64ccb5d/shell/browser/electron_browser_main_parts.cc#L457
+                // arg.includes("--remote-debugging-pipe") ||
+                // arg.includes("--remote-allow-origins") ||
+                // https://www.electronjs.org/docs/api/command-line-switches#--inspecthostport
+                arg.includes("--inspect")
+                // ||
+                // https://www.electronjs.org/docs/api/command-line-switches#--inspect-brkhostport
+                // arg.includes("--inspect-brk") ||
+                // https://github.com/nodejs/node/blob/fef180c8a20f680d246d5b109589e6a0370e7e77/src/node_options.cc#L314-L360
+                // arg.includes("--inspect-brk-node") ||
+                // https://www.electronjs.org/docs/api/command-line-switches#--inspect-porthostport
+                // arg.includes("--inspect-port") ||
+                // https://www.electronjs.org/docs/api/command-line-switches#--inspect-publish-uidstderrhttp
+                // arg.includes("--inspect-publish-uid") ||
+                // https://www.electronjs.org/docs/api/command-line-switches#--js-flagsflags
+                // arg.includes("--js-flags") ||
+                // arg.includes("--experimental-network-inspector")
+            ) {
+                // process.exit(0);
+                app.exit(0);
+                return;
+            }
+        }
+    }
+    let dump = "#############################################\n";
+    dump += "Commend Line Parsing start:\n";
+    dump += `Date: ${(new Date()).toISOString()}\n`;
+
+    const y = yargsInit();
+
+    const argFormated = processArgv
+        .filter((arg) => knownOption(arg) || !arg.startsWith("-"))
+        .slice(!__TH__IS_PACKAGED__ && processArgv[0].endsWith("Electron") ? 2 : 1);
+
+    debug("processArgv", processArgv, "arg", argFormated);
+
+    dump += `argvFormated: ${JSON.stringify(argFormated)}\n`;
+
+    try {
+        y.parse(argFormated);
+    } catch (e) {
+        debug("YARGS ERROR !!!!!", e);
+    }
+
+    dump += "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$44\n";
+    appendFileSyncWithRotation(appLogs, dump);
+}
+
+// arrow function to filter declared option in yargs
+const knownOption = (str: string) => [
+    "--help",
+    "--version",
+].includes(str) || isSharedComputerCliSwitch(str);
+
+
+// Catch all unhandled rejection promise from CLI command
+let __exitPhase = false;
+process.on("unhandledRejection", (err) => {
+    if (__exitPhase) {
+        return ;
+    }
+    __exitPhase = true;
+    const message = `${err}`;
+    process.stderr.write(message);
+    if (__appStarted) {
+        dialog.showErrorBox("THORIUM ERROR", message);
+    }
+    app.exit(1);
+});

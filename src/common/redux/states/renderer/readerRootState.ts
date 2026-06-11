@@ -1,0 +1,79 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import { ReaderConfig, ReaderConfigPublisher, ReaderInfo, ReaderMode } from "readium-desktop/common/models/reader";
+import { IRendererCommonRootState, IRendererCommonRootStateHydration } from "readium-desktop/common/redux/states/rendererCommonRootState";
+import { IDivinaState } from "readium-desktop/common/redux/states/renderer/divina";
+import { IHighlightHandlerState, IHighlightMounterState } from "./highlight";
+import { ISearchState } from "./search";
+import { TMapState } from "readium-desktop/utils/redux-reducers/map.reducer";
+
+// import { IHighlight } from "@r2-navigator-js/electron/common/highlight";
+
+import { MiniLocatorExtended } from "readium-desktop/common/redux/states/locatorInitialState";
+
+// import { TBookmarkState } from "../bookmark";
+import { IRTLFlipState } from "./rtlFlip";
+import { IAnnotationModeState /*TAnnotationState,*/ } from "./annotation";
+import { ITTSState } from "readium-desktop/common/redux/states/renderer/tts";
+import { IMediaOverlayState } from "readium-desktop/common/redux/states/renderer/mediaOverlay";
+import { IAllowCustomConfigState } from "readium-desktop/common/redux/states/renderer/allowCustom";
+import { IImageClickState } from "readium-desktop/common/redux/states/renderer/imageClick";
+import { IBookmarkTotalCountState } from "readium-desktop/common/redux/states/renderer/bookmarkTotalCount";
+import { DockState } from "../dock";
+import { INoteState } from "./note";
+
+export interface IReaderPdfConfig{
+        scale: "page-fit" | "page-width" | number;
+        spreadmode: 0 | 1 | 2;
+    }
+
+export interface IReaderRootState extends IRendererCommonRootState {
+    reader: IReaderStateReader;
+    search: ISearchState;
+    mode: ReaderMode;
+    annotation: IAnnotationModeState;
+    noteTagsIndex: Array<{ tag: string, index: number }>;
+    img: IImageClickState; // TODO: replace by dock/dialog state
+    dock: DockState;
+    // cf dialog state in common
+}
+
+export interface IReaderStateReader {
+    config: ReaderConfig;
+    info: ReaderInfo;
+    locator: MiniLocatorExtended;
+    // bookmark: TBookmarkState;
+    // annotation: TAnnotationState;
+    note: INoteState[],
+    highlight: {
+        handler: TMapState<string, IHighlightHandlerState>;
+        mounter: TMapState<string, IHighlightMounterState>;
+    };
+    divina: IDivinaState;
+
+    disableRTLFlip: IRTLFlipState;
+    defaultConfig: ReaderConfig; // sync across all app
+    tts: ITTSState;
+    mediaOverlay: IMediaOverlayState;
+    allowCustomConfig: IAllowCustomConfigState;
+    transientConfig: ReaderConfigPublisher;
+    noteTotalCount: IBookmarkTotalCountState;
+
+    pdfConfig: IReaderPdfConfig;
+
+
+    // got the lock
+    // acquired on first reader opened with the same publication UUID instance
+    // allow to do computation for the publication on one reader and not across reader
+    // it is a kind of Mutex in multi-threading concept
+    lock: boolean;
+}
+
+export type IReaderStateReaderPersistence = Pick<IReaderStateReader, "config" | "locator" | "divina" | "disableRTLFlip" | "allowCustomConfig" | "noteTotalCount" | "pdfConfig">;
+export type IReaderStateReaderSession = Partial<IReaderStateReaderPersistence> & Pick<IReaderStateReader, "lock" | "info" | "note">;
+export type IReaderStateReaderHydration = IRendererCommonRootStateHydration & { reader: IReaderStateReaderSession };

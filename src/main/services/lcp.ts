@@ -1,0 +1,1189 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import { dialog } from "electron";
+import { StatusEnum } from "@r2-lcp-js/parser/epub/lsd";
+import debug_ from "debug";
+import { shell } from "electron";
+import * as fs from "fs";
+import { inject, injectable } from "inversify";
+import moment from "moment";
+import * as path from "path";
+import { acceptedExtensionObject } from "readium-desktop/common/extension";
+import { lcpLicenseIsNotWellFormed } from "readium-desktop/common/lcp";
+import { LcpInfo, LsdStatus } from "readium-desktop/common/models/lcp";
+import { ToastType } from "readium-desktop/common/models/toast";
+import { lcpActions, toastActions } from "readium-desktop/common/redux/actions/";
+import { PublicationViewConverter } from "readium-desktop/main/converter/publication";
+import {
+    PublicationDocument, PublicationDocumentWithoutTimestampable,
+} from "readium-desktop/main/db/document/publication";
+import { PublicationRepository } from "readium-desktop/main/db/repository/publication";
+import { diSymbolTable } from "readium-desktop/main/diSymbolTable";
+import { decryptPersist, encryptPersist } from "readium-desktop/main/fs/persistCrypto";
+import { RootState } from "readium-desktop/main/redux/states";
+import { PublicationStorage } from "readium-desktop/main/storage/publication-storage";
+import { streamerCachedPublication } from "readium-desktop/main/streamer/streamerNoHttp";
+import { ContentType } from "readium-desktop/utils/contentType";
+import { toSha256Hex } from "readium-desktop/utils/lcp";
+import { tryCatch } from "readium-desktop/utils/tryCatch";
+import { type Store } from "redux";
+
+import { LCP } from "@r2-lcp-js/parser/epub/lcp";
+import { LSD } from "@r2-lcp-js/parser/epub/lsd";
+import { TaJsonDeserialize, TaJsonSerialize } from "@r2-lcp-js/serializable";
+import { Publication as R2Publication } from "@r2-shared-js/models/publication";
+
+// import { injectBufferInZip } from "@r2-utils-js/_utils/zip/zipInjector";
+import { injectBufferInZip } from "../tools/zipInjector";
+
+import { diMainGet, lcpHashesFilePath } from "../di";
+import { extractCrc32OnZip } from "../tools/crc";
+import { LSDManager } from "./lsd";
+import { getTranslator } from "readium-desktop/common/services/translator";
+import { RequesetToCloseAllReadersWithTheSamePubId } from "../redux/sagas/reader";
+
+// import { Server } from "@r2-streamer-js/http/server";
+
+// import { JsonMap } from "readium-desktop/typings/json";
+
+// Logger
+const debug = debug_("readium-desktop:main#services/lcp");
+
+const CONFIGREPOSITORY_LCP_SECRETS = "CONFIGREPOSITORY_LCP_SECRETS";
+
+// object map with keys = PublicationDocument.identifier,
+// and values = object tuple of single passphrase + provider (cached here to avoid costly lookup in Publication DB)
+// this way, we can query all passphrases associated with a particular publication,
+// or alternatively query all passphrases known for a given LCP provider
+// (as in practice passphrases are sometimes shared between different publications from the same provider)
+type TLCPSecrets = Record<string, { passphrase?: string, provider?: string }>;
+
+@injectable()
+export class LcpManager {
+    @inject(diSymbolTable["publication-view-converter"])
+    private readonly publicationViewConverter!: PublicationViewConverter;
+
+    @inject(diSymbolTable["publication-storage"])
+    private readonly publicationStorage!: PublicationStorage;
+
+    // @inject(diSymbolTable.streamer)
+    // private readonly streamer!: Server;
+
+    @inject(diSymbolTable["publication-repository"])
+    private readonly publicationRepository!: PublicationRepository;
+
+    @inject(diSymbolTable.store)
+    private readonly store!: Store<RootState>;
+
+    // @inject(diSymbolTable.translator)
+    // private readonly translator!: Translator;
+
+    @inject(diSymbolTable["lsd-manager"])
+    private readonly lsdManager!: LSDManager;
+
+    private translator = getTranslator();
+
+    public async absorbDBToJson() {
+        await this.getAllSecrets();
+        debug("+++++ LCP secrets absorbDBToJson");
+    }
+
+    public async getAllSecrets(): Promise<TLCPSecrets> {
+        debug("LCP getAllSecrets ...");
+
+        const buff = await tryCatch(() => fs.promises.readFile(lcpHashesFilePath), "getAllSecrets fs.promises.readFile?");
+        if (buff) {
+            debug("LCP getAllSecrets from JSON", buff.length);
+
+            const str = decryptPersist(buff, CONFIGREPOSITORY_LCP_SECRETS, lcpHashesFilePath);
+            // if (!str) {
+            //     throw new Error("decryptPersist???! CONFIGREPOSITORY_LCP_SECRETS");
+            // }
+            if (!str) {
+                return {};
+            }
+            const json = JSON.parse(str);
+            debug("LCP getAllSecrets: ", json);
+            return json;
+        }
+
+        const json: TLCPSecrets = {};
+        return json;
+    }
+
+    private async getSecrets(doc: PublicationDocument): Promise<string[]> {
+        debug("LCP getSecrets ... ", doc.identifier);
+
+        const secrets: string[] = [];
+
+        const allSecrets = await this.getAllSecrets();
+        const ids = Object.keys(allSecrets);
+        for (const id of ids) {
+            const val = allSecrets[id];
+            if (val.passphrase && !secrets.includes(val.passphrase)) {
+                const provider = doc.lcp?.provider;
+
+                if (doc.identifier === id ||
+                    provider && val.provider && provider === val.provider) {
+                    secrets.push(val.passphrase);
+                }
+            }
+        }
+
+        debug("LCP getSecrets: ", secrets);
+        return secrets;
+
+        // const lcpSecretDocs = await this.lcpSecretRepository.findByPublicationIdentifier(
+        //     doc.identifier,
+        // );
+        // const secrets = lcpSecretDocs.map((doc) => doc.secret).filter((secret) => secret);
+        // return secrets;
+    }
+
+    public async saveSecret(doc: PublicationDocument, lcpHashedPassphrase: string) {
+        debug("LCP saveSecret ... ", doc.identifier);
+
+        // await this.lcpSecretRepository.save({
+        //     publicationIdentifier: doc.identifier,
+        //     secret: lcpHashedPassphrase,
+        // });
+
+        const allSecrets = await this.getAllSecrets();
+        if (!allSecrets[doc.identifier]) {
+            allSecrets[doc.identifier] = {};
+        }
+        allSecrets[doc.identifier].passphrase = lcpHashedPassphrase;
+        if (doc.lcp?.provider) {
+            allSecrets[doc.identifier].provider = doc.lcp.provider;
+        }
+
+        debug("LCP saveSecret: ", allSecrets);
+
+        const str = JSON.stringify(allSecrets);
+        const encrypted = encryptPersist(str, CONFIGREPOSITORY_LCP_SECRETS, lcpHashesFilePath);
+        if (!encrypted) {
+            throw new Error("encryptPersist???! CONFIGREPOSITORY_LCP_SECRETS");
+        }
+        await fs.promises.writeFile(lcpHashesFilePath, encrypted);
+    }
+
+    private async injectLcplIntoZip_(epubPath: string, lcpStr: string) {
+
+        const extension = path.extname(epubPath);
+        const isAudioBook = new RegExp(`\\${acceptedExtensionObject.audiobook}$`, "i").test(extension) ||
+            new RegExp(`\\${acceptedExtensionObject.audiobookLcp}$`, "i").test(extension) ||
+            new RegExp(`\\${acceptedExtensionObject.audiobookLcpAlt}$`, "i").test(extension);
+
+        const isDivina = new RegExp(`\\${acceptedExtensionObject.divina}$`, "i").test(extension);
+
+        const isLcpPdf = new RegExp(`\\${acceptedExtensionObject.pdfLcp}$`, "i").test(extension);
+
+        const epubPathTMP = epubPath + ".tmplcpl";
+        await new Promise<void>((resolve, reject) => {
+            injectBufferInZip(
+                epubPath,
+                epubPathTMP,
+                Buffer.from(lcpStr, "utf8"),
+                ((!isAudioBook && !isDivina && !isLcpPdf) ? "META-INF/" : "") + "license.lcpl",
+                (e: any) => {
+                    debug("injectLcplIntoZip_ - injectBufferInZip ERROR!");
+                    debug(e);
+                    reject(e);
+                },
+                () => {
+                    resolve();
+                });
+        });
+
+        // Replace epub without LCP with a new one containing LCPL
+        fs.unlinkSync(epubPath);
+        await new Promise<void>((resolve, _reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 200); // to avoid issues with some filesystems (allow extra completion time)
+        });
+        fs.renameSync(epubPathTMP, epubPath);
+        await new Promise<void>((resolve, _reject) => {
+            setTimeout(() => {
+                resolve();
+            }, 200); // to avoid issues with some filesystems (allow extra completion time)
+        });
+    }
+
+    public async injectLcplIntoZip(epubPath: string, lcp: LCP) {
+
+        const jsonSource = lcp.JsonSource ? lcp.JsonSource : JSON.stringify(TaJsonSerialize(lcp));
+        await this.injectLcplIntoZip_(epubPath, jsonSource);
+    }
+
+    // public async injectLcpl(
+    //     publicationDocument: PublicationDocument,
+    //     lcp: LCP,
+    // ): Promise<PublicationDocument> {
+    //     // Get epub file path
+    //     const epubPath = this.publicationStorage.getPublicationEpubPath(
+    //         publicationDocument.identifier,
+    //     );
+
+    //     await this.injectLcplIntoZip(epubPath, lcp);
+
+    //     const r2Publication = await this.unmarshallR2Publication(publicationDocument); // , false
+    //     r2Publication.LCP = lcp;
+
+    //     try {
+    //         await this.processStatusDocument(
+    //             publicationDocument.identifier,
+    //             r2Publication,
+    //         );
+
+    //         debug(r2Publication.LCP);
+    //         debug(r2Publication.LCP.LSD);
+
+    //     } catch (err) {
+    //         debug(err);
+    //     }
+
+    //     if ((r2Publication as any).__LCP_LSD_UPDATE_COUNT) {
+    //         debug("processStatusDocument LCP updated.");
+    //     }
+
+    //     const newPublicationDocument: PublicationDocumentWithoutTimestampable = Object.assign(
+    //         {},
+    //         publicationDocument,
+    //         {
+    //             hash: await extractCrc32OnZip(epubPath),
+    //         },
+    //     );
+    //     this.updateDocumentLcp(newPublicationDocument, r2Publication.LCP);
+
+    //     return this.publicationRepository.save(newPublicationDocument);
+    // }
+
+    // MUTATES publicationDocument
+    public async updateDocumentLcp(
+        publicationDocument: PublicationDocumentWithoutTimestampable,
+        r2LCP: LCP,
+        skipFilesystemCache = false,
+    ) {
+        // if (!publicationDocument.resources) {
+        //     publicationDocument.resources = {};
+        // }
+        if (r2LCP) {
+            debug("updateDocumentLcp() with LCP");
+            debug(r2LCP);
+
+            // Legacy Base64 data blobs
+            // const r2LCPStr = r2LCP.JsonSource ?? JSON.stringify(TaJsonSerialize(r2LCP));
+            // publicationDocument.resources.r2LCPBase64 = Buffer.from(r2LCPStr).toString("base64");
+            // const r2LCPJson = r2LCP.JsonSource ? JSON.parse(r2LCP.JsonSource) : TaJsonSerialize(r2LCP);
+            // publicationDocument.resources.r2LCPJson = r2LCPJson;
+            if (!skipFilesystemCache) {
+                debug("updateDocumentLcp() !skipFilesystemCache");
+                await this.publicationViewConverter.updateLcpCache(publicationDocument, r2LCP);
+            }
+
+            // if (r2LCP.LSD) {
+            //     // Legacy Base64 data blobs
+            //     // const r2LSDStr = JSON.stringify(r2LSDJson);
+            //     // publicationDocument.resources.r2LSDBase64 = Buffer.from(r2LSDStr).toString("base64");
+            //     const r2LSDJson = TaJsonSerialize(r2LCP.LSD);
+            //     publicationDocument.resources.r2LSDJson = r2LSDJson;
+            // }
+
+            publicationDocument.lcp = this.convertLcpLsdInfo(
+                r2LCP,
+                // Legacy Base64 data blobs
+                // publicationDocument.resources.r2LCPBase64,
+                // publicationDocument.resources.r2LSDBase64
+                // publicationDocument.resources.r2LCPJson,
+                // publicationDocument.resources.r2LSDJson,
+            );
+        } else {
+            debug("updateDocumentLcp() no LCP");
+        }
+    }
+
+    // public async unmarshallR2Publication(
+    //     publicationDocument: PublicationDocument,
+    //     // requiresLCP: boolean,
+    // ): Promise<R2Publication> {
+
+    //     // let r2Publication: R2Publication;
+    //     // Legacy Base64 data blobs
+    //     // const mustParse = !publicationDocument.resources ||
+    //     //     !publicationDocument.resources.r2PublicationBase64 ||
+    //     //     (requiresLCP && !publicationDocument.resources.r2LCPBase64);
+    //     // const mustParse = !publicationDocument.resources ||
+    //     //     !publicationDocument.resources.r2PublicationJson ||
+    //     //     (
+    //     //         requiresLCP
+    //     //         // && !publicationDocument.resources.r2LCPJson
+    //     //     );
+
+    //     // if (mustParse) {
+
+    //     const epubPath = this.publicationStorage.getPublicationEpubPath(
+    //         publicationDocument.identifier,
+    //     );
+
+    //     const r2Publication = await PublicationParsePromise(epubPath);
+    //     // just like when calling lsdLcpUpdateInject():
+    //     // r2Publication.LCP.ZipPath is set to META-INF/license.lcpl
+    //     // r2Publication.LCP.init(); is called to prepare for decryption (native NodeJS plugin)
+    //     // r2Publication.LCP.JsonSource is set
+
+    //     // after PublicationParsePromise, cleanup zip handler
+    //     // (no need to fetch ZIP data beyond this point)
+    //     r2Publication.freeDestroy();
+
+    //     // } else {
+    //     //     // Legacy Base64 data blobs
+    //     //     // const r2PublicationBase64 = publicationDocument.resources.r2PublicationBase64;
+    //     //     // const r2PublicationStr = Buffer.from(r2PublicationBase64, "base64").toString("utf-8");
+    //     //     // const r2PublicationJson = JSON.parse(r2PublicationStr);
+    //     //     r2Publication = TaJsonDeserialize(publicationDocument.resources.r2PublicationJson, R2Publication);
+    //     // }
+    //     // if (!r2Publication.LCP &&
+    //     //     publicationDocument.resources &&
+    //     //     publicationDocument.resources.r2LCPJson) {
+
+    //     //     // Legacy Base64 data blobs
+    //     //     // const r2LCPBase64 = publicationDocument.resources.r2LCPBase64;
+    //     //     // const r2LCPStr = Buffer.from(r2LCPBase64, "base64").toString("utf-8");
+    //     //     // const r2LCPJson = JSON.parse(r2LCPStr);
+    //     //     const r2LCPJson = publicationDocument.resources.r2LCPJson;
+
+    //     //     if (lcpLicenseIsNotWellFormed(r2LCPJson)) {
+    //     //         throw new Error(`LCP license malformed: ${JSON.stringify(r2LCPJson)}`);
+    //     //     }
+
+    //     //     const r2LCP = TaJsonDeserialize(r2LCPJson, LCP);
+
+    //     //     const r2LCPStr = JSON.stringify(r2LCPJson);
+    //     //     r2LCP.JsonSource = r2LCPStr;
+
+    //     //     r2Publication.LCP = r2LCP;
+    //     // }
+    //     // if (r2Publication.LCP &&
+    //     //     publicationDocument.resources &&
+    //     //     publicationDocument.resources.r2LSDJson) {
+
+    //     //     // Legacy Base64 data blobs
+    //     //     // const r2LSDBase64 = publicationDocument.resources.r2LSDBase64;
+    //     //     // const r2LSDStr = Buffer.from(r2LSDBase64, "base64").toString("utf-8");
+    //     //     // const r2LSDJson = JSON.parse(r2LSDStr);
+    //     //     const r2LSDJson = publicationDocument.resources.r2LSDJson;
+    //     //     const r2LSD = TaJsonDeserialize(r2LSDJson, LSD);
+
+    //     //     r2Publication.LCP.LSD = r2LSD;
+    //     // }
+
+    //     return r2Publication;
+    // }
+
+    // DOES NOT MUTATE publicationDocument (returns a modified copy)
+    public async checkPublicationLicenseUpdate(
+        publicationDocument: PublicationDocument,
+        skipNetworkLSD: boolean,
+    ): Promise<PublicationDocument> {
+        const rootState = this.store.getState();
+        if (rootState.lcp.publicationFileLocks[publicationDocument.identifier]) {
+            // skip LSD processStatusDocument()
+            return Promise.resolve(publicationDocument);
+            // return Promise.reject(`Publication file lock busy ${publicationDocument.identifier}`);
+        }
+        this.store.dispatch(lcpActions.publicationFileLock.build({ [publicationDocument.identifier]: true }));
+        try {
+            const r2Publication = await this.publicationViewConverter.unmarshallR2Publication(publicationDocument); // , true
+
+            // DOES NOT MUTATE publicationDocument (returns a modified copy)
+            return await this.checkPublicationLicenseUpdate_(publicationDocument, r2Publication, skipNetworkLSD);
+        } finally {
+            this.store.dispatch(lcpActions.publicationFileLock.build({ [publicationDocument.identifier]: false }));
+        }
+    }
+
+    // DOES NOT MUTATE publicationDocument (returns a modified copy)
+    private async checkPublicationLicenseUpdate_(
+        publicationDocument: PublicationDocument,
+        r2Publication: R2Publication,
+        skipNetworkLSD: boolean,
+    ): Promise<PublicationDocument> {
+
+        let redoHash = false;
+        if (!skipNetworkLSD && r2Publication.LCP) {
+            try {
+                await this.processStatusDocument(
+                    publicationDocument.identifier,
+                    r2Publication,
+                );
+
+                debug(r2Publication.LCP);
+                debug(r2Publication.LCP.LSD);
+
+            } catch (err) {
+                debug(err);
+            }
+
+            if ((r2Publication as any).__LCP_LSD_UPDATE_COUNT) {
+                debug("processStatusDocument LCP updated.");
+                redoHash = true;
+            }
+        }
+
+        const epubPath = await this.publicationStorage.getPublicationEpubPath(
+            publicationDocument.identifier,
+        );
+
+        const newPublicationDocument: PublicationDocumentWithoutTimestampable = Object.assign(
+            {},
+            publicationDocument,
+            {
+                hash: redoHash ? await extractCrc32OnZip(epubPath) : publicationDocument.hash,
+            },
+        );
+
+        // MUTATES newPublicationDocument
+        await this.updateDocumentLcp(newPublicationDocument, r2Publication.LCP);
+
+        const newPubDocument = await this.publicationRepository.save(newPublicationDocument);
+        return Promise.resolve(newPubDocument);
+    }
+
+    public async renewPublicationLicense(
+        publicationDocument: PublicationDocument,
+    ): Promise<PublicationDocument> {
+
+        const rootState = this.store.getState();
+        if (rootState.lcp.publicationFileLocks[publicationDocument.identifier]) {
+            return Promise.reject(`Publication file lock busy ${publicationDocument.identifier}`);
+        }
+        this.store.dispatch(lcpActions.publicationFileLock.build({ [publicationDocument.identifier]: true }));
+        try {
+            const r2Publication = await this.publicationViewConverter.unmarshallR2Publication(publicationDocument); // , true
+
+            // DOES NOT MUTATE publicationDocument (returns a modified copy)
+            let newPubDocument = await this.checkPublicationLicenseUpdate_(publicationDocument, r2Publication, false);
+
+            let redoHash = false;
+            if (r2Publication.LCP?.LSD?.Links) {
+                const renewLink = r2Publication.LCP.LSD.Links.find((l) => {
+                    return l.HasRel("renew");
+                });
+                if (!renewLink) {
+                    debug("!renewLink");
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.renewButton")}] 👎`,
+                    ));
+                    return newPubDocument;
+                }
+                if (renewLink.Type !== ContentType.Lsd) {
+                    if (renewLink.Type === ContentType.Html) {
+                        if (renewLink.Href && /^https?:\/\//.test(renewLink.Href)) { // ignores file: mailto: data: thoriumhttps: httpsr2: thorium: opds: etc.
+                            await shell.openExternal(renewLink.Href);
+                        }
+                        return newPubDocument;
+                    }
+                    debug(`renewLink.Type: ${renewLink.Type}`);
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.renewButton")}] 👎`,
+                    ));
+                    return newPubDocument;
+                }
+
+                // const nowMs = new Date().getTime();
+                // const numberOfDays = 2;
+                // const laterMs = nowMs + (numberOfDays * 24 * 60 * 60 * 1000);
+                // const later = new Date(laterMs);
+                // const endDateStr = later.toISOString();
+                // debug(`======== RENEW DATE 1: ${endDateStr}`);
+                const endDateStr: string | undefined = undefined; // TODO: user input?
+                const endDate = endDateStr ? moment(endDateStr).toDate() : undefined;
+                let renewResponseLsd: LSD;
+                try {
+                    renewResponseLsd =
+                        await this.lsdManager.lsdRenew(endDate, r2Publication.LCP.LSD);
+                } catch (err) {
+                    debug(err);
+
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.renewButton")}]: ${err}`,
+                        ));
+                }
+                if (renewResponseLsd) {
+                    debug(renewResponseLsd);
+                    r2Publication.LCP.LSD = renewResponseLsd;
+
+                    redoHash = false;
+                    try {
+                        await this.processStatusDocument(
+                            publicationDocument.identifier,
+                            r2Publication,
+                        );
+
+                        debug(r2Publication.LCP);
+                        debug(r2Publication.LCP.LSD);
+
+                    } catch (err) {
+                        debug("Error processStatusDocument", err);
+                    }
+
+                    if ((r2Publication as any).__LCP_LSD_UPDATE_COUNT) {
+                        debug("processStatusDocument LCP updated.");
+                        redoHash = true;
+                    }
+
+                    const newEndDate = r2Publication.LCP && r2Publication.LCP.Rights && r2Publication.LCP.Rights.End ?
+                        r2Publication.LCP.Rights.End.toISOString() : "";
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Success,
+                        `LCP [${this.translator.translate("publication.renewButton")}] ${newEndDate}`,
+                        ));
+
+                    const epubPath = await this.publicationStorage.getPublicationEpubPath(
+                        publicationDocument.identifier,
+                    );
+                    const newPublicationDocument: PublicationDocumentWithoutTimestampable = Object.assign(
+                        {},
+                        publicationDocument,
+                        {
+                            hash: redoHash ? await extractCrc32OnZip(epubPath) : publicationDocument.hash,
+                        },
+                    );
+
+                    // MUTATES newPublicationDocument
+                    await this.updateDocumentLcp(newPublicationDocument, r2Publication.LCP);
+
+                    newPubDocument = await this.publicationRepository.save(newPublicationDocument);
+                } else {
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.renewButton")}] 👎`,
+                    ));
+                }
+            }
+
+            return Promise.resolve(newPubDocument);
+        } finally {
+            this.store.dispatch(lcpActions.publicationFileLock.build({ [publicationDocument.identifier]: false }));
+        }
+    }
+
+    public async returnPublication(
+        publicationDocument: PublicationDocument,
+    ): Promise<PublicationDocument> {
+
+        const rootState = this.store.getState();
+        if (rootState.lcp.publicationFileLocks[publicationDocument.identifier]) {
+            return Promise.reject(`Publication file lock busy ${publicationDocument.identifier}`);
+        }
+        this.store.dispatch(lcpActions.publicationFileLock.build({ [publicationDocument.identifier]: true }));
+        try {
+            const r2Publication = await this.publicationViewConverter.unmarshallR2Publication(publicationDocument); // , true
+
+            // DOES NOT MUTATE publicationDocument (returns a modified copy)
+            let newPubDocument = await this.checkPublicationLicenseUpdate_(publicationDocument, r2Publication, false);
+
+            let redoHash = false;
+            if (r2Publication.LCP?.LSD?.Links) {
+                const returnLink = r2Publication.LCP.LSD.Links.find((l) => {
+                    return l.HasRel("return");
+                });
+                if (!returnLink) {
+                    debug("!returnLink");
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.returnButton")}] 👎`,
+                    ));
+                    return newPubDocument;
+                }
+                if (returnLink.Type !== ContentType.Lsd) {
+                    if (returnLink.Type === ContentType.Html || returnLink.Type === ContentType.Xhtml) {
+                        if (returnLink.Href && /^https?:\/\//.test(returnLink.Href)) { // ignores file: mailto: data: thoriumhttps: httpsr2: thorium: opds: etc.
+                            await shell.openExternal(returnLink.Href);
+                        }
+                        return newPubDocument;
+                    }
+                    debug(`returnLink.Type: ${returnLink.Type}`);
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.returnButton")}] 👎`,
+                    ));
+                    return newPubDocument;
+                }
+
+                let returnResponseLsd: LSD;
+                try {
+                    returnResponseLsd =
+                        await this.lsdManager.lsdReturn(r2Publication.LCP.LSD);
+                } catch (err) {
+                    debug(err);
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.returnButton")}]: ${err}`,
+                        ));
+                }
+                if (returnResponseLsd) {
+                    debug(returnResponseLsd);
+                    r2Publication.LCP.LSD = returnResponseLsd;
+
+                    redoHash = false;
+                    try {
+                        await this.processStatusDocument(
+                            publicationDocument.identifier,
+                            r2Publication,
+                        );
+
+                        debug(r2Publication.LCP);
+                        debug(r2Publication.LCP.LSD);
+
+                    } catch (err) {
+                        debug(err);
+                    }
+
+                    if ((r2Publication as any).__LCP_LSD_UPDATE_COUNT) {
+                        debug("processStatusDocument LCP updated.");
+                        redoHash = true;
+                    }
+
+                    const newEndDate = r2Publication.LCP && r2Publication.LCP.Rights && r2Publication.LCP.Rights.End ?
+                        r2Publication.LCP.Rights.End.toISOString() : "";
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Success,
+                        `LCP [${this.translator.translate("publication.returnButton")}] ${newEndDate}`,
+                        ));
+
+                    const epubPath = await this.publicationStorage.getPublicationEpubPath(
+                        publicationDocument.identifier,
+                    );
+                    const newPublicationDocument: PublicationDocumentWithoutTimestampable = Object.assign(
+                        {},
+                        publicationDocument,
+                        {
+                            hash: redoHash ? await extractCrc32OnZip(epubPath) : publicationDocument.hash,
+                        },
+                    );
+
+                    // MUTATES newPublicationDocument
+                    await this.updateDocumentLcp(newPublicationDocument, r2Publication.LCP);
+
+                    newPubDocument = await this.publicationRepository.save(newPublicationDocument);
+                } else {
+                    this.store.dispatch(toastActions.openRequest.build(ToastType.Error,
+                        `LCP [${this.translator.translate("publication.returnButton")}] 👎`,
+                    ));
+                }
+            }
+
+            return Promise.resolve(newPubDocument);
+        } finally {
+            this.store.dispatch(lcpActions.publicationFileLock.build({ [publicationDocument.identifier]: false }));
+        }
+    }
+
+    public convertUnlockPublicationResultToString(val: any, licenseIssueDate: string): string | undefined {
+        let message: string | undefined;
+        if (typeof val === "string") {
+            message = val;
+        } else if (typeof val === "number") {
+            switch (val as number) {
+                case 0: {
+                    message = "NONE: " + val;
+                    break;
+                }
+                case 1: {
+                    // message = "INCORRECT PASSPHRASE: " + val;
+                    message = this.translator.translate("publication.incorrectPassphrase");
+                    break;
+                }
+                case 11: {
+                    // message = "LICENSE_OUT_OF_DATE: " + val;
+                    message = this.translator.translate("publication.licenseOutOfDate");
+                    break;
+                }
+                case 101: {
+                    // message = "CERTIFICATE_REVOKED: " + val;
+                    message = this.translator.translate("publication.certificateRevoked");
+                    break;
+                }
+                case 102: {
+                    // message = "CERTIFICATE_SIGNATURE_INVALID: " + val;
+                    message = this.translator.translate("publication.certificateSignatureInvalid");
+                    break;
+                }
+                case 111: {
+                    // message = "LICENSE_CERTIFICATE_DATE_INVALID (was LICENSE_SIGNATURE_DATE_INVALID): " + val;
+                    message = this.translator.translate("publication.licenseCertificateDateInvalid", { dateTime: licenseIssueDate });
+                    break;
+                }
+                case 112: {
+                    // message = "LICENSE_SIGNATURE_INVALID: " + val;
+                    message = this.translator.translate("publication.licenseSignatureInvalid");
+                    break;
+                }
+                case 121: {
+                    message = "CONTEXT_INVALID: " + val;
+                    break;
+                }
+                case 131: {
+                    message = "CONTENT_KEY_DECRYPT_ERROR: " + val;
+                    break;
+                }
+                case 141: {
+                    // message = "USER_KEY_CHECK_INVALID: " + val;
+                    message = this.translator.translate("publication.userKeyCheckInvalid");
+                    break;
+                }
+                case 151: {
+                    message = "CONTENT_DECRYPT_ERROR: " + val;
+                    break;
+                }
+                default: {
+                    message = "Unknown error?! " + val;
+                }
+            }
+        } else if (val && typeof val === "object"
+            // val.toString &&
+            // typeof val.toString === "function"
+            ) {
+                message = (val as object).toString();
+        }
+
+        return message;
+    }
+
+    // if the publication is not yet loaded in the streamer (streamer.cachedPublication())
+    // then we just unlock a transient in-memory R2Publication, so must make sure to subsequently unlock
+    // the "proper" streamer-hosted publication in order to decrypt resources!
+    // TODO: improve this horrible returned union type!
+    public async unlockPublication(publicationDocument: PublicationDocument, passphrase: string | undefined):
+        Promise<string | number | null | undefined> {
+
+        let lcpPasses: string[] | undefined;
+        let passphraseHash: string | undefined;
+        if (passphrase) {
+            passphraseHash = toSha256Hex(passphrase);
+            lcpPasses = [passphraseHash];
+        } else {
+            const secrets = await this.getSecrets(publicationDocument);
+            if (!secrets || !secrets.length) {
+                return null;
+            }
+            lcpPasses = secrets;
+        }
+
+        const publicationIdentifier = publicationDocument.identifier;
+        const epubPath = await this.publicationStorage.getPublicationEpubPath(publicationIdentifier);
+        // const r2Publication = await this.streamer.loadOrGetCachedPublication(epubPath);
+
+        // let r2Publication = _USE_HTTP_STREAMER ?
+        //     this.streamer.cachedPublication(epubPath) :
+        //     streamerCachedPublication(epubPath);
+        let r2Publication = streamerCachedPublication(epubPath);
+
+        if (!r2Publication) {
+            r2Publication = await this.publicationViewConverter.unmarshallR2Publication(publicationDocument); // , true
+            // if (r2Publication.LCP) {
+            //     r2Publication.LCP.init();
+            // }
+        }
+        // else {
+        //     // The streamer at this point should not host an instance of this R2Publication,
+        //     // because we normally ensure readers are closed before performing LCP/LSD
+        //     debug(`>>>>>>> streamer.cachedPublication() ?! ${publicationIdentifier} ${epubPath}`);
+        // }
+        if (!r2Publication) {
+            debug("unlockPublication !r2Publication ?");
+            return null;
+        }
+        if (!r2Publication.LCP) {
+            debug("unlockPublication !r2Publication.LCP ?");
+            return null;
+        }
+
+        if ((
+            __TH__IS_DEV__
+            && !r2Publication.LCP.isNativeNodePlugin() // comment this to trigger the error in DEV mode even if the native LCP module is available
+            )
+            || __TH__IS_CI__) { // !__TH__IS_DEV__ && __TH__IS_PACKAGED__
+            try {
+                dialog.showErrorBox("LCP", this.translator.translate("publication.lcpNotSupported"));
+            } catch {
+                // ignore
+            }
+        }
+
+        try {
+            await r2Publication.LCP.tryUserKeys(lcpPasses);
+            debug("LCP pass okay");
+            if (passphraseHash) {
+                await this.saveSecret(publicationDocument, passphraseHash);
+            }
+        } catch (err: any) {
+            debug("FAIL publication.LCP.tryUserKeys()", err);
+            return err as string | number | null | undefined;
+            // DRMErrorCode (from r2-lcp-client)
+            // 1 === NO CORRECT PASSPHRASE / UERKEY IN GIVEN ARRAY
+            //     // No error
+            //     NONE = 0,
+            //     /**
+            //         WARNING ERRORS > 10
+            //     **/
+            //     // License is out of date (check start and end date)
+            //     LICENSE_OUT_OF_DATE = 11,
+            //     /**
+            //         CRITICAL ERRORS > 100
+            //     **/
+            //     // Certificate has been revoked in the CRL
+            //     CERTIFICATE_REVOKED = 101,
+            //     // Certificate has not been signed by CA
+            //     CERTIFICATE_SIGNATURE_INVALID = 102,
+            //     // License has been issued by an expired certificate
+            //     LICENSE_CERTIFICATE_DATE_INVALID (was LICENSE_SIGNATURE_DATE_INVALID) = 111,
+            //     // License signature does not match
+            //     LICENSE_SIGNATURE_INVALID = 112,
+            //     // The drm context is invalid
+            //     CONTEXT_INVALID = 121,
+            //     // Unable to decrypt encrypted content key from user key
+            //     CONTENT_KEY_DECRYPT_ERROR = 131,
+            //     // User key check invalid
+            //     USER_KEY_CHECK_INVALID = 141,
+            //     // Unable to decrypt encrypted content from content key
+            //     CONTENT_DECRYPT_ERROR = 151
+        }
+
+        // import { doTryLcpPass } from "@r2-navigator-js/electron/main/lcp";
+        // try {
+        //     await doTryLcpPass(
+        //         this.streamer,
+        //         epubPath,
+        //         lcpPasses,
+        //         true, // isSha256Hex
+        //     );
+        //     debug("LCP pass okay");
+        //     if (passphraseHash) {
+        //         await this.saveSecret(publicationDocument, passphraseHash);
+        //     }
+        // } catch (err) {
+        //     return err;
+        // }
+
+        return undefined;
+    }
+
+    // , r2LSDJson: JsonMap
+    // , r2LCPJson: JsonMap
+    private convertLcpLsdInfo(lcp: LCP): LcpInfo {
+
+        let dateStr1 = "";
+        try {
+            dateStr1 = lcp.Issued?.toISOString();
+        } catch (err) {
+            debug(err);
+        }
+        let dateStr2 = "";
+        try {
+            dateStr2 = lcp.Updated?.toISOString();
+        } catch (err) {
+            debug(err);
+        }
+        let dateStr3 = "";
+        try {
+            dateStr3 = lcp.Rights?.Start?.toISOString();
+        } catch (err) {
+            debug(err);
+        }
+        let dateStr4 = "";
+        try {
+            dateStr4 = lcp.Rights?.End?.toISOString();
+        } catch (err) {
+            debug(err);
+        }
+        const lcpInfo: LcpInfo = {
+            provider: lcp.Provider,
+            issued: dateStr1,
+            updated: dateStr2,
+            rights: lcp.Rights ? {
+                copy: lcp.Rights.Copy,
+                print: lcp.Rights.Print,
+                start: dateStr3,
+                end: dateStr4,
+            } : undefined,
+
+            // r2LCPJson,
+            // Legacy Base64 data blobs
+            // r2LCPBase64,
+
+            textHint: lcp.Encryption.UserKey.TextHint ? lcp.Encryption.UserKey.TextHint : "",
+        };
+
+        if (lcp.Links) {
+            const statusLink = lcp.Links.find((link) => {
+                return link.Rel === "status";
+            });
+            if (statusLink) {
+                lcpInfo.lsd = {
+                    statusUrl: statusLink.Href,
+
+                    // r2LSDJson,
+                    // Legacy Base64 data blobs
+                    // r2LSDBase64,
+                };
+            }
+
+            const urlHint = lcp.Links.find((link) => {
+                return link.Rel === "hint";
+            });
+            if (typeof urlHint?.Href === "string") {
+                lcpInfo.urlHint = {
+                    href: urlHint.Href,
+                    title: urlHint.Title ?? undefined,
+                    type: urlHint.Type ?? undefined,
+                };
+            }
+        }
+
+        if (lcp.LSD && lcpInfo.lsd) {
+            let dateStr5 = "";
+            try {
+                dateStr5 = lcp.LSD.Updated?.License?.toISOString();
+            } catch (err) {
+                debug(err);
+            }
+            let dateStr6 = "";
+            try {
+                dateStr6 = lcp.LSD.Updated?.Status?.toISOString();
+            } catch (err) {
+                debug(err);
+            }
+            lcpInfo.lsd.lsdStatus = {
+                id: lcp.LSD.ID,
+                status: lcp.LSD.Status,
+                message: lcp.LSD.Message,
+                updated: {
+                    license: dateStr5,
+                    status: dateStr6,
+                },
+                // events: lcp.LSD.Events ? lcp.LSD.Events.map((ev) => {
+                //     let dateStr7 = "";
+                //     try {
+                //         dateStr7 = ev.TimeStamp?.toISOString();
+                //     } catch (err) {
+                //         debug(err);
+                //     }
+                //     return {
+                //         id: ev.ID,
+                //         name: ev.Name,
+                //         timeStamp: dateStr7,
+                //         type: ev.Type, // r2-lcp-js TypeEnum
+                //     };
+                // }) : undefined,
+                links: lcp.LSD.Links ? lcp.LSD.Links.map((link) => {
+                    return {
+                        length: link.Length,
+                        href: link.Href,
+                        title: link.Title,
+                        type: link.Type,
+                        templated: link.Templated,
+                        profile: link.Profile,
+                        hash: link.Hash,
+                        rel: link.Rel,
+                    };
+                }) : undefined,
+            } as LsdStatus;
+        }
+
+        return lcpInfo;
+    }
+
+    public async processStatusDocument(
+        publicationIdentifier: string,
+        r2Publication: R2Publication): Promise<void> {
+
+        (r2Publication as any).__LCP_LSD_UPDATE_COUNT = 0;
+
+        if (!r2Publication.LCP) {
+            return Promise.reject("processStatusDocument NO LCP data!");
+        }
+
+
+
+        return new Promise(async (resolve, reject) => {
+            const callback = async (r2LCPStr: string | undefined) => {
+                debug("launchStatusDocumentProcessing DONE.");
+                debug(r2LCPStr);
+
+                // r2Publication.LCP.LSD.Status !== StatusEnum.Active && r2Publication.LCP.LSD.Status !== StatusEnum.Ready
+                if (r2Publication.LCP.LSD &&
+                    (r2Publication.LCP.LSD.Status === StatusEnum.Revoked
+                    || r2Publication.LCP.LSD.Status === StatusEnum.Returned
+                    || r2Publication.LCP.LSD.Status === StatusEnum.Cancelled
+                    || r2Publication.LCP.LSD.Status === StatusEnum.Expired)) {
+                    // TODO anything here just in case the LCP license end date is still "open" in the future? We assume it is now closed (subsequent attempts to load book will fail).
+                    // The license is supposed to be the source of truth, so it should have been correspondingly updated by server...maybe too optimistic assumption?
+                }
+
+                if (r2LCPStr) {
+
+                    const atLeastOneReaderIsOpen = await diMainGet("saga-middleware").run(RequesetToCloseAllReadersWithTheSamePubId, publicationIdentifier).toPromise<boolean>() // NOTE: no type inference with Task .toPromise
+                        .catch((e) => { debug("RequesetToCloseAllReadersWithTheSamePubId", e); });
+                    debug("RequesetToCloseAllReadersWithTheSamePubId fulfilled");
+                    // let atLeastOneReaderIsOpen = false;
+                    // const readers = this.store.getState().win.session.reader;
+                    // if (readers) {
+                    //     for (const reader of Object.values(readers)) {
+                    //         if (reader.publicationIdentifier === publicationIdentifier) {
+                    //             atLeastOneReaderIsOpen = true;
+                    //             break;
+                    //         }
+                    //     }
+                    // }
+                    // if (atLeastOneReaderIsOpen) {
+                    //     // this.store.dispatch(readerActions.closeRequestFromPublication.build(
+                    //     //     publicationDocumentIdentifier));
+                    // }
+                    if (atLeastOneReaderIsOpen) {
+                        await new Promise<void>((res, _rej) => {
+                            setTimeout(() => {
+                                res();
+                            }, 500); // allow extra completion time to ensure the filesystem ZIP streams are closed
+                        });
+                    }
+
+                    try {
+                        // --------- This LSD was set in launchStatusDocumentProcessing() so it is up to date in the context of r2Publication.LCP,
+                        // but we are receiving a new LCP license so need to reassign later...
+                        const prevLSD = r2Publication.LCP.LSD;
+
+                        // const epubPath_ = await lsdLcpUpdateInject(
+                        //     licenseUpdateJson,
+                        //     r2Publication,
+                        //     epubPath);
+
+                        const r2LCPJson = global.JSON.parse(r2LCPStr);
+                        debug(r2LCPJson);
+
+                        if (lcpLicenseIsNotWellFormed(r2LCPJson)) {
+                            const rej = `LCP license malformed: ${JSON.stringify(r2LCPJson)}`;
+                            debug(rej);
+                            reject(rej);
+                            return;
+                        }
+
+                        let r2LCP: LCP;
+                        try {
+                            r2LCP = TaJsonDeserialize(r2LCPJson, LCP);
+                        } catch (erorz) {
+                            debug(erorz);
+                            reject(erorz);
+                            return;
+                        }
+                        r2LCP.JsonSource = r2LCPStr;
+                        r2Publication.LCP = r2LCP;
+
+                        // --------- will be updated below via another round of processStatusDocument_() UPDATE: no, see below ...
+                        r2Publication.LCP.LSD = prevLSD;
+
+                        const epubPath = await this.publicationStorage.getPublicationEpubPath(
+                            publicationIdentifier,
+                        );
+                        await this.injectLcplIntoZip_(epubPath, r2LCPStr);
+
+                        // --------- see the prevLSD assignment above, and the processStatusDocument_() call below
+                        // ... we avoid the second LSD network request which is deemed unnecessary in the real world
+                        if (!(r2Publication as any).__LCP_LSD_UPDATE_COUNT) {
+                            (r2Publication as any).__LCP_LSD_UPDATE_COUNT = 1; // TODO: this is used elsewhere to trigger the recalculation of the pub hash, should really be a proper typed flag, not "any"
+                        }
+                        resolve();
+                        // --------- below is the commented code that used to create the second LSD network request:
+                        // // Protect against infinite loop due to incorrect LCP / LSD server dates
+                        // if (!(r2Publication as any).__LCP_LSD_UPDATE_COUNT) {
+                        //     (r2Publication as any).__LCP_LSD_UPDATE_COUNT = 1;
+                        // } else {
+                        //     (r2Publication as any).__LCP_LSD_UPDATE_COUNT++;
+                        // }
+                        // if ((r2Publication as any).__LCP_LSD_UPDATE_COUNT > 2) {
+                        //     debug("__LCP_LSD_UPDATE_COUNT!?");
+                        //     resolve();
+                        // } else {
+                        //     try {
+                        //         // loop to re-init LSD in updated LCP
+                        //         await this.processStatusDocument_(
+                        //             publicationDocumentIdentifier,
+                        //             r2Publication);
+
+                        //         // TODO: publicationFileLock by checkPublicationLicenseUpdate(), so does not work
+                        //         if (atLeastOneReaderIsOpen) {
+                        //             this.store.dispatch(readerActions.openRequest.build(publicationDocumentIdentifier));
+                        //         }
+                        //         resolve();
+                        //     } catch (err) {
+                        //         debug(err);
+                        //         reject(err);
+                        //     }
+                        // }
+                    } catch (err) {
+                        debug(err);
+                        reject(err);
+                    }
+                } else {
+                    resolve();
+                }
+            };
+
+            // use this to temporarily bypass LSD checks during dev
+            if (__TH__SKIP_LCP_LSD__) {
+                await callback(undefined);
+                return;
+            }
+            try {
+                const r2LCPStr = await this.lsdManager.launchStatusDocumentProcessing(r2Publication.LCP);
+                await callback(r2LCPStr);
+            } catch (err) {
+                debug(err);
+
+                // ignore uncaught promise rejections
+                // (other possible errors in LSD protocol, network issues, etc.)
+                // reject(err);
+                await callback(undefined);
+            }
+        });
+    }
+
+    // HTTP statusCode < 200 || >= 300.
+    // "err" can be:
+    //
+    // a number (HTTP status code) when no response body is available.
+    //
+    // an object with the `httpStatusCode` property (number)
+    // and httpResponseBody (string) when the response body cannot be parsed to JSON.
+    //
+    // an object with the `httpStatusCode` property (number)
+    // and other arbitrary JSON properties,
+    // depending on the server response.
+    // Typically, compliant LCP/LSD servers are expected to return
+    // Problem Details JSON (RFC7807),
+    // which provides `title` `type` and `details` JSON properties.
+    // See https://readium.org/lcp-specs/releases/lsd/latest#31-handling-errors
+
+    // TODO in LSD class
+    // private stringifyLsdError(err: any): string {
+    //     if (typeof err === "number") {
+    //         return `${err}`;
+    //     }
+    //     if (!err) {
+    //         return "";
+    //     }
+    //     if (typeof err === "object") {
+    //         if (err.httpStatusCode) {
+    //             if (err.httpResponseBody) {
+    //                 return `${err.httpStatusCode} (${err.httpResponseBody})`;
+    //             }
+    //             if (err.title && err.detail) {
+    //                 return `${err.httpStatusCode} (${err.title} - ${err.detail})`;
+    //             }
+    //         }
+    //         return JSON.stringify(err);
+    //     }
+    //     return err;
+    // }
+}

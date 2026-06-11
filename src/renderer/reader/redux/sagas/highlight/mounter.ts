@@ -1,0 +1,166 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import debug_ from "debug";
+
+// import { IEventPayload_R2_EVENT_HIGHLIGHT_CLICK } from "@r2-navigator-js/electron/common/events";
+import { zipWith } from "ramda";
+import { IReaderRootState } from "readium-desktop/common/redux/states/renderer/readerRootState";
+import { eventChannel, SagaIterator, buffers } from "redux-saga";
+// eslint-disable-next-line local-rules/typed-redux-saga-use-typed-effects
+import { put } from "redux-saga/effects";
+import { call as callTyped, select as selectTyped } from "typed-redux-saga/macro";
+
+import { HighlightDrawTypeMarginBookmark, IHighlight, IHighlightDefinition } from "@r2-navigator-js/electron/common/highlight";
+import {
+    highlightsCreate, highlightsDrawMargin, highlightsRemove,
+} from "@r2-navigator-js/electron/renderer";
+
+import { readerLocalActionHighlights } from "../../actions";
+import {
+    IHighlightHandlerState, IHighlightMounterState,
+} from "readium-desktop/common/redux/states/renderer/highlight";
+
+// TypeScript GO:
+// The current file is a CommonJS module whose imports will produce 'require' calls;
+// however, the referenced file is an ECMAScript module and cannot be imported with 'require'.
+// Consider writing a dynamic 'import("...")' call instead.
+// To convert this file to an ECMAScript module, change its file extension to '.mts',
+// or add the field `"type": "module"` to 'package.json'.
+// @__ts-expect-error TS1479 (with TypeScript tsc ==> TS2578: Unused '@ts-expect-error' directive)
+// e__slint-disable-next-line @typescript-eslint/ban-ts-comment
+// @__ts-ignore TS1479
+import Color from "color";
+
+const debug = debug_("readium-desktop:renderer:reader:redux:sagas:highlight:mounter");
+
+export function* mountHighlight(href: string, handlerState: IHighlightHandlerState[]): SagaIterator {
+
+    const { annotation_defaultDrawView } = yield* selectTyped((state: IReaderRootState) => state.reader.config);
+
+    // const atLeastOneAnnotationHighlight = handlerState.reduce((pv, {def: {group}}) => pv || group === "annotation", false);
+    const atLeastOneAnnotationHighlight = !!handlerState.find((v) => (v.def.group === "annotation" || v.def.group === "bookmark"));
+    if (atLeastOneAnnotationHighlight) {
+        if (annotation_defaultDrawView === "margin") {
+            highlightsDrawMargin(["annotation", "bookmark"]);
+        } else if (annotation_defaultDrawView === "hide") {
+            // return ; NEED TO DRAW OTHER ANNOTATIONS, such as SEARCH RESULTS
+        } else {
+            highlightsDrawMargin(["bookmark"]);
+        }
+    }
+
+    const mounterStateMap = yield* selectTyped((state: IReaderRootState) => state.reader.highlight.mounter);
+    // if (!mounterStateMap?.length) {
+    //     debug(`mountHighlight MOUNTER STATE EMPTY -- mounterStateMap: [${JSON.stringify(mounterStateMap, null, 4)}]`);
+    //     return;
+    // }
+
+    const handlerStateFiltered = handlerState.filter(
+        ({ uuid: uuidHandlerState, href: hrefHandlerState, def: defHandlerState }) =>
+            hrefHandlerState === href &&
+            (annotation_defaultDrawView !== "hide" || (defHandlerState.group !== "annotation" && defHandlerState.group !== "bookmark")) &&
+            // exclude already-mounted items
+            !mounterStateMap.find(([uuid, mounterState]) => uuidHandlerState === uuid && mounterState.href === href),
+    );
+
+    if (!handlerStateFiltered.length) {
+        debug(`mountHighlight NO MOUNTS TO DO -- href: [${href}] mounterStateMap: [${mounterStateMap ? mounterStateMap.length : JSON.stringify(mounterStateMap, null, 4)}] handlerState: [${handlerState ? handlerState.length : JSON.stringify(handlerState, null, 4)}]`);
+        return;
+    }
+
+    const highlightDefinitions = handlerStateFiltered.map((v) => v.def);
+
+    debug(`mountHighlight CREATE ... -- href: [${href}] highlightDefinitions: [${highlightDefinitions ? highlightDefinitions.length : JSON.stringify(highlightDefinitions, null, 4)}]`);
+
+    const createdHighlights = yield* callTyped(highlightsCreate, href, highlightDefinitions.map((def) => {
+        if (def.drawType === HighlightDrawTypeMarginBookmark) { // TODO: this currently works ok in light/dark color themes, but could be applied more smartly? (user preference?)
+            const color = Color.rgb(def.color.red, def.color.green, def.color.blue).darken(0.3);
+            return {
+                ...def,
+                color: {
+                    red: color.red(),
+                    green: color.green(),
+                    blue: color.blue(),
+                },
+            } satisfies IHighlightDefinition;
+        }
+        return def;
+    }));
+
+    debug(`mountHighlight CREATED -- href: [${href}] createdHighlights: [${createdHighlights ? createdHighlights.length : JSON.stringify(createdHighlights, null, 4)}]`);
+
+    const arrayProps = handlerStateFiltered.map((v) => ({uuid: v.uuid, href: v.href, type: v.def.group}));
+
+    const mounted = zipWith(
+        (props, highlight) => ({
+            uuid: props.uuid,
+            href: props.href,
+            ref: highlight,
+        } satisfies IHighlightMounterState),
+        arrayProps,
+        createdHighlights,
+    ).filter((v) => v.ref);
+
+    debug(`mountHighlight MOUNTED -- href: [${href}] mounted: [${mounted ? mounted.length : JSON.stringify(mounted, null, 4)}]`);
+
+    yield put(readerLocalActionHighlights.mounter.mount.build(mounted));
+}
+
+export function* unmountHightlight(href: string, mountUUIDs: string[]): SagaIterator {
+
+    // yield* callTyped(() => highlightsRemoveAll(href, ["search", "annotation"]));
+
+    const mounterStateMap = yield* selectTyped((state: IReaderRootState) => state.reader.highlight.mounter);
+    if (!mounterStateMap?.length) {
+        debug(`unmountHightlight MOUNTER STATE EMPTY -- mounterStateMap: [${JSON.stringify(mounterStateMap, null, 4)}]`);
+        return;
+    }
+
+    const mounterStateMapItems = mounterStateMap.filter(([uuid, mounterState]) => (mounterState.href === href && mountUUIDs.includes(uuid)));
+
+    if (!mounterStateMapItems.length) {
+        debug(`unmountHightlight CANNOT FIND MOUNTER -- href: [${href}] mountUUIDs: [${mountUUIDs ? mountUUIDs.length : JSON.stringify(mountUUIDs, null, 4)}] mounterStateMap: [${mounterStateMap ? mounterStateMap.length : JSON.stringify(mounterStateMap, null, 4)}]`);
+        return;
+    }
+
+    const uuids = mounterStateMapItems.map(([uuid, _mounterState]) => ({ uuid }));
+    const highlightIDs = mounterStateMapItems.map(([_uuid, mounterState]) => (mounterState.ref.id));
+
+    debug(`unmountHightlight -- href: [${href}] uuids: [${JSON.stringify(uuids, null, 4)}] highlightIDs: [${JSON.stringify(highlightIDs, null, 4)}]`);
+
+    yield* callTyped(() => highlightsRemove(href, highlightIDs));
+
+    // pull all hightlight from state (pop)
+    // navigator-js doesn't keep hightlight state beetween webview access
+    yield put(readerLocalActionHighlights.mounter.unmount.build(uuids));
+}
+
+export type THighlightClick = [string, IHighlight/*, IEventPayload_R2_EVENT_HIGHLIGHT_CLICK["event"]*/];
+
+export function getHightlightClickChannel() {
+    const channel = eventChannel<THighlightClick>(
+        (emit) => {
+
+            // const handler = (href: string, highlight: IHighlight/*, event: IEventPayload_R2_EVENT_HIGHLIGHT_CLICK["event"]*/) => {
+            //     emit([href, highlight/*, event*/]);
+            // };
+
+            (window as any).__hightlightClickChannelEmitFn = emit;
+
+            // highlightsClickListen(handler);
+
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
+            return () => {
+                // no destrutor
+            };
+        },
+        buffers.none(), // TODO: is it need to be buffered !?
+    );
+
+    return channel;
+}

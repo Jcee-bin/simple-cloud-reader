@@ -1,0 +1,413 @@
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const StatoscopeWebpackPlugin = require('@statoscope/webpack-plugin').default;
+
+const USE_LEGACY_TERSER = false; // https://github.com/edrlab/thorium-reader/commit/0dacd9a2f1aae18cb73b30529e2fa4f9e47c2896#diff-5912f4b420886d38336d6138b9785ecb2ef47f9edc025d1e409cb5cf2ecadd09
+const TerserPlugin =
+    USE_LEGACY_TERSER ?
+        // https://www.npmjs.com/package/terser-webpack-plugin/v/5.5.0
+        require("terser-webpack-plugin") // <= 5.5.0
+        :
+        // https://www.npmjs.com/package//minimizer-webpack-plugin?activeTab=versions
+        require("minimizer-webpack-plugin"); // >= 5.6.0
+
+const fs = require("fs");
+const path = require("path");
+const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+
+const preprocessorDirectives = require("./webpack.config-preprocessor-directives");
+
+// Get node environment
+const nodeEnv = process.env.NODE_ENV || "development";
+console.log(`MAIN nodeEnv: ${nodeEnv}`);
+
+// https://github.com/edrlab/thorium-reader/issues/1097#issuecomment-643406149
+const useLegacyTypeScriptLoader = process.env.USE_LEGACY_TYPESCRIPT_LOADER ? true : false;
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+ForkTsCheckerWebpackPlugin.prototype[require("util").inspect.custom] = (_depth, _options) => {
+    return "ForkTsCheckerWebpackPlugin";
+};
+const checkTypeScriptSkip =
+    nodeEnv !== "production" ? (process.env.SKIP_CHECK_TYPESCRIPT === "1" ? true : false) : false;
+// let ignorePlugin = new webpack.IgnorePlugin({ resourceRegExp: new RegExp("/(bindings)/") })
+
+const _src = path.resolve(__dirname, "src");
+const aliases = {
+    "readium-desktop": _src,
+
+    "@r2-utils-js": path.join(_src, "r2-xxx-js/r2-utils-js"),
+    "@r2-lcp-js": path.join(_src, "r2-xxx-js/r2-lcp-js"),
+    "@r2-opds-js": path.join(_src, "r2-xxx-js/r2-opds-js"),
+    "@r2-shared-js": path.join(_src, "r2-xxx-js/r2-shared-js"),
+    "@r2-streamer-js": path.join(_src, "r2-xxx-js/r2-streamer-js"),
+    "@r2-navigator-js": path.join(_src, "r2-xxx-js/r2-navigator-js"),
+    "@lunr-languages": "lunr-languages",
+};
+
+let externals = {
+    bindings: "bindings",
+    "file-uri-to-path": "file-uri-to-path",
+    fsevents: "fsevents",
+    "electron-devtools-installer": "electron-devtools-installer",
+    "remote-redux-devtools": "remote-redux-devtools",
+    electron: "electron",
+    yargs: "yargs",
+};
+const _externalsCache = new Set();
+if (nodeEnv !== "production") {
+    const nodeExternals = require("webpack-node-externals");
+    const neFunc = nodeExternals({
+        // allowlist: ["marked", "pdf.js", "readium-speech", "@github/paste-markdown", "yargs", "timeout-signal", "nanoid", "normalize-url", "node-fetch", "data-uri-to-buffer", /^fetch-blob/, /^formdata-polyfill/],
+        // allowlist: ["proxy-agent"],
+        importType: function (moduleName) {
+            if (!_externalsCache.has(moduleName)) {
+                console.log(`WEBPACK EXTERNAL (MAIN): [${moduleName}]`);
+
+                if (moduleName === "proxy-agent") {
+                    const filePath = path.join(process.cwd(), "node_modules", moduleName, "package.json");
+                    const jsonStr = fs.readFileSync(filePath, { encoding: "utf8" });
+                    fs.writeFileSync(filePath, jsonStr.replace(/"import":/, `".":`), { encoding: 'utf8' });
+                }
+            }
+            _externalsCache.add(moduleName);
+
+            // https://github.com/electron/electron/blob/main/docs/tutorial/esm.md
+            // https://webpack.js.org/configuration/externals/#externals
+            // https://github.com/liady/webpack-node-externals
+            // https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+            // if (moduleName === "proxy-agent") {
+            //     return "module " + moduleName;
+            // }
+            // [2] Error [ERR_PACKAGE_PATH_NOT_EXPORTED]: No "exports" main defined in /thorium-reader/node_modules/proxy-agent/package.json
+            // [2]     at exportsNotFound (node:internal/modules/esm/resolve:318:10)
+            // [2]     at packageExportsResolve (node:internal/modules/esm/resolve:609:13)
+            // [2]     at resolveExports (node:internal/modules/cjs/loader:692:36)
+            // [2]     at Module._findPath (node:internal/modules/cjs/loader:759:31)
+            // [2]     at Module._resolveFilename (node:internal/modules/cjs/loader:1448:27)
+            // [2]     at s._resolveFilename (node:electron/js2c/browser_init:2:140240)
+            // [2]     at defaultResolveImpl (node:internal/modules/cjs/loader:1073:19)
+            // [2]     at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1078:22)
+            // [2]     at Module._load (node:internal/modules/cjs/loader:1249:25)
+            // [2]     at c._load (node:electron/js2c/node_init:2:17999)
+
+            return "commonjs " + moduleName;
+        },
+    });
+    externals = [
+        externals,
+        function ({ context, request, contextInfo, getResolve }, callback) {
+            const isRDesk = request.indexOf("readium-desktop/") === 0;
+            if (isRDesk) {
+                if (!_externalsCache.has(request)) {
+                    console.log(`WEBPACK EXTERNAL (MAIN): READIUM-DESKTOP [${request}]`);
+                }
+                _externalsCache.add(request);
+
+                return callback();
+            }
+
+            const isRDeskR2 = request.indexOf("@r2-") === 0;
+            if (isRDeskR2) {
+                if (!_externalsCache.has(request)) {
+                    console.log(`WEBPACK EXTERNAL (MAIN): READIUM-DESKTOP @R2 [${request}]`);
+                }
+                _externalsCache.add(request);
+
+                return callback();
+            }
+
+            let request_ = request;
+            if (aliases) {
+                // const isR2 = /^r2-.+-js/.test(request);
+                // const isR2Alias = /^@r2-.+-js/.test(request);
+
+                const iSlash = request.indexOf("/");
+                const key = request.substr(0, iSlash >= 0 ? iSlash : request.length);
+                if (aliases[key]) {
+                    request_ = request.replace(key, aliases[key]);
+
+                    if (!_externalsCache.has(request)) {
+                        console.log(`WEBPACK EXTERNAL (MAIN): ALIAS [${request}] => [${request_}]`);
+                    }
+                    _externalsCache.add(request);
+
+                    return callback(null, "commonjs " + request_);
+                }
+            }
+
+            neFunc(context, request, callback);
+        },
+    ];
+}
+
+console.log("WEBPACK externals (MAIN):", "-".repeat(200));
+console.log(JSON.stringify(externals, null, "  "));
+////// EXTERNALS
+////// ================================
+
+let config = Object.assign(
+    {},
+    {
+        bail: true,
+
+        entry: "./src/main.ts",
+        name: "main",
+        mode: nodeEnv,
+        output: {
+            filename: "main.js",
+            path: path.join(__dirname, "dist"),
+
+            // https://github.com/webpack/webpack/issues/1114
+            libraryTarget: "commonjs2", // commonjs-module
+        },
+        target: "electron-main",
+
+        node: {
+            __dirname: false,
+            __filename: false,
+        },
+
+        externalsPresets: { node: true },
+        externals: externals,
+        externalsType: "commonjs", // module, node-commonjs
+        experiments: {
+            outputModule: false, // module, node-commonjs
+        },
+
+        resolve: {
+            // Add '.ts' as resolvable extensions.
+            extensions: [".ts", ".js", ".node"],
+            alias: aliases,
+        },
+        stats: {
+            // all: true,
+            // warningsFilter: /export .* was not found in/,
+            // warningsFilter: /was not found in 'typed-redux-saga\/macro'/,
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.tsx$/,
+                    loader: useLegacyTypeScriptLoader ? "awesome-typescript-loader" : "ts-loader",
+                    options: {
+                        configFile: "tsconfig_main.json",
+                        transpileOnly: true, // checkTypeScriptSkip
+                        // compiler: "@typescript/native-preview",
+                    },
+                },
+                {
+                    test: /\.ts$/,
+                    use: [
+                        {
+                            loader: "babel-loader",
+                            options: {
+                                presets: [],
+                                // sourceMaps: "inline",
+                                plugins: ["macros"],
+                            },
+                        },
+                        {
+                            loader: useLegacyTypeScriptLoader ? "awesome-typescript-loader" : "ts-loader",
+                            options: {
+                                configFile: "tsconfig_main.json",
+                                transpileOnly: true, // checkTypeScriptSkip
+                                // compiler: "@typescript/native-preview",
+                            },
+                        },
+                    ],
+                },
+                // { test: /\.node$/, loader: "node-loader" },
+                {
+                    test: /\.(js|ts)$/,
+                    use: [
+                        {
+                            loader: path.resolve("./scripts/webpack-loader-scope-checker.js"),
+                            options: {
+                                forbids: "src/renderer",
+                            },
+                        },
+                    ],
+                },
+            ],
+        },
+        plugins: [
+            // new CopyWebpackPlugin({
+            //     patterns: [
+            //         {
+            //             from: path.join(__dirname, "src", "resources", "information"),
+            //             to: "assets/md/information",
+            //         },
+            //     ],
+            // }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "node_modules", "pdf.js", "build", "gh-pages", "web"),
+                        to: "assets/lib/pdfjs/web",
+                    },
+                ],
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "node_modules", "pdf.js", "build", "gh-pages", "build"),
+                        to: "assets/lib/pdfjs/build",
+                    },
+                ],
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "external-assets"),
+                        to: "external-assets",
+                    },
+                ],
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "src", "resources", "ReadiumCSS"),
+                        to: "ReadiumCSS",
+                    },
+                ],
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "node_modules", "mathjax"),
+                        to: "MathJax",
+                    },
+                ],
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "resources"),
+                        to: "assets/icons",
+                    },
+                ],
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: path.join(__dirname, "src", "renderer", "assets", "fonts"),
+                        to: "assets/fonts",
+                    },
+                ],
+            }),
+            preprocessorDirectives.definePlugin,
+        ],
+    },
+);
+
+config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^.\/runtime-fs$/ })); // jsondown (runtimejs, fatfs)
+
+config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^canvas$/ })); // pdfjs
+
+if (checkTypeScriptSkip) {
+    // const GoTsCheckerWebpackPlugin = require("./scripts/go-ts-checker-webpack-plugin");
+    // config.plugins.push(
+    //     new GoTsCheckerWebpackPlugin({name: "MAIN"}),
+    // );
+} else {
+    config.plugins.push(
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                configFile: "tsconfig_main.json",
+                // typescriptPath: `./node_modules/.bin/tsgo${os.platform() === "win32" ? ".exe" : ""}`,
+                // typescriptPath: "@typescript/native-preview",
+                typescriptPath: require.resolve("typescript"),
+                // typescriptPath: require.resolve("@typescript/native-preview"),
+                // typescriptPath: "./node_modules/@typescript/native-preview",
+            },
+            // measureCompilationTime: true,
+        }),
+    );
+}
+
+if (nodeEnv !== "production") {
+    // Bundle absolute resource paths in the source-map,
+    // so VSCode can match the source file.
+    config.output.devtoolModuleFilenameTemplate = "[absolute-resource-path]";
+
+    config.output.pathinfo = true;
+
+    config.devtool = "source-map";
+} else {
+    config.optimization = {
+        ...(config.optimization || {}),
+        nodeEnv: false,
+        ...(USE_LEGACY_TERSER ? {
+            usedExports: false, // TRUE ==> TypeError: Impl.implementation is not a constructor --- https://github.com/jsdom/jsdom/blob/v26.1.0/lib/jsdom/living/nodes/XMLDocument-impl.js#L4
+        } : {
+            // -----
+            // TRUE in PROD https://webpack.js.org/configuration/optimization/#optimizationusedexports
+            usedExports: false, // TRUE ==> TypeError: Impl.implementation is not a constructor --- https://github.com/jsdom/jsdom/blob/v26.1.0/lib/jsdom/living/nodes/XMLDocument-impl.js#L4
+            // TRUE is DEFAULT https://webpack.js.org/configuration/optimization/#optimizationprovidedexports
+            providedExports: true,
+            // TRUE in PROD https://webpack.js.org/configuration/optimization/#optimizationconcatenatemodules
+            concatenateModules: true,
+            // -----
+        }),
+        minimize: true,
+        minimizer: [
+            // https://github.com/webpack/minimizer-webpack-plugin#minimizeroptions
+            new TerserPlugin({
+                extractComments: false,
+                exclude: /MathJax/,
+                // parallel: 3,
+                [USE_LEGACY_TERSER ? "terserOptions" : "minimizerOptions"]: {
+                    // sourceMap: nodeEnv !== "production" ? true : false,
+                    sourceMap: false,
+                    compress: {defaults:false, dead_code:true, booleans: true, passes: 1},
+                    mangle: false,
+                    output: {
+                        comments: false,
+                    },
+                    // node-fetch v2.x (fixed in 3.x https://github.com/node-fetch/node-fetch/pull/673 )
+                    // keep_fnames: /AbortSignal/,
+                },
+            }),
+        ],
+    };
+    // {
+    //     minimize: false,
+    // };
+
+    config.plugins.push(
+        new webpack.IgnorePlugin({
+            resourceRegExp: /^electron-devtools-installer$/,
+        }),
+    );
+    config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^remote-redux-devtools$/ }));
+    config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^json-diff$/ }));
+}
+
+if (process.env.ENABLE_WEBPACK_BUNDLE_STATS)
+config.plugins.push(
+new StatoscopeWebpackPlugin({
+  saveReportTo: './dist/STATOSCOPE_[name].html',
+  // saveStatsTo: './dist/STATOSCOPE_[name].json',
+  saveStatsTo: undefined,
+  normalizeStats: false,
+  saveOnlyStats: false,
+  disableReportCompression: true,
+  statsOptions: {},
+  additionalStats: [],
+  watchMode: false,
+  name: 'main',
+  open: false,
+  compressor: false,
+}),
+new BundleAnalyzerPlugin({
+    analyzerMode: "disabled",
+    defaultSizes: "stat", // "parsed"
+    openAnalyzer: false,
+    generateStatsFile: true,
+    statsFilename: "stats_main.json",
+    statsOptions: null,
+    excludeAssets: null,
+}));
+
+module.exports = config;

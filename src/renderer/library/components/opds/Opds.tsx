@@ -1,0 +1,65 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import * as React from "react";
+import {
+    TranslatorProps, withTranslator,
+} from "readium-desktop/renderer/common/components/hoc/translator";
+import LibraryLayout from "readium-desktop/renderer/library/components/layout/LibraryLayout";
+
+import FeedList from "./FeedList";
+import OpdsAddForm from "./OpdsAddForm";
+import { IRendererCommonRootState } from "readium-desktop/common/redux/states/rendererCommonRootState";
+import { connect } from "react-redux";
+import { IOpdsFeedView } from "readium-desktop/common/views/opds";
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface IBaseProps extends TranslatorProps {
+}
+// IProps may typically extend:
+// RouteComponentProps
+// ReturnType<typeof mapStateToProps>
+// ReturnType<typeof mapDispatchToProps>
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface IProps extends IBaseProps {
+}
+
+interface IState {
+    feedsResult: IOpdsFeedView[] | undefined;
+}
+
+class Opds extends React.Component<IProps, IState> {
+
+    constructor(props: IProps) {
+        super(props);
+        this.state = {
+            feedsResult: undefined,
+        };
+    }
+
+    setFeedsResult = (feedsResult: IOpdsFeedView[] | undefined) => {
+        this.setState({ feedsResult });
+    };
+
+    public render(): React.ReactElement<{}>  {
+        const { __ } = this.props;
+        return (
+            <LibraryLayout
+                title={__("opds.breadcrumbRoot")}
+                secondaryHeader={<OpdsAddForm feedsResult={this.state.feedsResult} />}
+            >
+               <FeedList setFeedsResult={this.setFeedsResult} />
+            </LibraryLayout>
+        );
+    }
+}
+
+const mapStateToProps = (state: IRendererCommonRootState) => ({
+    locale: state.i18n.locale, // refresh
+});
+
+export default connect(mapStateToProps)(withTranslator(Opds));

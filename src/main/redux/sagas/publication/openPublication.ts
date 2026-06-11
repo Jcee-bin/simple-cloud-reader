@@ -1,0 +1,331 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import debug_ from "debug";
+import { Action } from "readium-desktop/common/models/redux";
+import { StreamerStatus } from "readium-desktop/common/models/streamer";
+import { lcpActions, toastActions } from "readium-desktop/common/redux/actions/";
+import { PublicationDocument } from "readium-desktop/main/db/document/publication";
+import { diMainGet } from "readium-desktop/main/di";
+import { streamerActions } from "readium-desktop/main/redux/actions";
+import { RootState } from "readium-desktop/main/redux/states";
+import {
+    streamerAddPublications, streamerLoadOrGetCachedPublication,
+} from "readium-desktop/main/streamer/streamerNoHttp";
+// eslint-disable-next-line local-rules/typed-redux-saga-use-typed-effects
+import { put, take } from "redux-saga/effects";
+import { call as callTyped, select as selectTyped, put as putTyped, SagaGenerator } from "typed-redux-saga/macro";
+
+import { StatusEnum } from "@r2-lcp-js/parser/epub/lsd";
+import { Publication as R2Publication } from "@r2-shared-js/models/publication";
+import { PublicationViewConverter } from "readium-desktop/main/converter/publication";
+import { getTranslator } from "readium-desktop/common/services/translator";
+import { URL_PROTOCOL_THORIUMHTTPS, URL_HOST_COMMON } from "readium-desktop/common/streamerProtocol";
+import { PublicationView } from "readium-desktop/common/views/publication";
+import { ToastType } from "readium-desktop/common/models/toast";
+import { cleanupLcpPublicationIfNoLongerUsable } from "./lcpSharedWorkstationCleanup";
+
+// import { _USE_HTTP_STREAMER } from "readium-desktop/preprocessor-directives";
+
+// Logger
+const filename_ = "readium-desktop:main:redux:sagas:publication:open";
+const debug = debug_(filename_);
+
+export const ERROR_MESSAGE_ON_USERKEYCHECKREQUEST = "ERROR_MESSAGE_ON_USERKEYCHECKREQUEST";
+export const ERROR_MESSAGE_ENCRYPTED_NO_LICENSE = "ERROR_MESSAGE_ENCRYPTED_NO_LICENSE";
+
+export const r2PublicationIsEncryptedAndHasNoLicense = (pub: R2Publication) => {
+    if (pub.LCP) {
+        return false;
+    }
+    let atLeastOneResourceIsEncrypted = false;
+    if (pub.Spine) {
+        for (const link of pub.Spine) {
+            // link.Properties?.Encrypted?.Scheme === "http://readium.org/2014/01/lcp"
+            if (link.Properties?.Encrypted?.Algorithm && link.Properties.Encrypted.Algorithm !== "http://www.idpf.org/2008/embedding" && link.Properties.Encrypted.Algorithm !== "http://ns.adobe.com/pdf/enc#RC") {
+                atLeastOneResourceIsEncrypted = true;
+                break;
+            }
+        }
+    }
+    if (!atLeastOneResourceIsEncrypted && pub.Resources) {
+        for (const link of pub.Resources) {
+            // link.Properties?.Encrypted?.Scheme === "http://readium.org/2014/01/lcp"
+            if (link.Properties?.Encrypted?.Algorithm && link.Properties.Encrypted.Algorithm !== "http://www.idpf.org/2008/embedding" && link.Properties.Encrypted.Algorithm !== "http://ns.adobe.com/pdf/enc#RC") {
+                atLeastOneResourceIsEncrypted = true;
+                break;
+            }
+        }
+    }
+    return atLeastOneResourceIsEncrypted;
+};
+
+const convertDoc = async (doc: PublicationDocument, publicationViewConverter: PublicationViewConverter) => {
+    return await publicationViewConverter.convertDocumentToView(doc);
+};
+
+export function* streamerOpenPublicationAndReturnManifestUrl(pubId: string): SagaGenerator<string | undefined> {
+
+    const publicationRepository = yield* callTyped(
+        () => diMainGet("publication-repository"));
+    const translator = getTranslator();
+
+    // Get publication
+    // let publicationDocument: PublicationDocument =
+    // {
+    //     createdAt: (new Date()).getTime(),
+    //     updatedAt: (new Date()).getTime(),
+    //     identifier: pubId,
+    //     hash: "",
+    //     title: pubId,
+    //     doNotPresentInReduxStoreDataBaseButFoundOnDisk_dummyDocument: true,
+    // }; // dummy publication if not found (publication found on disk but not in db, so need to be handled gracefully)
+    // not a const value because assign a copy of publicationDocument with LCP
+    let publicationDocument = yield* callTyped(() => publicationRepository.get(pubId));
+
+    if (!publicationDocument) {
+        yield* putTyped(toastActions.openRequest.build(ToastType.Error, translator.translate("message.open.error", {err: `not found in DataBase: ${pubId}`})));
+        return undefined;
+    }
+
+    const publicationFileLocks = yield* selectTyped(
+        (s: RootState) => s.lcp.publicationFileLocks);
+
+    if (publicationFileLocks[pubId]) {
+        throw new Error("lcp publication locked");
+    }
+    // no need to lock here, because once the streamer server accesses the ZIP file and streams resources,
+    // it's like a giant no-go to inject LCP license (which is why readers are closed before LSD updates)
+    // also, checkPublicationLicenseUpdate() places a lock or simply skips LSD checks (see below)
+    // yield put(appActions.publicationFileLock.build({ [publicationDocument.identifier]: true }));
+    // try {
+    // } finally {
+    //     yield put(appActions.publicationFileLock.build({ [publicationDocument.identifier]: false }));
+    // }
+
+    const lcpManager = yield* callTyped(
+        () => diMainGet("lcp-manager"));
+    const publicationViewConverter = yield* callTyped(
+        () => diMainGet("publication-view-converter"));
+
+    if (publicationDocument.lcp) {
+        debug("streamerOpenPublicationAndReturnManifestUrl() with LCP");
+        debug(publicationDocument.lcp);
+
+        try {
+            publicationDocument = yield* callTyped(
+                // DOES NOT MUTATE publicationDocument (returns a modified copy)
+                () => lcpManager.checkPublicationLicenseUpdate(publicationDocument, false),
+            );
+        } catch (error) {
+            debug("ERROR on call lcpManager.checkPublicationLicenseUpdate", error);
+        }
+
+        // The open flow has just performed the LSD check above, so the cleanup helper only
+        // evaluates/removes and deliberately skips a second network synchronization.
+        const cleanedPublicationDocument = yield* callTyped(
+            cleanupLcpPublicationIfNoLongerUsable,
+            publicationDocument,
+            "open-publication",
+            { skipLicenseUpdate: true },
+        );
+        if (!cleanedPublicationDocument) {
+            throw new Error(translator.translate("publication.expiredLcp"));
+        }
+        publicationDocument = cleanedPublicationDocument;
+
+        if (
+            publicationDocument.lcp && publicationDocument.lcp.lsd && publicationDocument.lcp.lsd.lsdStatus &&
+            publicationDocument.lcp.lsd.lsdStatus.status &&
+            publicationDocument.lcp.lsd.lsdStatus.status !== StatusEnum.Ready &&
+            publicationDocument.lcp.lsd.lsdStatus.status !== StatusEnum.Active
+        ) {
+
+            const msg = publicationDocument.lcp.lsd.lsdStatus.status === StatusEnum.Expired ?
+                translator.translate("publication.expiredLcp") : (
+                    publicationDocument.lcp.lsd.lsdStatus.status === StatusEnum.Revoked ?
+                        translator.translate("publication.revokedLcp") : (
+                            publicationDocument.lcp.lsd.lsdStatus.status === StatusEnum.Cancelled ?
+                                translator.translate("publication.cancelledLcp") : (
+                                    publicationDocument.lcp.lsd.lsdStatus.status === StatusEnum.Returned ?
+                                        translator.translate("publication.returnedLcp") :
+                                        translator.translate("publication.expiredLcp")
+                                )));
+
+            throw new Error(msg);
+        }
+
+        // we first unlockPublication() for the transient in-memory R2Publication,
+        // then we have to unlockPublication() again for the streamer-hosted pub instance (see below)
+        try {
+            debug("streamerOpenPublicationAndReturnManifestUrl() LCP unlockPublication() BEFORE");
+
+            // TODO: improve this horrible returned union type!
+            const unlockPublicationRes: string | number | null | undefined =
+                yield* callTyped(() => lcpManager.unlockPublication(publicationDocument, undefined));
+
+            debug("streamerOpenPublicationAndReturnManifestUrl() LCP unlockPublication() AFTER");
+            debug(unlockPublicationRes);
+
+            if (typeof unlockPublicationRes !== "undefined") {
+                let publicationView: PublicationView;
+                try {
+                    publicationView = yield* callTyped(() => convertDoc(publicationDocument, publicationViewConverter));
+                } catch (error) {
+                    throw error;
+                }
+
+                const message =
+                    // unlockPublicationRes === 11
+                    // ? translator.translate("publication.expiredLcp") :
+                    lcpManager.convertUnlockPublicationResultToString(unlockPublicationRes, publicationView.lcp?.issued || publicationDocument.lcp?.issued || "");
+
+                try {
+                    // will call API.unlockPublicationWithPassphrase()
+                    yield put(lcpActions.userKeyCheckRequest.build(
+                        publicationView,
+                        publicationView.lcp.textHint,
+                        publicationView.lcp.urlHint,
+                        message,
+                    ));
+
+                    throw ERROR_MESSAGE_ON_USERKEYCHECKREQUEST;
+                } catch (error) {
+
+                    throw error;
+                }
+            }
+        } catch (error) {
+
+            throw error;
+        }
+    } else {
+        debug("streamerOpenPublicationAndReturnManifestUrl() no LCP");
+    }
+
+    const pubStorage = yield* callTyped(() => diMainGet("publication-storage"));
+    const epubPath = yield* callTyped(() => pubStorage.getPublicationEpubPath(publicationDocument.identifier));
+    debug("Open publication %s", epubPath);
+
+    // Start streamer if it's not already started
+    const status = yield* selectTyped((s: RootState) => s.streamer.status);
+
+    // const streamer = _USE_HTTP_STREAMER ? yield* callTyped(() => diMainGet("streamer")) : undefined;
+
+    if (status === StreamerStatus.Stopped) {
+        // Streamer is stopped, start it
+        yield put(streamerActions.startRequest.build());
+
+        // Wait for streamer
+        const streamerStartAction: Action<any> = yield take([
+            streamerActions.startSuccess.ID,
+            streamerActions.startError.ID,
+        ]);
+        const typedAction = streamerStartAction.error ?
+            streamerStartAction as streamerActions.startSuccess.TAction :
+            streamerStartAction as streamerActions.startError.TAction;
+
+        if (typedAction.error) {
+            const err = "Unable to start server";
+
+            throw new Error(err);
+        }
+    }
+
+    // const manifestPaths = _USE_HTTP_STREAMER ?
+    //     streamer.addPublications([epubPath]) :
+    //     streamerAddPublications([epubPath]);
+    const manifestPaths = streamerAddPublications([epubPath]);
+
+    let r2Publication: R2Publication;
+    try {
+        // if (_USE_HTTP_STREAMER) {
+        //     r2Publica\tion = yield* callTyped(() => streamer.loadOrGetCachedPublication(epubPath));
+        // } else {
+        //     r2Publication = yield* callTyped(() => streamerLoadOrGetCachedPublication(epubPath));
+        // }
+        r2Publication = yield* callTyped(() => streamerLoadOrGetCachedPublication(epubPath));
+    } catch (error) {
+
+        throw error;
+    }
+
+    // we unlockPublication() again because previously only done on transient in-memory R2Publication,
+    // (see above), has not been done yet on streamer-hosted publication instance.
+    // Consequently, unlockPublicationRes should always be undefined (valid passphrase already obtained)
+    if (r2Publication.LCP) {
+        debug("streamerOpenPublicationAndReturnManifestUrl() with LCP 2");
+        debug(r2Publication.LCP);
+        debug(publicationDocument.lcp);
+
+        try {
+            debug("streamerOpenPublicationAndReturnManifestUrl() LCP unlockPublication() BEFORE 2");
+
+            // TODO: improve this horrible returned union type!
+            const unlockPublicationRes: string | number | null | undefined =
+                yield* callTyped(() => lcpManager.unlockPublication(publicationDocument, undefined));
+
+            debug("streamerOpenPublicationAndReturnManifestUrl() LCP unlockPublication() AFTER 2");
+            debug(unlockPublicationRes);
+
+            if (typeof unlockPublicationRes !== "undefined") {
+                let publicationView: PublicationView;
+                try {
+                    publicationView = yield* callTyped(() => convertDoc(publicationDocument, publicationViewConverter));
+                } catch (error) {
+                    throw error;
+                }
+
+                const message =
+                    // unlockPublicationRes === 11 ?
+                    // translator.translate("publication.expiredLcp") :
+                    lcpManager.convertUnlockPublicationResultToString(unlockPublicationRes, publicationView.lcp?.issued || publicationDocument.lcp?.issued || "");
+                debug(message);
+
+                try {
+
+                    // will call API.unlockPublicationWithPassphrase()
+                    yield put(lcpActions.userKeyCheckRequest.build(
+                        publicationView,
+                        r2Publication.LCP.Encryption.UserKey.TextHint,
+                        {
+                            href: r2Publication.LCP?.Links?.find((l) => l.Rel === "hint")?.Href,
+                        },
+                        message,
+                    ));
+
+                    throw ERROR_MESSAGE_ON_USERKEYCHECKREQUEST;
+                } catch (error) {
+
+                    throw error;
+                }
+            }
+        } catch (error) {
+
+            throw error;
+        }
+    } else {
+        debug("streamerOpenPublicationAndReturnManifestUrl() no LCP 2");
+
+        const isEncrypted = r2PublicationIsEncryptedAndHasNoLicense(r2Publication);
+        if (isEncrypted) {
+            throw ERROR_MESSAGE_ENCRYPTED_NO_LICENSE;
+        }
+    }
+
+    // const manifestUrl = _USE_HTTP_STREAMER ?
+    //     streamer.serverUrl() + manifestPaths[0] :
+    //     `${URL_PROTOCOL_THORIUMHTTPS}://${URL_HOST_COMMON}${manifestPaths[0]}`;
+    const manifestUrl = `${URL_PROTOCOL_THORIUMHTTPS}://${URL_HOST_COMMON}${manifestPaths[0]}`;
+
+    debug(pubId, " streamed on ", manifestUrl);
+
+    // add in reducer
+    yield put(streamerActions.publicationOpenSuccess.build(pubId, manifestUrl));
+
+    return manifestUrl;
+}

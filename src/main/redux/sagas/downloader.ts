@@ -1,0 +1,757 @@
+// ==LICENSE-BEGIN==
+// Copyright 2017 European Digital Reading Lab. All rights reserved.
+// Licensed to the Readium Foundation under one or more contributor license agreements.
+// Use of this source code is governed by a BSD-style license
+// that can be found in the LICENSE file exposed on Github (readium) in the project repository.
+// ==LICENSE-END==
+
+import debug_ from "debug";
+import * as crypto from "crypto";
+import * as fs from "fs";
+import * as path from "path";
+import { acceptedExtension, acceptedExtensionObject } from "readium-desktop/common/extension";
+import { ToastType } from "readium-desktop/common/models/toast";
+import { authActions, downloadActions, toastActions } from "readium-desktop/common/redux/actions";
+import { ok } from "readium-desktop/common/utils/assert";
+import { IHttpGetResult, THttpOptions } from "readium-desktop/common/utils/http";
+import { createTempDir } from "readium-desktop/main/fs/path";
+import { httpGet } from "readium-desktop/main/network/http";
+import { findExtWithMimeType } from "readium-desktop/utils/mimeTypes";
+// eslint-disable-next-line local-rules/typed-redux-saga-use-typed-effects
+import { cancel, cancelled, delay, take } from "redux-saga/effects";
+import { FixedTask, SagaGenerator } from "typed-redux-saga";
+import {
+    call as callTyped, flush as flushTyped, fork as forkTyped, join as joinTyped, put as putTyped,
+    race as raceTyped, take as takeTyped,
+} from "typed-redux-saga/macro";
+
+import { Channel, channel, eventChannel } from "@redux-saga/core";
+import { getTranslator } from "readium-desktop/common/services/translator";
+import { contentTypeisOpdsAuth, parseContentType } from "readium-desktop/utils/contentType";
+import { getOpdsAuthenticationChannel } from "readium-desktop/main/event";
+import { TaJsonDeserialize } from "@r2-lcp-js/serializable";
+import { OPDSAuthenticationDoc } from "@r2-opds-js/opds/opds2/opds2-authentication-doc";
+import isURL from "validator/lib/isURL";
+import { sanitizeForFilename } from "readium-desktop/common/safe-filename";
+
+// Logger
+const debug = debug_("readium-desktop:main#saga/downloader");
+
+type TDownloaderChannel = () => IDownloadProgression;
+
+const getErrorMessage = (err: unknown): string => {
+    if (err instanceof Error) {
+        return err.message;
+    }
+    return `${err}`;
+};
+
+
+// https://readium.org/lcp-specs/releases/lcp/latest#link-object
+export type IDownloaderLink = string | {
+    href: string,
+    rel?: string, // Link relationship to the document
+    title?: string, // Title of the link
+    type?: string, // Expected MIME media type value for the external resources
+    templated?: string, // Indicates that the href is a URI Template
+    profile?: string, // Expected profile used to identify the external resource
+    length?: number, // Content length in octets
+    hash?: string, // SHA-256 hash of the resource
+};
+
+export function* downloader(linkHrefArray: IDownloaderLink[], downloadLabel?: string): SagaGenerator<string[]> {
+
+    const id = Number(new Date());
+
+    debug("Downloader ID=", id);
+
+    try {
+        yield* putTyped(downloadActions.progress.build({
+            downloadLabel: downloadLabel || "",
+            downloadUrls: linkHrefArray.map((item) => typeof item === "string" ? item : item.href),
+            progress: 0,
+            id,
+            speed: 0,
+            contentLengthHumanReadable: "",
+        }));
+
+        // redux-saga : use call to execute sagaGenerator tasked (forked)
+        const pathArray = yield* callTyped(downloaderService, linkHrefArray, id);
+        debug("filePath Array to return from downloader", pathArray);
+
+        return pathArray;
+
+    } catch (err) {
+
+        debug(getErrorMessage(err));
+
+        const translate = getTranslator().translate;
+
+        yield* putTyped(toastActions.openRequest.build(
+            ToastType.Error,
+            translate("message.download.error", { title: downloadLabel, err: getErrorMessage(err) }),
+        ));
+
+        return [];
+
+    } finally {
+
+        if (yield cancelled()) {
+
+            yield* putTyped(toastActions.openRequest.build(
+                ToastType.Success,
+                getTranslator().translate("message.download.cancelled"),
+            ));
+        }
+
+        debug("download service closed for", id, downloadLabel);
+        yield* putTyped(downloadActions.done.build(id));
+    }
+}
+
+function* downloaderService(linkHrefArray: IDownloaderLink[], id: number): SagaGenerator<Array<string | undefined>> {
+
+    const statusTaskChannel = (yield* callTyped(channel)) as Channel<TDownloaderChannel>;
+
+    const downloadProcessTasks: FixedTask<string | undefined>[] = [];
+    for (const linkHref of linkHrefArray) {
+        const f = yield* forkTyped(downloaderServiceDownloadProcessTask, statusTaskChannel, linkHref, id);
+        downloadProcessTasks.push(f);
+    }
+
+    yield* raceTyped([
+        callTyped(function*() {
+
+            while (true) {
+                const action = yield* takeTyped(downloadActions.abort.build); // not .ID because we need Action return type
+                if (action.payload.id === id) {
+                    debug("cancel id (", id, ") with ", downloadProcessTasks.length, "tasks");
+                    yield cancel(downloadProcessTasks);
+                } else {
+                    debug("cancel id (", id, ") mismatch with ", action.payload.id);
+                }
+            }
+        }),
+        callTyped(downloaderServiceProcessStatusProgressLoop, statusTaskChannel, id),
+        joinTyped(downloadProcessTasks),
+    ]);
+
+    const filesPathArray = downloadProcessTasks
+        .map((t) => t.isCancelled() ? undefined : t.result());
+
+    debug("downloaderService filesPath:", filesPathArray);
+    return filesPathArray;
+}
+
+function* downloaderServiceDownloadProcessTask(chan: Channel<TDownloaderChannel>, linkHref: IDownloaderLink, id?: number): SagaGenerator<string | undefined> {
+
+    if (!linkHref) return undefined;
+
+    const [pathFile, channel, readStream] = yield* callTyped(downloadLinkProcess, linkHref, id);
+    if (channel) yield* putTyped(chan, channel);
+
+    const writeStream = fs.createWriteStream(pathFile);
+    writeStream.on("finish", () => {
+        debug("WriteStream finish");
+    });
+    writeStream.on("close", () => {
+        debug("WriteStream close");
+    });
+    writeStream.on("error", () => {
+        debug("WriteStream error");
+    });
+
+    yield* callTyped(downloaderServiceProcessTaskStreamPipeline, readStream, writeStream);
+    const length = typeof linkHref === "string" ? undefined : linkHref.length;
+    const hash = typeof linkHref === "string" ? undefined : linkHref.hash;
+    yield* callTyped(checkDownloadedFileIntegrity, pathFile, length, hash);
+
+    return pathFile;
+}
+
+function* downloaderServiceProcessTaskStreamPipeline(readStream: NodeJS.ReadStream, writeStream: fs.WriteStream): SagaGenerator<void> {
+
+    if (!readStream || !writeStream) return;
+
+    readStream.pipe(writeStream);
+
+    const chan = eventChannel((emit) => {
+        const f = () => emit(0);
+
+        // when 'read' stream finishes,
+        // 'write' stream may not have finished
+        // flushing its filesystem buffers yet!
+
+        // readStream.on("end", f);
+        // readStream.on("close", f);
+        readStream.on("error", f);
+
+        writeStream.on("finish", f);
+        writeStream.on("close", f);
+        writeStream.on("error", f);
+
+        return () => {
+
+            debug("DESTROY FROM CHANNEL");
+
+            readStream.destroy();
+
+            // readStream.off("end", f);
+            // readStream.off("close", f);
+            readStream.off("error", f);
+
+            writeStream.off("finish", f);
+            writeStream.off("close", f);
+            writeStream.off("error", f);
+        };
+    });
+
+    try {
+
+        yield take(chan);
+        debug("pipeline done");
+    } finally {
+        if (yield cancelled()) chan.close();
+    }
+}
+
+function* downloaderServiceProcessStatusProgressLoop(
+    statusTasksChannel: Channel<TDownloaderChannel>,
+    id: number,
+) {
+
+    let previousProgress = 0;
+    let previousDownloadedLength = 0;
+    let contentLengthTotal = 0;
+    const channelList: TDownloaderChannel[] = [];
+    while (1) {
+
+        let contentLengthProgress = 0;
+        let downloadedLength = 0;
+        let progress = 0;
+        let speed = 0;
+
+        const chan = yield* flushTyped(statusTasksChannel);
+        channelList.push(...chan);
+
+        const statusList = yield* callTyped(() => channelList.map((v) => v ? v() : undefined));
+        // const nbTasks = statusList.filter((v) => v).length;
+        // debug("number of downloadTask for id (", id, "):", nbTasks);
+
+        for (const status of statusList) {
+            if (status) {
+                progress += status.contentLength / status.progression;
+                speed += (status.speed || 0);
+                contentLengthProgress += status.contentLength;
+                downloadedLength += status.downloadedLength;
+            }
+        }
+
+        if (contentLengthTotal < contentLengthProgress) {
+            contentLengthTotal = contentLengthProgress;
+        }
+        progress = Math.ceil(contentLengthTotal / progress) || 0;
+
+        if (previousProgress !== progress || previousDownloadedLength !== downloadedLength) {
+            previousProgress = progress;
+            previousDownloadedLength = downloadedLength;
+
+            const downloadLabel = statusList.filter((i) => !!i).reduce((prev, cur) => {
+                return `${prev ? `${prev} ` : ""}[${cur.filename}]`;
+            }, "");
+            const MAX_STR = 50;
+            yield* putTyped(downloadActions.progress.build({
+                downloadLabel: downloadLabel.length > MAX_STR ? (downloadLabel.substring(0, MAX_STR) + "...") : downloadLabel,
+                downloadUrls: statusList.filter((i) => !!i).map((item) => item.url),
+                progress,
+                id,
+                speed,
+                contentLengthHumanReadable: humanFileSize(!contentLengthTotal ? downloadedLength : contentLengthTotal),
+            }));
+
+        }
+
+        yield delay(200);
+    }
+}
+
+function* downloadLinkRequest(linkHref: string, controller: AbortController): SagaGenerator<IHttpGetResult<undefined>> {
+
+    const options: THttpOptions = {};
+    options.abortController = controller;
+    options.signal = controller.signal;
+
+    // isURL() excludes the file: and data: URL protocols, as well as http://localhost but not http://127.0.0.1 or http(s)://IP:PORT more generally (note that ftp: is accepted)
+    if (!linkHref || !isURL(linkHref)) {
+        debug("isURL() NOK", linkHref);
+        return undefined;
+    }
+    const data = yield* callTyped(() => httpGet(linkHref, options));
+
+    const type = data.contentType;
+    const contentType = parseContentType(type);
+
+    const isAuth = contentTypeisOpdsAuth(contentType);
+    if (isAuth) {
+
+        const jsonObj = yield* callTyped(() => data.response.json());
+
+        const r2OpdsAuth = TaJsonDeserialize(
+            jsonObj,
+            OPDSAuthenticationDoc,
+        );
+
+        const opdsAuthChannel = getOpdsAuthenticationChannel();
+
+        debug("put the authentication model in the saga authChannel", JSON.stringify(r2OpdsAuth, null, 4));
+        opdsAuthChannel.put([r2OpdsAuth, linkHref, false]); // retryWithInternalBrowserWindowInsteadOfDefaultExternalWebBrowser
+
+        const {cancel} = yield* raceTyped({
+            cancel: takeTyped(authActions.cancel.build),
+            done: takeTyped(authActions.done.build),
+        });
+        debug("authentication modal closed");
+
+        if (cancel) {
+            controller.abort();
+            return data;
+        }
+        debug("relaunch the download of the publication");
+        return yield* callTyped(downloadLinkRequest, linkHref, controller);
+    }
+
+    return data;
+}
+
+function* downloadCreatePathFilename(pathDir: string, filename: string, rc = 0): SagaGenerator<string> {
+
+    ok(typeof pathDir === "string", getTranslator().translate("message.download.errors.invalidTempDirectory"));
+    ok(typeof filename === "string", getTranslator().translate("message.download.errors.invalidFilename"));
+    const pathFile = path.resolve(pathDir, filename);
+    debug("PathFile", pathFile);
+
+    ok(rc < 10, getTranslator().translate("message.download.errors.tooManyFilenameAttempts", { path: pathFile }));
+
+    const pathFileExists = yield* callTyped(async () => {
+        try {
+            await fs.promises.access(pathFile);
+            return true;
+        } catch {
+            return false;
+        }
+    });
+
+    if (pathFileExists) {
+        const filename2 = path.basename(filename, path.extname(filename)) +
+            "_" +
+            Math.round(Math.random() * 1000) +
+            path.extname(filename);
+
+        // recursion
+        return yield* downloadCreatePathFilename(pathDir, filename2, rc + 1);
+    }
+    return pathFile;
+}
+
+// https://github.com/yurks/content-disposition-parser/blob/3525df9fafb5849e3fb3e1eb3e3ed905354cf088/index.js#L1
+const reParamSplit = /\s*;\s*/;
+const reHeaderSplit = /\s*:\s*/;
+const rePropertySplit = /\s*=\s*(.+)/;
+const reEncodingSplit = /\s*'([^']*)'\s*(.*)/;
+const reQuotesTrim = /(?:^["'\s]*)|(?:["'\s]*$)/g;
+
+const getFilenameFromContentDisposition = (cd: string): string => {
+    if (!cd) {
+        return "";
+    }
+    const headerSplit = cd.split(reParamSplit)
+        .map((item) => item.trim())
+        .filter((item) => !!item);
+
+    let type: string | string[] = headerSplit.shift();
+    if (!type) {
+        return "";
+    }
+    type = type.toLowerCase().split(reHeaderSplit);
+    type = type[1] || type[0];
+
+    const res = headerSplit
+        .map((prop) => prop.split(rePropertySplit))
+        .reduce((o, [key, value]) => {
+            if (!value) {
+                o[key] = true;
+            } else if (key.slice(-1) === "*") {
+                let encoding: string | undefined;
+                let lang: string | undefined;
+                [encoding, lang, value] = value.split(reEncodingSplit);
+                if (value) {
+                    try {
+                        value = decodeURIComponent(value);
+                    } catch (_e) { }
+                    o[key.slice(0, -1).toLowerCase()] = value;
+                }
+                if (encoding) {
+                    o.encoding = encoding.toLowerCase();
+                }
+                if (lang) {
+                    o.lang = lang.toLowerCase();
+                }
+            } else if (!(key in o)) {
+                o[key.toLowerCase()] = value.replace(reQuotesTrim, "");
+            }
+            return o;
+        }, { type } as any);
+
+    debug(cd, " =====> ", res);
+    return res?.filename || "";
+};
+
+// if (__TH__IS_DEV__) {
+//     // https://github.com/yurks/content-disposition-parser/blob/3525df9fafb5849e3fb3e1eb3e3ed905354cf088/test/snapshots/parser.js.md
+//     [
+//         [`Content-Disposition: attachment; filename="Python%20%D0%B8%20DevOps%20%D0%9A%D0%BB%D1%8E%D1%87%20%D0%BA%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20Linux%20-%20%EF%B8%88%D0%9D%D0%BE%D0%B9%20%D0%93%D0%B8%D1%84%EF%B8%88.epub"; filename*=UTF-8''Python%20%D0%B8%20DevOps%20%D0%9A%D0%BB%D1%8E%D1%87%20%D0%BA%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20Linux%20-%20%EF%B8%88%D0%9D%D0%BE%D0%B9%20%D0%93%D0%B8%D1%84%EF%B8%88.epub`, "Python и DevOps Ключ к автоматизации Linux - ︈Ной Гиф︈.epub"],
+//         [`attachment; filename="Python%20%D0%B8%20DevOps%20%D0%9A%D0%BB%D1%8E%D1%87%20%D0%BA%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20Linux%20-%20%EF%B8%88%D0%9D%D0%BE%D0%B9%20%D0%93%D0%B8%D1%84%EF%B8%88.pdf"; filename*=UTF-8''Python%20%D0%B8%20DevOps%20%D0%9A%D0%BB%D1%8E%D1%87%20%D0%BA%20%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20Linux%20-%20%EF%B8%88%D0%9D%D0%BE%D0%B9%20%D0%93%D0%B8%D1%84%EF%B8%88.pdf`, "Python и DevOps Ключ к автоматизации Linux - ︈Ной Гиф︈.pdf"],
+//         ["content-disposition: inline; filename=example.pdf", "example.pdf"],
+//         ["content-disposition: form-data; name=\"field2\"; filename=\"example.txt\"", "example.txt"],
+//         ["Content-Disposition: attachment; FileName=\"A LiTTle 'sTrAnge'.fileName\"", "A LiTTle \'sTrAnge\'.fileName"],
+//         ["Content-Disposition: Attachment; Filename*=UTF-8'en'an%20example", "an example"],
+//         ["Content-Disposition: Attachment; Filename*=UTF-8'en-US'an%20example", "an example"],
+//         ["Content-Disposition: Attachment; Filename*=UTF-8'en_US'an%2520example", "an%20example"],
+//         ["Content-Disposition: attachment; filename*= UTF-8''%E2%82%B4%20rates", "₴ rates"],
+//         ["Content-Disposition: attachment; filename=\"EURO rates\"; filename*=utf-8''%e2%82%ac%20rates", "€ rates"],
+//         ["Content-Disposition: attachment; filename*=utf-8''%24%20rates; filename=\"USD rates\"", "$ rates"],
+//         ["inline; filename=example.txt", "example.txt"],
+//         ["attachment; filename=\"oїÃ¡Ã¨kа.jpg\"", "oїÃ¡Ã¨kа.jpg"],
+//         ["attachment; filename=oїÃ¡Ã¨kа.jpg", "oїÃ¡Ã¨kа.jpg"],
+//         ["inline; filename*=iso-8859-1", ""],
+//         ["inline; filename*=iso-8859-1'en'%C3%A9xampl%C3%A9.txt", "éxamplé.txt"],
+//         ["inline; filename*=iso-8859-1''26738271 svoboda", "26738271 svoboda"],
+//         ["googleit=8{; filename=\"26738271 svoboda\"; filename*=utf-8''%D1%83%D0%B1%D0%B8%D0%B9%20%D1%83%20%D1%81%D0%BE%D0%B1%D1%96%20%D1%81%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%B0", "убий у собі свобода"],
+//     ].forEach((pair) => {
+//         const cd = getFilenameFromContentDisposition(pair[0]);
+//         debug(pair[0], cd, pair[1]);
+//         if (cd !== pair[1]) {
+//             throw new Error("content disposition parsing error?! " + pair[0] + " ___ " + cd + " !== " + pair[1]);
+//         } else {
+//             // throw new Error("content disposition parsing OK :) " + pair[0] + " ___ " + cd + " !== " + pair[1]);
+//         }
+//     });
+// }
+
+function downloadCreateFilename(contentType: string | undefined, contentDisposition: string | undefined, type?: string): string {
+
+    const defExt = "unknown-ext";
+
+    const filename = "file." + defExt;
+
+    let contentTypeFilename = "";
+    // type href link from opds feed take precedence on http header content-type !?!
+    if (type) {
+        contentType = type;
+    }
+    if (contentType) {
+        const typeValues = contentType.replace(/\s/g, "").split(";");
+        const [ext] = typeValues.map((v) => findExtWithMimeType(v)).filter((v) => v);
+        if (ext) {
+            contentTypeFilename = "file." + ext;
+            debug(`contentTypeFilename: ${contentTypeFilename}`);
+        }
+    }
+
+    let contentDispositionFilename = "";
+    if (contentDisposition) {
+        contentDispositionFilename = getFilenameFromContentDisposition(contentDisposition);
+        debug(`contentDispositionFilename: ${contentDispositionFilename}`);
+        if (contentDispositionFilename && !acceptedExtension(path.extname(contentDispositionFilename))) {
+            debug("contentDispositionFilename invalid extension");
+            contentDispositionFilename = "";
+        }
+        if (contentDispositionFilename &&
+            path.extname(contentDispositionFilename).toLowerCase() === path.extname(contentTypeFilename).toLowerCase()
+        ) {
+            debug("contentType and contentDisposition have the same extension ! Good catch !", contentTypeFilename, contentDispositionFilename);
+        } else {
+            debug("contentType and contentDisposition does not have the same extension ! Server stream !?!", contentTypeFilename, contentDispositionFilename);
+
+            if (contentTypeFilename.toLowerCase().endsWith(acceptedExtensionObject.pdfLcp)
+                && contentDispositionFilename.toLowerCase().endsWith(acceptedExtensionObject.pdf)) {
+                // workaround for buggy servers
+                contentDispositionFilename = contentDispositionFilename.replace(/\.pdf$/i, ".lcpdf");
+            }
+        }
+    }
+
+    const rawFilenameWithExtension = // TEST: " \t\n oїÃ¡Ã¨kа Python и DevOps Ключ к автоматизации Linux -       \t     ︈Ной Гиф︈  \t . \n epub\t  " ||
+        contentDispositionFilename || contentTypeFilename || filename;
+    debug(`download filename raw: ${rawFilenameWithExtension}`);
+
+    const sanitized = sanitizeForFilename(rawFilenameWithExtension);
+    debug(`download filename sanitized: ${sanitized}`);
+
+    return sanitized;
+}
+
+interface IDownloadProgression {
+    speed: number;
+    progression: number;
+    downloadedLength: number;
+    contentLength: number;
+    filename: string;
+    url: string,
+}
+function downloadReadStreamProgression(readStream: NodeJS.ReadableStream, contentLength: number, filename: string, url: string) {
+
+    let downloadedLength = 0;
+    let downloadedSpeed = 0;
+    let speed = 0;
+    let pct = 0;
+
+    const ev = <T = any>(cb: (emit: (data: T) => void) => void) => {
+        let _data: T;
+
+        cb((data: T) => {
+            _data = data;
+        });
+
+        return () => {
+            return _data;
+        };
+    };
+
+    const channel: TDownloaderChannel = ev(
+        (emit) => {
+
+            const iv = setInterval(() => {
+
+                speed = downloadedSpeed / 1024;
+                // contentLength can be zero (unfortunately), pct is Infinity :(
+                // debug("downloadedLength: ", downloadedLength, "contentLength: ", contentLength);
+                pct = Math.ceil(downloadedLength / contentLength * 100);
+                debug("speed: ", speed, "kb/s", "pct: ", pct, "%");
+
+                emit({
+                    speed,
+                    progression: pct,
+                    downloadedLength,
+                    contentLength,
+                    filename,
+                    url,
+                });
+
+                downloadedSpeed = 0;
+
+            }, 1000);
+
+            readStream.on("end", () => {
+                debug("ReadStream end _");
+
+                clearInterval(iv);
+
+                pct = 100;
+                speed = 0;
+
+                emit({
+                    speed,
+                    progression: pct,
+                    downloadedLength,
+                    contentLength,
+                    filename,
+                    url,
+                });
+            });
+
+            readStream.on("close", () => {
+                debug("ReadStream close _");
+                clearInterval(iv);
+            });
+
+            readStream.on("error", () => {
+                debug("ReadStream error _");
+                clearInterval(iv);
+            });
+        },
+        // buffers.sliding(1),
+    );
+
+    readStream.on("data", (chunk: Buffer) => {
+
+        downloadedSpeed += chunk.length;
+        downloadedLength += chunk.length;
+    });
+
+    readStream.on("end", () => {
+        debug("ReadStream end");
+    });
+    readStream.on("close", () => {
+        debug("ReadStream close");
+    });
+    readStream.on("error", () => {
+        debug("ReadStream error");
+    });
+
+    return channel;
+}
+
+type TReturnDownloadLinkStream = [
+    pathFile: string,
+    channelInfo: TDownloaderChannel,
+    readStream: NodeJS.ReadStream,
+    contentLength: number,
+];
+function* downloadLinkStream(data: IHttpGetResult<undefined>, id: number, type?: string)
+    : SagaGenerator<TReturnDownloadLinkStream> {
+
+    ok(data?.isSuccess, getTranslator().translate("message.download.errors.httpGet", {
+        statusMessage: data?.statusMessage,
+        statusCode: data?.statusCode,
+        url: data?.url,
+    }));
+
+    // const url = data.responseUrl;
+    const contentType = data.contentType;
+    const contentDisposition = data.response.headers.get("content-disposition") || "";
+    const contentLengthStr = data.response.headers.get("content-length") || "";
+    const contentLength = parseInt(contentLengthStr, 10) || 0;
+    const readStream = data.body;
+
+    const filename = downloadCreateFilename(contentType, contentDisposition, type);
+    debug("Filename", filename);
+
+    const pathDir = yield* callTyped(createTempDir, id.toString());
+    const pathFile = yield* callTyped(downloadCreatePathFilename, pathDir, filename);
+    debug("PathFile", pathFile);
+
+    ok(readStream, getTranslator().translate("message.download.errors.readStreamMissing"));
+
+    const channel = downloadReadStreamProgression(readStream, contentLength, filename, typeof data.url === "string" ? data.url : data.url.toString());
+
+    return [
+        pathFile,
+        channel,
+        readStream,
+        contentLength,
+    ] as TReturnDownloadLinkStream;
+}
+
+async function checkDownloadedFileIntegrity(pathFile: string, expectedLength?: number, expectedHash?: string): Promise<void> {
+
+    const shouldCheckLength = typeof expectedLength === "number" && Number.isFinite(expectedLength) && expectedLength >= 0;
+    const shouldCheckHash = typeof expectedHash === "string" && expectedHash.trim().length > 0;
+    if (!shouldCheckLength && !shouldCheckHash) {
+        return;
+    }
+
+    const stat = await fs.promises.stat(pathFile);
+    if (shouldCheckLength && stat.size !== expectedLength) {
+        throw new Error(getTranslator().translate("message.download.errors.lengthMismatch", {
+            expected: expectedLength,
+            actual: stat.size,
+        }));
+    }
+
+    if (shouldCheckHash) {
+        const expectedHashNormalized = expectedHash.trim();
+        const hasher = crypto.createHash("sha256");
+        await new Promise<void>((resolve, reject) => {
+            const readStream = fs.createReadStream(pathFile); // autoClose === true, readStream.isPaused() === true
+
+            readStream.on("error", reject);
+            readStream.on("end", resolve);
+
+            // piping API
+            readStream.pipe(hasher);
+
+            // flowing mode
+            // readStream.on("data", (chunk: Buffer | string) => {
+            //     hasher.update(chunk);
+            // });
+
+            // paused mode
+            // readStream.on("readable", () => {
+            //     const chunk = readStream.read();
+            //     if (chunk) {
+            //         hasher.update(chunk);
+            //     } else {
+            //         process.nextTick(() => {
+            //             try {
+            //                 readStream.destroy();
+            //             } catch (err) {
+            //                 console.log(`ERROR CLOSING STREAM: ${pathFile}`);
+            //                 console.log(err);
+            //             }
+            //         });
+            //         resolve();
+            //     }
+            // });
+        });
+
+        const digest = hasher.digest();
+        const actualBase64 = digest.toString("base64");
+        const actualHex = digest.toString("hex");
+        if (expectedHashNormalized.toLowerCase() !== actualHex) {
+            throw new Error(getTranslator().translate("message.download.errors.hashMismatch", {
+                expected: expectedHashNormalized,
+                actual: actualHex,
+            }));
+        }
+        if (expectedHashNormalized !== actualBase64) {
+            throw new Error(getTranslator().translate("message.download.errors.hashMismatch", {
+                expected: expectedHashNormalized,
+                actual: actualBase64,
+            }));
+        }
+    }
+}
+
+type TReturnDownloadLinkProcess = TReturnDownloadLinkStream | undefined;
+function* downloadLinkProcess(linkHref: IDownloaderLink, id: number): SagaGenerator<TReturnDownloadLinkProcess> {
+
+    ok(linkHref, getTranslator().translate("message.download.errors.invalidLink"));
+
+    const controller = new AbortController();
+
+    try {
+
+        debug("start to downloadService", linkHref);
+        const url = typeof linkHref === "string" ? linkHref : linkHref.href;
+        const type = typeof linkHref === "string" ? undefined : linkHref.type;
+        const httpData = yield* callTyped(downloadLinkRequest, url, controller);
+
+        debug("start to stream download");
+        return yield* callTyped(downloadLinkStream, httpData, id, type);
+
+    } finally {
+
+        debug("downloaderService finally");
+
+        if (yield cancelled()) {
+            debug("downloaderService cancelled -> abort");
+
+            controller.abort();
+        }
+
+    }
+}
+
+// -------------------- UTILS ----------------------
+
+function humanFileSize(bytes: number, si = false, dp = 1) {
+    const thresh = si ? 1000 : 1024;
+
+    if (Math.abs(bytes) < thresh) {
+        return bytes + " B";
+    }
+
+    const units = si
+        ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
+        : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+    let u = -1;
+    const r = 10 ** dp;
+
+    do {
+        bytes /= thresh;
+        ++u;
+    } while (Math.round(Math.abs(bytes) * r) / r >= thresh && u < units.length - 1);
+
+    return bytes.toFixed(dp) + " " + units[u];
+}

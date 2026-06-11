@@ -1,0 +1,340 @@
+.CSS_START_components_readerFooter {
+    display: none;
+}
+
+.RTL_FLIP {
+    transform: scale(-1, 1);
+}
+
+.navigation_arrow {
+    &_left {
+        left: 2px;
+    }
+
+    &_right {
+        right: 4px;
+    }
+
+    &_docked_left {
+        left: 372px;
+    }
+
+    &_docked_right {
+        right: 373px;
+    }
+}
+
+.arrows {
+    height: 300px;
+    width: 50px;
+    z-index: 1;
+
+    &:not(.isPaginated) button {
+      opacity: 0;
+    }
+}
+
+:root.R2_CSS_CLASS__KEYBOARD_INTERACT .arrows button:focus {
+    opacity: 1 !important;
+}
+
+.arrows button {
+    width: 50px;
+    height: 300px;
+    position: absolute;
+    top: calc(50dvh - 220px);
+    z-index: 10;
+    transition: 200ms;
+
+    &:hover {
+        opacity: 1 !important;
+    }
+
+    svg {
+        fill: var(--color-brand-primary);
+
+        // @media (prefers-color-scheme: dark) {
+        //     fill: #FEFEFE;
+        //     color: #FEFEFE;
+        // }
+    }
+}
+
+#track_reading {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background-color: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#track_reading + span {
+    font-style: italic;
+    font-size: 0.8rem;
+    padding-bottom: 10px;
+    cursor: pointer;
+    margin: 0;
+}
+
+
+.reader_footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: var(--reader-mainColor);
+
+    .HIDE_CURSOR_CLASS_foot {
+        visibility: hidden !important;
+    }
+
+    .history {
+        // float: left;
+        // margin-top: 1.5rem;
+        // margin-left: 1rem;
+
+        position: absolute;
+        bottom: 7px;
+        left: 10px;
+
+        & button {
+        display: inline;
+        border: 0;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 6px;
+        background-color: transparent;
+        width: 30px;
+        height: 30px;
+        margin: 0 10px;
+
+        svg {
+            color: var(--color-brand-primary);
+
+            // @media (prefers-color-scheme: dark) {
+            //     fill: #FEFEFE;
+            //     color: #FEFEFE;
+            // }
+        }
+
+        &.disabled {
+            cursor: not-allowed;
+            background-color: var(--color-gray-200);
+
+            svg {
+                color: var(--color-gray-900);
+                fill: var(--color-gray-900);
+            }
+        }
+    }
+
+        & svg {
+        fill: var(--color-text-reader);
+        opacity: 1;
+        transform: scale(0.8);
+        }
+    }
+
+    & .arrows {
+        float: right;
+        margin-top: 1rem;
+        margin-right: 2rem;
+
+        & button {
+        display: inline;
+        border: 0;
+        cursor: pointer;
+        padding: 0;
+        background-color: transparent;
+        width: 40px;
+        height: 40px;
+        }
+    }
+
+    & .track_reading_wrapper {
+        padding: 1rem 5rem 1rem 8rem;
+        bottom: 0;
+
+        // margin-top: 1rem;
+        color: var(--color-text-primary);
+        background-color: var(--color-neutral-base);
+    }
+
+    & .track_reading_wrapper_noArrows {
+        padding-top: 1rem;
+        padding-right: 5rem;
+        padding-bottom: 1rem;
+    }
+}
+
+[data-theme="dark"] {
+    .reader_footer .history button svg {
+        color: var(--color-text-primary);
+    }
+}
+
+[data-theme="system"] {
+    @media (prefers-color-scheme: dark) {
+        .reader_footer .history button svg {
+        color: var(--color-text-primary);
+        }
+    }
+}
+
+.reader_footer_fullscreen {
+    background-color: transparent;
+    pointer-events: none;
+
+    & .arrows {
+        background-color: var(--reader-mainColor);
+        pointer-events: all;
+        margin-bottom: 15px;
+        margin-right: 20px;
+    }
+
+    & .history {
+        background-color: transparent;
+        pointer-events: all;
+        margin-bottom: 15px;
+        margin-left: 20px;
+    }
+}
+
+#chapters_markers {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 16px;
+    margin-top: -3px;
+    top: 0;
+    cursor: pointer;
+
+    span {
+        border-left: 1px solid transparent;
+        transition: 200ms;
+    }
+
+    &:hover {
+        span:has(span) {
+            border-left: 1px solid var(--color-gray-50);
+
+            span {
+                border-left: 1px solid var(--color-gray-50);
+            }
+        }
+
+        span {
+            border-left: 1px solid var(--color-brand-primary);
+        }
+    }
+
+    .progressChunkSpineItem {
+        transition: 200ms;
+        background-color: transparent;
+
+        span {
+            opacity: 1;
+            transition: 200ms;
+        }
+
+        &:hover {
+            outline: var(--color-brand-primary) solid 1px;
+            z-index: 10;
+            outline-offset: 0;
+            background-color: rgb(255 255 255 / 90%);
+
+            span {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    &.more_information > span {
+        &.currentSpineItem {
+            border-radius: 6px;
+            outline: var(--color-brand-primary) solid 1px;
+            outline-offset: 0;
+            background-color: white;
+
+            span {
+                display: none;
+            }
+        }
+    }
+
+    & > span {
+        flex-grow: 1;
+        margin: 2px 0;
+        height: 12px;
+
+        & > span {
+        display: block;
+        background-color: var(--color-brand-primary);
+        width: 100%;
+        height: 100%;
+        }
+
+        &:last-child {
+        border-right: none;
+        }
+    }
+}
+
+.tooltip_content {
+    z-index: 1000;
+
+    span {
+        fill: var(--color-gray-300);
+    }
+}
+
+#arrow_box {
+width: fit-content;
+height: auto;
+padding: 10px 5px 5px;
+background: var(--color-neutral-base);
+border: 1px solid var(--color-gray-400);
+font-size: 16px;
+color: var(--color-text-primary);
+text-align: left;
+// box-shadow: 0 3px 2px 0 var(--color-gray-400);
+
+
+& span {
+    display: block;
+    margin: 0 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: bold;
+
+    & em {
+    font-size: 80%;
+    font-weight: normal;
+    }
+}
+
+& p {
+    margin: 5px 0;
+    font-size: 0.8rem;
+    padding: 0 5px;
+}
+}
+
+.finishedIcon {
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
+    width: 25px;
+
+    svg {
+        fill: #1BAF01;
+        color: #1BAF01;
+    }
+}
+
+.CSS_END_components_readerFooter {
+    display: none;
+}
