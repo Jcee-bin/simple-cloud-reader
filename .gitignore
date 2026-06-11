@@ -1,0 +1,22 @@
+# Local work and generated deliverables
+work/
+outputs/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Common build outputs
+node_modules/
+dist/
+build/
+.gradle/
+bin/
+obj/
