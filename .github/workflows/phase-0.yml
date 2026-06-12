@@ -69,6 +69,7 @@ jobs:
           git -C base remote add origin https://github.com/koreader/koreader-base.git
           git -C base fetch --depth 1 origin 1f9ad7658b6af31d20c75062600c7225c2fbb7c3
           git -C base checkout --detach FETCH_HEAD
+          git -C base submodule update --init --depth 1 --jobs 3
           make base
       - name: Run canonical locator test
         run: ./kodev test front simplecloud_canonicallocator
