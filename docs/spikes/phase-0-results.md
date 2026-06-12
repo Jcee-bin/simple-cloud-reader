@@ -6,8 +6,8 @@
 | Proof | Status | Evidence |
 |---|---|---|
 | Upstream imports | PASS | KOReader `5598a6e` and Thorium `c19a45f` imported as squashed subtrees; `apps/android/COPYING` and `apps/windows/LICENSE` verified. |
-| Railway-compatible object storage | PARTIAL | Four API tests pass, including AWS Signature V4 upload/download URL generation and user-scoped object keys. Live MinIO verification requires Docker Desktop. |
-| Cursor sync and idempotency | PASS | `services/api/test/sync.test.ts` proves retry deduplication and cursor pull; full API suite and strict typecheck pass. |
+| Railway-compatible object storage | PARTIAL | Managed upload, completion, download, deletion, readiness, and user-scoped object keys pass in API and PostgreSQL tests. A live Railway signed transfer is still required. |
+| Cursor sync and idempotency | PASS | PostgreSQL-backed tests prove ordered cursor pull, signed user-scoped cursors, retry deduplication, conflicts, and tombstones. |
 | Readium locator round trip | PASS | Focused Thorium Jest test preserves normalized progression and restores the exact engine locator; focused ESLint and the Electron main-process webpack build pass. |
 | KOReader locator round trip | PASS | GitHub Actions builds the pinned KOReader base and passes `./kodev test front simplecloud_canonicallocator` on Ubuntu. |
 | Android local book open | PENDING | Requires WSL/Linux Android build toolchain and an Android phone/tablet or emulator. |
@@ -85,10 +85,9 @@ dependency and exploitability review is required before distribution.
 
 ## Scope Boundary
 
-The in-memory sync store proves protocol shape only. PostgreSQL durability,
-authorization middleware, authentication, tombstones, batching, and conflict
-history belong to Phase 1. The in-memory implementation must not be used in
-production.
+Phase 1 has replaced the in-memory proof with authenticated PostgreSQL-backed
+sync and managed file metadata. The remaining Phase 0 gaps are live object
+storage and manual Android/Windows book-opening checks.
 
 Phase 0 is not complete until every `PARTIAL` and `PENDING` row is replaced by
 `PASS` or a documented architectural revision.
