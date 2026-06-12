@@ -9,13 +9,20 @@
 | Railway-compatible object storage | PARTIAL | Four API tests pass, including AWS Signature V4 upload/download URL generation and user-scoped object keys. Live MinIO verification requires Docker Desktop. |
 | Cursor sync and idempotency | PASS | `services/api/test/sync.test.ts` proves retry deduplication and cursor pull; full API suite and strict typecheck pass. |
 | Readium locator round trip | PASS | Focused Thorium Jest test preserves normalized progression and restores the exact engine locator; focused ESLint and the Electron main-process webpack build pass. |
-| KOReader locator round trip | PENDING | Busted test and Lua adapter are present; WSL/Linux runtime is required to execute `./kodev test front simplecloud_canonicallocator`. |
+| KOReader locator round trip | PASS | GitHub Actions builds the pinned KOReader base and passes `./kodev test front simplecloud_canonicallocator` on Ubuntu. |
 | Android local book open | PENDING | Requires WSL/Linux Android build toolchain and an Android phone/tablet or emulator. |
 | Windows local book open | PENDING | Requires running the Thorium development application and manually importing the non-DRM EPUB fixture. |
 
-The checked-in `.github/workflows/phase-0.yml` runs the pending KOReader
-locator test on Ubuntu after the repository is published to GitHub. Its workflow
-syntax passes `@action-validator/cli`.
+The checked-in `.github/workflows/phase-0.yml` passed all three jobs in
+[GitHub Actions run 27390740580](https://github.com/Jcee-bin/simple-cloud-reader/actions/runs/27390740580):
+
+- `contract-and-api`: strict typecheck, tests, and build.
+- `windows-locator`: focused Jest and ESLint checks plus the Thorium
+  main-process webpack build.
+- `android-locator`: pinned KOReader dependency bootstrap, native base build,
+  and the focused Busted locator test.
+
+The workflow syntax also passes `@action-validator/cli`.
 
 ## Automated Evidence
 
