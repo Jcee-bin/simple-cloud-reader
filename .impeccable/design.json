@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-12T00:00:00.000Z",
+  "title": "Design System: Simple Cloud Reader",
+  "extensions": {
+    "colorMeta": {
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Paper Canvas",
+        "canonical": "oklch(97% 0.009 92)",
+        "tonalRamp": ["#292823", "#494841", "#6B6960", "#8F8C81", "#B3B0A6", "#D2D0C8", "#E8E6E0", "#F8F6F1"]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Library Sage",
+        "canonical": "oklch(49% 0.052 187)",
+        "tonalRamp": ["#172624", "#243B38", "#31504C", "#496B67", "#668A85", "#8EAAA5", "#BCD0CC", "#EAF2F0"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Reading Ink",
+        "canonical": "oklch(27% 0.012 120)",
+        "tonalRamp": ["#171914", "#252722", "#44473F", "#666A61", "#8A8E84", "#AEB1A8", "#D1D3CC", "#F1F2ED"]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Library and settings screen titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Book and panel titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Supporting copy and metadata."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Controls, filters, and compact state text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-control",
+        "value": "0 8px 24px rgba(37, 39, 34, 0.14)",
+        "purpose": "Transient menus and selection toolbars."
+      },
+      {
+        "name": "book-cover",
+        "value": "0 3px 10px rgba(37, 39, 34, 0.12)",
+        "purpose": "Cover art only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "150ms cubic-bezier(0.25, 1, 0.5, 1)",
+        "purpose": "Hover, focus, and pressed feedback."
+      },
+      {
+        "name": "panel",
+        "value": "220ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Sheets, menus, and reading-control reveals."
+      }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "0px" },
+      { "name": "tablet", "value": "720px" },
+      { "name": "desktop", "value": "1024px" },
+      { "name": "wide", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single strongest action in a view.",
+      "html": "<button class=\"ds-btn-primary\">Add books</button>",
+      "css": ".ds-btn-primary { min-height: 48px; padding: 12px 18px; border: 0; border-radius: 10px; background: #496B67; color: #FDFBF7; font: 600 14px/1.3 \"Segoe UI\", Inter, system-ui, sans-serif; transition: background 150ms cubic-bezier(0.25, 1, 0.5, 1), transform 150ms cubic-bezier(0.25, 1, 0.5, 1); } .ds-btn-primary:hover { background: #3C5D59; } .ds-btn-primary:focus-visible { outline: 2px solid #2E6F9A; outline-offset: 2px; } .ds-btn-primary:active { transform: scale(0.98); }"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "description": "Library search with a familiar, quiet field treatment.",
+      "html": "<label class=\"ds-search\"><span>Search library</span><input type=\"search\" placeholder=\"Title or author\"></label>",
+      "css": ".ds-search { display: grid; gap: 6px; color: #252722; font: 600 14px/1.3 \"Segoe UI\", Inter, system-ui, sans-serif; } .ds-search input { min-height: 48px; padding: 11px 14px; border: 1px solid #D8D8CF; border-radius: 10px; background: #FDFBF7; color: #252722; font: 400 16px/1.5 \"Segoe UI\", Inter, system-ui, sans-serif; } .ds-search input:focus-visible { outline: 2px solid #2E6F9A; outline-offset: 2px; border-color: transparent; }"
+    },
+    {
+      "name": "Selected Filter",
+      "kind": "chip",
+      "refersTo": "filter-selected",
+      "description": "A selected library filter with text and tonal state.",
+      "html": "<button class=\"ds-filter\" aria-pressed=\"true\">All books</button>",
+      "css": ".ds-filter { min-height: 40px; padding: 8px 14px; border: 0; border-radius: 999px; background: #DCE8E4; color: #252722; font: 600 14px/1.3 \"Segoe UI\", Inter, system-ui, sans-serif; } .ds-filter:hover { background: #CBDDD8; } .ds-filter:focus-visible { outline: 2px solid #2E6F9A; outline-offset: 2px; }"
+    },
+    {
+      "name": "Book Tile",
+      "kind": "custom",
+      "description": "A cover-led library target without a surrounding card.",
+      "html": "<button class=\"ds-book\"><span class=\"ds-cover\" aria-hidden=\"true\"></span><strong>The Left Hand of Darkness</strong><small>Ursula K. Le Guin · 42%</small></button>",
+      "css": ".ds-book { display: grid; gap: 8px; width: 156px; padding: 0; border: 0; background: transparent; color: #252722; text-align: left; font-family: \"Segoe UI\", Inter, system-ui, sans-serif; } .ds-cover { display: block; aspect-ratio: 2 / 3; border-radius: 6px; background: #496B67; box-shadow: 0 3px 10px rgba(37, 39, 34, 0.12); transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-book strong { font-size: 15px; line-height: 1.3; } .ds-book small { color: #666A61; font-size: 13px; line-height: 1.35; } .ds-book:hover .ds-cover { transform: translateY(-2px); } .ds-book:focus-visible { outline: 2px solid #2E6F9A; outline-offset: 4px; border-radius: 8px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Bookshelf",
+    "overview": "The interface feels like returning to a familiar shelf: warm enough for long reading sessions, orderly enough to scan without effort, and quiet enough that book covers provide most of the color.",
+    "keyCharacteristics": [
+      "Warm neutral surfaces with one low-chroma sage-blue accent.",
+      "Shallow Library, Reading, and Settings information architecture.",
+      "Covers are content, not decoration.",
+      "Controls are familiar, explicit, and comfortably sized.",
+      "Motion is limited to state feedback between 150ms and 220ms."
+    ],
+    "rules": [
+      {
+        "name": "The Cover Color Rule",
+        "body": "The interface accent occupies no more than ten percent of a library screen. Book covers carry the visual variety.",
+        "section": "colors"
+      },
+      {
+        "name": "The State Has Words Rule",
+        "body": "Offline, syncing, warning, deletion, and highlight meaning are never communicated by color alone.",
+        "section": "colors"
+      },
+      {
+        "name": "The Flat-at-Rest Rule",
+        "body": "Persistent application surfaces never rely on shadows to explain hierarchy.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do open directly to a recognizable cover library.",
+      "Do keep touch targets at least 48dp and show visible keyboard focus.",
+      "Do state whether removal affects this device, the cloud file, or the whole library."
+    ],
+    "donts": [
+      "Don't recreate KOReader's file-browser-first launch experience, plugin surface, or dense specialist menus.",
+      "Don't expose cloud folders, upload queues, or manual push/pull behavior as the primary model.",
+      "Don't use glassmorphism, gradients, heavy shadows, neon accents, or decorative motion."
+    ]
+  }
+}
