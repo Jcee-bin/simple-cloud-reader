@@ -1,6 +1,7 @@
 import {
   DeleteObjectCommand,
   GetObjectCommand,
+  HeadBucketCommand,
   HeadObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -8,6 +9,7 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export interface ObjectStore {
+  checkReady(): Promise<void>;
   createUploadUrl(
     key: string,
     contentType: string,
@@ -47,6 +49,11 @@ export function createObjectStore(config: ObjectStoreConfig): ObjectStore {
   });
 
   return {
+    async checkReady() {
+      await client.send(new HeadBucketCommand({
+        Bucket: config.S3_BUCKET,
+      }));
+    },
     async createUploadUrl(key, contentType) {
       const command = new PutObjectCommand({
         Bucket: config.S3_BUCKET,

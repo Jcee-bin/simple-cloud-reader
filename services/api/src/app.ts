@@ -7,7 +7,10 @@ import {
   registerFileRoutes,
   type FileRouteDependencies,
 } from "./routes/files.js";
-import { registerHealthRoute } from "./routes/health.js";
+import {
+  registerHealthRoute,
+  type ReadinessDependencies,
+} from "./routes/health.js";
 import {
   registerSyncRoutes,
   type SyncRouteDependencies,
@@ -16,13 +19,17 @@ import {
 type AppDependencies =
   & Partial<AuthRouteDependencies>
   & Partial<Pick<FileRouteDependencies, "fileService" | "authenticate">>
-  & Partial<Pick<SyncRouteDependencies, "syncStore">>;
+  & Partial<Pick<SyncRouteDependencies, "syncStore">>
+  & { readiness?: ReadinessDependencies };
 
 export function buildApp(
   dependencies?: AppDependencies,
 ): FastifyInstance {
   const app = Fastify({ logger: false });
-  void app.register(registerHealthRoute);
+  void app.register(
+    registerHealthRoute,
+    dependencies?.readiness ? { readiness: dependencies.readiness } : {},
+  );
   if (dependencies?.authService) {
     void app.register(registerAuthRoutes, {
       authService: dependencies.authService,

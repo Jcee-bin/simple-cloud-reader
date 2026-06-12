@@ -79,6 +79,7 @@ class MemoryFileRepository implements FileRepository {
 function createHarness() {
   const repository = new MemoryFileRepository();
   const objectStore: ObjectStore = {
+    checkReady: vi.fn(async () => undefined),
     createUploadUrl: vi.fn(async (key, contentType) => ({
       key,
       contentType,

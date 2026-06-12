@@ -35,6 +35,14 @@ const app = buildApp({
   authService,
   fileService,
   syncStore,
+  readiness: {
+    async checkDatabase() {
+      await database.pool.query("SELECT 1");
+    },
+    async checkObjectStore() {
+      await objectStore.checkReady();
+    },
+  },
   authenticate: createAuthenticate({
     jwtSecret: config.JWT_SECRET,
     accessRepository: authRepository,

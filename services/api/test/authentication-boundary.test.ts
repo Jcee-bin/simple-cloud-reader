@@ -23,6 +23,7 @@ async function tokenAt(issuedAt: Date): Promise<string> {
 
 function createHarness(active = true) {
   const objectStore: ObjectStore = {
+    checkReady: vi.fn(async () => undefined),
     createUploadUrl: vi.fn(async (key, contentType) => ({
       key,
       contentType,

@@ -28,6 +28,7 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
     const sha256 = "a".repeat(64);
     const now = new Date("2026-06-12T00:00:00.000Z");
     const objectStore: ObjectStore = {
+      checkReady: vi.fn(async () => undefined),
       createUploadUrl: vi.fn(async (key, contentType) => ({
         key,
         contentType,
