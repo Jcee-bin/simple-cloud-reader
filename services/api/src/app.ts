@@ -1,4 +1,5 @@
 import Fastify, { type FastifyInstance } from "fastify";
+import { registerOpenApiRoute } from "./openapi.js";
 import {
   registerAuthRoutes,
   type AuthRouteDependencies,
@@ -30,6 +31,7 @@ export function buildApp(
     registerHealthRoute,
     dependencies?.readiness ? { readiness: dependencies.readiness } : {},
   );
+  void app.register(registerOpenApiRoute);
   if (dependencies?.authService) {
     void app.register(registerAuthRoutes, {
       authService: dependencies.authService,

@@ -74,39 +74,45 @@ const syncChangeMetadataSchema = z.object({
   serverTimestamp: z.iso.datetime(),
 }).strict();
 
-export const syncChangeSchema = z.unknown().transform((value, context) => {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    context.addIssue({
-      code: "custom",
-      message: "Expected a synchronization change object",
-    });
-    return z.NEVER;
-  }
+function createEntityChangeSchema<
+  TEntityType extends keyof typeof entityPayloadSchemas,
+>(
+  entityType: TEntityType,
+  payloadSchema: (typeof entityPayloadSchemas)[TEntityType],
+) {
+  const metadataShape = syncChangeMetadataSchema.shape;
+  return z.discriminatedUnion("action", [
+    z.object({
+      ...mutationMetadataShape,
+      ...metadataShape,
+      entityType: z.literal(entityType),
+      action: z.literal("upsert"),
+      deletedAt: z.null(),
+      payload: payloadSchema,
+    }).strict(),
+    z.object({
+      ...mutationMetadataShape,
+      ...metadataShape,
+      entityType: z.literal(entityType),
+      action: z.literal("delete"),
+      deletedAt: z.iso.datetime(),
+      payload: z.null(),
+    }).strict(),
+  ]);
+}
 
-  const {
-    deviceId,
-    serverVersion,
-    serverTimestamp,
-    ...operationInput
-  } = value as Record<string, unknown>;
-  const operation = mutationOperationSchema.safeParse(operationInput);
-  const metadata = syncChangeMetadataSchema.safeParse({
-    deviceId,
-    serverVersion,
-    serverTimestamp,
-  });
-  if (!operation.success || !metadata.success) {
-    context.addIssue({
-      code: "custom",
-      message: "Invalid synchronization change",
-    });
-    return z.NEVER;
-  }
-  return {
-    ...operation.data,
-    ...metadata.data,
-  };
-});
+export const syncChangeSchema = z.union(
+  Object.entries(entityPayloadSchemas).map(([entityType, payloadSchema]) =>
+    createEntityChangeSchema(
+      entityType as keyof typeof entityPayloadSchemas,
+      payloadSchema,
+    )
+  ) as [
+    ReturnType<typeof createEntityChangeSchema>,
+    ReturnType<typeof createEntityChangeSchema>,
+    ...ReturnType<typeof createEntityChangeSchema>[],
+  ],
+);
 
 export const pushOperationResultSchema = z.object({
   operationId: z.uuid(),

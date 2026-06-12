@@ -7,6 +7,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\" && tsc -p tsconfig.build.json",
+    "generate:openapi": "npm run build && node scripts/generate-openapi.mjs",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -14,6 +15,7 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
+    "@types/node": "^25.9.3",
     "vitest": "4.1.8"
   }
 }
