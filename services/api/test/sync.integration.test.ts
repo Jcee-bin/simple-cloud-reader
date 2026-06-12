@@ -215,5 +215,131 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
         code: "invalid_cursor",
       });
     });
+
+    it("publishes tombstones and prevents stale offline resurrection", async () => {
+      const beforeDeletion = await store.pull({
+        userId: userA,
+        limit: 500,
+      });
+      const deleted = await store.push({
+        userId: userA,
+        authenticatedDeviceId: deviceA,
+        batch: {
+          deviceId: deviceA,
+          operations: [{
+            operationId: "f601f7e4-e9d1-4455-9bd7-f99e97125cbb",
+            entityType: "highlight",
+            entityId: highlightId,
+            action: "delete",
+            baseVersion: 1,
+            clientTimestamp: now.toISOString(),
+            deletedAt: "2026-06-12T00:05:00.000Z",
+            payload: null,
+          }],
+        },
+      });
+      expect(deleted.results[0]).toMatchObject({
+        status: "accepted",
+        serverVersion: 2,
+      });
+
+      const tombstone = await store.pull({
+        userId: userA,
+        cursor: beforeDeletion.cursor,
+        limit: 500,
+      });
+      expect(tombstone.changes).toEqual([
+        expect.objectContaining({
+          entityType: "highlight",
+          entityId: highlightId,
+          action: "delete",
+          deletedAt: "2026-06-12T00:05:00.000Z",
+          payload: null,
+          serverVersion: 2,
+        }),
+      ]);
+
+      const staleResurrection = await store.push({
+        userId: userA,
+        authenticatedDeviceId: deviceB,
+        batch: {
+          deviceId: deviceB,
+          operations: [{
+            operationId: "084d2722-daee-4603-adb6-981e1df7d427",
+            entityType: "highlight",
+            entityId: highlightId,
+            action: "upsert",
+            baseVersion: 1,
+            clientTimestamp: "2026-06-12T00:04:00.000Z",
+            deletedAt: null,
+            payload: {
+              bookId,
+              selectedText: "An offline stale edit",
+              prefix: "",
+              suffix: "",
+              colorRole: "important",
+              note: null,
+              locator: {
+                format: "epub",
+                progression: 0.43,
+                engine: "readium",
+                engineLocation: {},
+              },
+            },
+          }],
+        },
+      });
+      expect(staleResurrection.results[0]).toMatchObject({
+        status: "conflict",
+        serverVersion: 2,
+        errorCode: "version_conflict",
+      });
+    });
+
+    it("tombstones owned child reading state when deleting a book", async () => {
+      const beforeDeletion = await store.pull({
+        userId: userA,
+        limit: 500,
+      });
+      const deleted = await store.push({
+        userId: userA,
+        authenticatedDeviceId: deviceA,
+        batch: {
+          deviceId: deviceA,
+          operations: [{
+            operationId: "db39cf5b-a504-4f00-8568-88b5e79a8289",
+            entityType: "book",
+            entityId: bookId,
+            action: "delete",
+            baseVersion: 1,
+            clientTimestamp: now.toISOString(),
+            deletedAt: "2026-06-12T00:10:00.000Z",
+            payload: null,
+          }],
+        },
+      });
+      expect(deleted.results[0]).toMatchObject({
+        status: "accepted",
+        serverVersion: 2,
+      });
+
+      const tombstones = await store.pull({
+        userId: userA,
+        cursor: beforeDeletion.cursor,
+        limit: 500,
+      });
+      expect(tombstones.changes).toEqual(expect.arrayContaining([
+        expect.objectContaining({
+          entityType: "book",
+          entityId: bookId,
+          action: "delete",
+        }),
+        expect.objectContaining({
+          entityType: "progress",
+          entityId: progressId,
+          action: "delete",
+        }),
+      ]));
+    });
   },
 );

@@ -10,7 +10,8 @@ import {
   type PushOperationResult,
   pushOperationResultSchema,
 } from "@simple-cloud-reader/sync-contract";
-import { and, eq, sql } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
+import { and, eq, isNull, sql } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import {
   bookmarks,
@@ -18,6 +19,7 @@ import {
   changeLog,
   collectionMemberships,
   collections,
+  fileObjects,
   highlights,
   libraryMemberships,
   mutationReceipts,
@@ -282,6 +284,7 @@ async function upsertEntity(
 async function deleteEntity(
   transaction: SyncTransaction,
   userId: string,
+  deviceId: string,
   operation: Extract<MutationOperation, { action: "delete" }>,
   nextVersion: number,
   serverTimestamp: Date,
@@ -292,12 +295,170 @@ async function deleteEntity(
     deletedAt: new Date(operation.deletedAt),
   };
   switch (operation.entityType) {
-    case "book":
+    case "book": {
+      const childTombstones: Array<{
+        entityType:
+          | "libraryMembership"
+          | "fileObject"
+          | "progress"
+          | "highlight"
+          | "bookmark"
+          | "collectionMembership";
+        entityId: string;
+        serverVersion: number;
+      }> = [];
+      const membershipRows = await transaction
+        .update(libraryMemberships)
+        .set({
+          version: sql`${libraryMemberships.version} + 1`,
+          updatedAt: serverTimestamp,
+          deletedAt: new Date(operation.deletedAt),
+        })
+        .where(and(
+          eq(libraryMemberships.userId, userId),
+          eq(libraryMemberships.bookId, operation.entityId),
+          isNull(libraryMemberships.deletedAt),
+        ))
+        .returning({
+          entityId: libraryMemberships.id,
+          serverVersion: libraryMemberships.version,
+        });
+      childTombstones.push(...membershipRows.map((row) => ({
+        entityType: "libraryMembership" as const,
+        ...row,
+      })));
+
+      const fileRows = await transaction
+        .update(fileObjects)
+        .set({
+          state: "deleted",
+          version: sql`${fileObjects.version} + 1`,
+          updatedAt: serverTimestamp,
+          deletedAt: new Date(operation.deletedAt),
+        })
+        .where(and(
+          eq(fileObjects.userId, userId),
+          eq(fileObjects.bookId, operation.entityId),
+          isNull(fileObjects.deletedAt),
+        ))
+        .returning({
+          entityId: fileObjects.id,
+          serverVersion: fileObjects.version,
+        });
+      childTombstones.push(...fileRows.map((row) => ({
+        entityType: "fileObject" as const,
+        ...row,
+      })));
+
+      const positionRows = await transaction
+        .update(readingPositions)
+        .set({
+          version: sql`${readingPositions.version} + 1`,
+          updatedAt: serverTimestamp,
+          deletedAt: new Date(operation.deletedAt),
+        })
+        .where(and(
+          eq(readingPositions.userId, userId),
+          eq(readingPositions.bookId, operation.entityId),
+          isNull(readingPositions.deletedAt),
+        ))
+        .returning({
+          entityId: readingPositions.id,
+          serverVersion: readingPositions.version,
+        });
+      childTombstones.push(...positionRows.map((row) => ({
+        entityType: "progress" as const,
+        ...row,
+      })));
+
+      const highlightRows = await transaction
+        .update(highlights)
+        .set({
+          version: sql`${highlights.version} + 1`,
+          updatedAt: serverTimestamp,
+          deletedAt: new Date(operation.deletedAt),
+        })
+        .where(and(
+          eq(highlights.userId, userId),
+          eq(highlights.bookId, operation.entityId),
+          isNull(highlights.deletedAt),
+        ))
+        .returning({
+          entityId: highlights.id,
+          serverVersion: highlights.version,
+        });
+      childTombstones.push(...highlightRows.map((row) => ({
+        entityType: "highlight" as const,
+        ...row,
+      })));
+
+      const bookmarkRows = await transaction
+        .update(bookmarks)
+        .set({
+          version: sql`${bookmarks.version} + 1`,
+          updatedAt: serverTimestamp,
+          deletedAt: new Date(operation.deletedAt),
+        })
+        .where(and(
+          eq(bookmarks.userId, userId),
+          eq(bookmarks.bookId, operation.entityId),
+          isNull(bookmarks.deletedAt),
+        ))
+        .returning({
+          entityId: bookmarks.id,
+          serverVersion: bookmarks.version,
+        });
+      childTombstones.push(...bookmarkRows.map((row) => ({
+        entityType: "bookmark" as const,
+        ...row,
+      })));
+
+      const collectionRows = await transaction
+        .update(collectionMemberships)
+        .set({
+          version: sql`${collectionMemberships.version} + 1`,
+          updatedAt: serverTimestamp,
+          deletedAt: new Date(operation.deletedAt),
+        })
+        .where(and(
+          eq(collectionMemberships.userId, userId),
+          eq(collectionMemberships.bookId, operation.entityId),
+          isNull(collectionMemberships.deletedAt),
+        ))
+        .returning({
+          entityId: collectionMemberships.id,
+          serverVersion: collectionMemberships.version,
+        });
+      childTombstones.push(...collectionRows.map((row) => ({
+        entityType: "collectionMembership" as const,
+        ...row,
+      })));
+
+      for (const child of childTombstones) {
+        await transaction.insert(changeLog).values({
+          userId,
+          entityType: child.entityType,
+          entityId: child.entityId,
+          action: "delete",
+          payload: {
+            operationId: randomUUID(),
+            baseVersion: child.serverVersion - 1,
+            clientTimestamp: operation.clientTimestamp,
+            deletedAt: operation.deletedAt,
+            payload: null,
+          },
+          serverVersion: child.serverVersion,
+          serverTimestamp,
+          originatingDeviceId: deviceId,
+        });
+      }
+
       await transaction.update(books).set(values).where(and(
         eq(books.id, operation.entityId),
         eq(books.userId, userId),
       ));
       return true;
+    }
     case "libraryMembership":
       await transaction.update(libraryMemberships).set(values).where(and(
         eq(libraryMemberships.id, operation.entityId),
@@ -409,6 +570,7 @@ export async function applyMutation(input: {
       ? await deleteEntity(
         input.transaction,
         input.userId,
+        input.deviceId,
         input.operation,
         nextVersion,
         input.serverTimestamp,
