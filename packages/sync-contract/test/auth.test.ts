@@ -18,17 +18,17 @@ describe("authentication contracts", () => {
   it("requires a refresh token and device identifier", () => {
     expect(refreshRequestSchema.parse({
       refreshToken: "token-value",
-      deviceId: "device-a",
+      deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
     })).toEqual({
       refreshToken: "token-value",
-      deviceId: "device-a",
+      deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
     });
   });
 
   it("requires an opaque magic-link token and device metadata", () => {
     expect(magicLinkRedeemSchema.parse({
       token: "opaque-token",
-      deviceId: "device-a",
+      deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
       deviceName: "My Android phone",
       platform: "android",
     }).platform).toBe("android");

@@ -52,7 +52,7 @@ export const mutationOperationSchema = z.union(
 );
 
 export const mutationBatchSchema = z.object({
-  deviceId: z.string().min(1),
+  deviceId: z.uuid(),
   operations: z.array(mutationOperationSchema).max(100),
 }).superRefine(({ operations }, context) => {
   const seen = new Set<string>();
@@ -71,7 +71,7 @@ export const mutationBatchSchema = z.object({
 export const syncChangeSchema = z.intersection(
   mutationOperationSchema,
   z.object({
-    deviceId: z.string().min(1).max(128),
+    deviceId: z.uuid(),
     serverVersion: z.number().int().positive(),
     serverTimestamp: z.iso.datetime(),
   }).strict(),

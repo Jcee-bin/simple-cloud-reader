@@ -1,5 +1,9 @@
 import Fastify, { type FastifyInstance } from "fastify";
 import {
+  registerAuthRoutes,
+  type AuthRouteDependencies,
+} from "./routes/auth.js";
+import {
   registerFileRoutes,
   type FileRouteDependencies,
 } from "./routes/files.js";
@@ -10,22 +14,27 @@ import {
 } from "./routes/sync.js";
 
 type AppDependencies =
-  & Partial<Pick<FileRouteDependencies, "objectStore">>
-  & Partial<Pick<SyncRouteDependencies, "syncStore">>
-  & Pick<FileRouteDependencies, "authenticate">;
+  & Partial<AuthRouteDependencies>
+  & Partial<Pick<FileRouteDependencies, "objectStore" | "authenticate">>
+  & Partial<Pick<SyncRouteDependencies, "syncStore">>;
 
 export function buildApp(
   dependencies?: AppDependencies,
 ): FastifyInstance {
   const app = Fastify({ logger: false });
   void app.register(registerHealthRoute);
-  if (dependencies?.objectStore) {
+  if (dependencies?.authService) {
+    void app.register(registerAuthRoutes, {
+      authService: dependencies.authService,
+    });
+  }
+  if (dependencies?.objectStore && dependencies.authenticate) {
     void app.register(registerFileRoutes, {
       authenticate: dependencies.authenticate,
       objectStore: dependencies.objectStore,
     });
   }
-  if (dependencies?.syncStore) {
+  if (dependencies?.syncStore && dependencies.authenticate) {
     void app.register(registerSyncRoutes, {
       authenticate: dependencies.authenticate,
       syncStore: dependencies.syncStore,

@@ -10,7 +10,7 @@ describe("sync API", () => {
       syncStore,
     });
     const batch = {
-      deviceId: "device-a",
+      deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
       operations: [{
         operationId: "3dd3a569-5994-4ce4-a3c7-38123ecb15c5",
         entityType: "progress",
@@ -54,7 +54,7 @@ describe("sync API", () => {
       serverVersion: 1,
     }]);
     expect(pull.json().changes).toHaveLength(1);
-    expect(pull.json().changes[0].deviceId).toBe("device-a");
+    expect(pull.json().changes[0].deviceId).toBe(batch.deviceId);
     expect(pull.json().cursor).toBe("1");
     await app.close();
   });

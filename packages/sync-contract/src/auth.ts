@@ -13,14 +13,14 @@ export const magicLinkRequestSchema = z.object({
 
 export const magicLinkRedeemSchema = z.object({
   token: z.string().min(1).max(512),
-  deviceId: z.string().min(1).max(128),
+  deviceId: z.uuid(),
   deviceName: z.string().trim().min(1).max(120),
   platform: clientPlatformSchema,
 }).strict();
 
 export const refreshRequestSchema = z.object({
   refreshToken: z.string().min(1).max(512),
-  deviceId: z.string().min(1).max(128),
+  deviceId: z.uuid(),
 }).strict();
 
 export const signOutRequestSchema = refreshRequestSchema;
