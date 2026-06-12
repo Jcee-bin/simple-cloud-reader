@@ -30,7 +30,10 @@ export interface FileRepository {
     userId: string;
     bookId: string;
   }): Promise<boolean>;
-  reservePendingFile(input: FileRecord): Promise<FileRecord>;
+  reservePendingFile(
+    input: FileRecord,
+    originatingDeviceId: string,
+  ): Promise<FileRecord>;
   findOwnedFile(input: {
     userId: string;
     fileId: string;
@@ -39,11 +42,13 @@ export interface FileRepository {
     userId: string;
     fileId: string;
     updatedAt: Date;
+    originatingDeviceId: string;
   }): Promise<FileRecord>;
   markDeleted(input: {
     userId: string;
     fileId: string;
     deletedAt: Date;
+    originatingDeviceId: string;
   }): Promise<void>;
 }
 
@@ -79,6 +84,7 @@ export function createFileService(input: {
   return {
     async reserveUpload(rawInput: {
       userId: string;
+      deviceId: string;
       bookId: string;
       sha256: string;
       byteSize: number;
@@ -123,7 +129,7 @@ export function createFileService(input: {
         createdAt,
         updatedAt: createdAt,
         deletedAt: null,
-      });
+      }, rawInput.deviceId);
       if (
         file.byteSize !== request.byteSize
         || file.contentType !== request.contentType
@@ -151,6 +157,7 @@ export function createFileService(input: {
 
     async complete(rawInput: {
       userId: string;
+      deviceId: string;
       fileId: string;
       byteSize: number;
     }) {
@@ -176,6 +183,7 @@ export function createFileService(input: {
         userId: rawInput.userId,
         fileId: rawInput.fileId,
         updatedAt: now(),
+        originatingDeviceId: rawInput.deviceId,
       });
     },
 
@@ -194,6 +202,7 @@ export function createFileService(input: {
 
     async remove(rawInput: {
       userId: string;
+      deviceId: string;
       fileId: string;
     }): Promise<void> {
       const file = await requireOwnedFile(rawInput.userId, rawInput.fileId);
@@ -204,6 +213,7 @@ export function createFileService(input: {
         userId: rawInput.userId,
         fileId: rawInput.fileId,
         deletedAt: now(),
+        originatingDeviceId: rawInput.deviceId,
       });
     },
   };

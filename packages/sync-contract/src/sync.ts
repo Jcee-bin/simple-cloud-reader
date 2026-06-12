@@ -68,14 +68,45 @@ export const mutationBatchSchema = z.object({
   });
 });
 
-export const syncChangeSchema = z.intersection(
-  mutationOperationSchema,
-  z.object({
-    deviceId: z.uuid(),
-    serverVersion: z.number().int().positive(),
-    serverTimestamp: z.iso.datetime(),
-  }).strict(),
-);
+const syncChangeMetadataSchema = z.object({
+  deviceId: z.uuid(),
+  serverVersion: z.number().int().positive(),
+  serverTimestamp: z.iso.datetime(),
+}).strict();
+
+export const syncChangeSchema = z.unknown().transform((value, context) => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    context.addIssue({
+      code: "custom",
+      message: "Expected a synchronization change object",
+    });
+    return z.NEVER;
+  }
+
+  const {
+    deviceId,
+    serverVersion,
+    serverTimestamp,
+    ...operationInput
+  } = value as Record<string, unknown>;
+  const operation = mutationOperationSchema.safeParse(operationInput);
+  const metadata = syncChangeMetadataSchema.safeParse({
+    deviceId,
+    serverVersion,
+    serverTimestamp,
+  });
+  if (!operation.success || !metadata.success) {
+    context.addIssue({
+      code: "custom",
+      message: "Invalid synchronization change",
+    });
+    return z.NEVER;
+  }
+  return {
+    ...operation.data,
+    ...metadata.data,
+  };
+});
 
 export const pushOperationResultSchema = z.object({
   operationId: z.uuid(),

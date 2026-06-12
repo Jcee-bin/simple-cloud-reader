@@ -1,21 +1,41 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import type { MutationOperation } from "@simple-cloud-reader/sync-contract";
 import { buildApp } from "../src/app.js";
-import { InMemorySyncStore } from "../src/sync/inMemorySyncStore.js";
+import type { SyncStore } from "../src/sync/syncStore.js";
+
+const userId = "6cf8c51d-45b9-4c7f-bf58-bab0a80e18ef";
+const deviceId = "93f39cf5-d988-49d9-9cc0-a857d13ac1d6";
+
+function createHarness() {
+  const syncStore: SyncStore = {
+    push: vi.fn(async ({ batch }) => ({
+      cursor: "opaque-cursor",
+      results: batch.operations.map((operation: MutationOperation) => ({
+        operationId: operation.operationId,
+        status: "accepted" as const,
+        serverVersion: 1,
+      })),
+    })),
+    pull: vi.fn(async () => ({
+      cursor: "next-cursor",
+      hasMore: false,
+      changes: [],
+    })),
+  };
+  const app = buildApp({
+    authenticate: async (request) => {
+      request.auth = { userId, deviceId };
+    },
+    syncStore,
+  });
+  return { app, syncStore };
+}
 
 describe("sync API", () => {
-  it("deduplicates retries and returns changes after a cursor", async () => {
-    const syncStore = new InMemorySyncStore();
-    const app = buildApp({
-      authenticate: async (request) => {
-        request.auth = {
-          userId: "user-1",
-          deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
-        };
-      },
-      syncStore,
-    });
+  it("passes authenticated identity into a validated push", async () => {
+    const { app, syncStore } = createHarness();
     const batch = {
-      deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
+      deviceId,
       operations: [{
         operationId: "3dd3a569-5994-4ce4-a3c7-38123ecb15c5",
         entityType: "progress",
@@ -36,31 +56,53 @@ describe("sync API", () => {
       }],
     };
 
-    const first = await app.inject({
+    const response = await app.inject({
       method: "POST",
       url: "/v1/sync/push",
       payload: batch,
-    });
-    const retry = await app.inject({
-      method: "POST",
-      url: "/v1/sync/push",
-      payload: batch,
-    });
-    const pull = await app.inject({
-      method: "GET",
-      url: "/v1/sync/pull?cursor=0",
     });
 
-    expect(first.statusCode).toBe(200);
-    expect(retry.json()).toEqual(first.json());
-    expect(first.json().results).toEqual([{
-      operationId: batch.operations[0]?.operationId,
-      status: "accepted",
-      serverVersion: 1,
-    }]);
-    expect(pull.json().changes).toHaveLength(1);
-    expect(pull.json().changes[0].deviceId).toBe(batch.deviceId);
-    expect(pull.json().cursor).toBe("1");
+    expect(response.statusCode).toBe(200);
+    expect(syncStore.push).toHaveBeenCalledWith({
+      userId,
+      authenticatedDeviceId: deviceId,
+      batch,
+    });
+    await app.close();
+  });
+
+  it("passes an opaque cursor and bounded page limit into pull", async () => {
+    const { app, syncStore } = createHarness();
+    const response = await app.inject({
+      method: "GET",
+      url: "/v1/sync/pull?cursor=opaque-cursor&limit=25",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(syncStore.pull).toHaveBeenCalledWith({
+      userId,
+      cursor: "opaque-cursor",
+      limit: 25,
+    });
+    await app.close();
+  });
+
+  it("returns stable sync errors", async () => {
+    const { app, syncStore } = createHarness();
+    vi.mocked(syncStore.pull).mockRejectedValueOnce(
+      Object.assign(new Error("invalid_cursor"), {
+        statusCode: 400,
+        code: "invalid_cursor",
+      }),
+    );
+
+    const response = await app.inject({
+      method: "GET",
+      url: "/v1/sync/pull?cursor=someone-elses-cursor",
+    });
+
+    expect(response.statusCode).toBe(400);
+    expect(response.json()).toEqual({ error: "invalid_cursor" });
     await app.close();
   });
 });

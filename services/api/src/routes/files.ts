@@ -53,6 +53,7 @@ export async function registerFileRoutes(
         const bookId = entityIdSchema.parse(request.params.bookId);
         return dependencies.fileService.reserveUpload({
           userId: request.auth.userId,
+          deviceId: request.auth.deviceId,
           bookId,
           ...body,
         });
@@ -68,6 +69,7 @@ export async function registerFileRoutes(
         const fileId = entityIdSchema.parse(request.params.fileId);
         const file = await dependencies.fileService.complete({
           userId: request.auth.userId,
+          deviceId: request.auth.deviceId,
           fileId,
           byteSize: body.byteSize,
         });
@@ -99,6 +101,7 @@ export async function registerFileRoutes(
         const fileId = entityIdSchema.parse(request.params.fileId);
         await dependencies.fileService.remove({
           userId: request.auth.userId,
+          deviceId: request.auth.deviceId,
           fileId,
         });
         return reply.code(204).send();

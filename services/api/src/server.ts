@@ -8,6 +8,7 @@ import { createResendEmailSender } from "./email/resendEmailSender.js";
 import { createFileService } from "./files/fileService.js";
 import { PostgresFileRepository } from "./files/postgresFileRepository.js";
 import { createObjectStore } from "./storage/objectStore.js";
+import { PostgresSyncStore } from "./sync/postgresSyncStore.js";
 
 const config = loadConfig();
 const database = createDatabase(config.DATABASE_URL);
@@ -26,9 +27,14 @@ const fileService = createFileService({
   repository: new PostgresFileRepository(database.db),
   objectStore,
 });
+const syncStore = new PostgresSyncStore({
+  db: database.db,
+  cursorSecret: config.CURSOR_SECRET,
+});
 const app = buildApp({
   authService,
   fileService,
+  syncStore,
   authenticate: createAuthenticate({
     jwtSecret: config.JWT_SECRET,
     accessRepository: authRepository,

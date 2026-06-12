@@ -127,4 +127,24 @@ describe("mutationBatchSchema", () => {
       changes: Array.from({ length: 501 }, () => change),
     })).toThrow();
   });
+
+  it("accepts a mutation enriched with server change metadata", () => {
+    expect(pullResponseSchema.parse({
+      cursor: "opaque-cursor",
+      hasMore: false,
+      changes: [{
+        operationId,
+        entityType: "bookmark",
+        entityId,
+        action: "delete",
+        baseVersion: 3,
+        clientTimestamp: "2026-06-12T00:00:00.000Z",
+        deletedAt: "2026-06-12T00:01:00.000Z",
+        payload: null,
+        deviceId,
+        serverVersion: 4,
+        serverTimestamp: "2026-06-12T00:01:01.000Z",
+      }],
+    }).changes[0]?.serverVersion).toBe(4);
+  });
 });

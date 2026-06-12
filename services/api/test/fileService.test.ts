@@ -7,6 +7,7 @@ import {
 import type { ObjectStore } from "../src/storage/objectStore.js";
 
 const userId = "6cf8c51d-45b9-4c7f-bf58-bab0a80e18ef";
+const deviceId = "93f39cf5-d988-49d9-9cc0-a857d13ac1d6";
 const otherUserId = "a46192d0-6480-4ba8-a821-d70136418c5c";
 const bookId = "d1822de7-f117-4910-96d2-e8a07fb7455f";
 const fileId = "62b8247b-3d50-43e0-91aa-8c47506e58d5";
@@ -45,6 +46,7 @@ class MemoryFileRepository implements FileRepository {
     userId: string;
     fileId: string;
     updatedAt: Date;
+    originatingDeviceId: string;
   }): Promise<FileRecord> {
     const file = (await this.findOwnedFile(input))!;
     const updated = {
@@ -61,6 +63,7 @@ class MemoryFileRepository implements FileRepository {
     userId: string;
     fileId: string;
     deletedAt: Date;
+    originatingDeviceId: string;
   }): Promise<void> {
     const file = (await this.findOwnedFile(input))!;
     this.files.set(file.id, {
@@ -104,6 +107,7 @@ describe("managed file lifecycle", () => {
     const { objectStore, repository, service } = createHarness();
     const request = {
       userId,
+      deviceId,
       bookId,
       sha256,
       byteSize: 123456,
@@ -128,6 +132,7 @@ describe("managed file lifecycle", () => {
 
     await expect(service.reserveUpload({
       userId: otherUserId,
+      deviceId,
       bookId,
       sha256,
       byteSize: 123456,
@@ -150,6 +155,7 @@ describe("managed file lifecycle", () => {
     const { objectStore, service } = createHarness();
     await service.reserveUpload({
       userId,
+      deviceId,
       bookId,
       sha256,
       byteSize: 123456,
@@ -163,6 +169,7 @@ describe("managed file lifecycle", () => {
 
     await expect(service.complete({
       userId,
+      deviceId,
       fileId,
       byteSize: 123456,
     })).rejects.toMatchObject({
@@ -175,6 +182,7 @@ describe("managed file lifecycle", () => {
     const { service } = createHarness();
     await service.reserveUpload({
       userId,
+      deviceId,
       bookId,
       sha256,
       byteSize: 123456,
@@ -186,7 +194,7 @@ describe("managed file lifecycle", () => {
       statusCode: 409,
       code: "file_not_ready",
     });
-    await service.complete({ userId, fileId, byteSize: 123456 });
+    await service.complete({ userId, deviceId, fileId, byteSize: 123456 });
     await expect(service.download({ userId, fileId })).resolves.toMatchObject({
       fileId,
       downloadUrl: expect.stringContaining("/download/"),
@@ -197,6 +205,7 @@ describe("managed file lifecycle", () => {
     const { objectStore, repository, service } = createHarness();
     await service.reserveUpload({
       userId,
+      deviceId,
       bookId,
       sha256,
       byteSize: 123456,
@@ -204,7 +213,7 @@ describe("managed file lifecycle", () => {
       originalFileName: "book.epub",
     });
 
-    await service.remove({ userId, fileId });
+    await service.remove({ userId, deviceId, fileId });
 
     expect(objectStore.deleteObject).toHaveBeenCalledOnce();
     expect(repository.books.has(`${userId}:${bookId}`)).toBe(true);

@@ -4,6 +4,7 @@ const configSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
   DATABASE_URL: z.url(),
   JWT_SECRET: z.string().min(32),
+  CURSOR_SECRET: z.string().min(32),
   PUBLIC_APP_URL: z.url(),
   RESEND_API_KEY: z.string().min(1),
   AUTH_FROM_EMAIL: z.string().min(1),

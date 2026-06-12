@@ -2,12 +2,13 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { PostgresFileRepository } from "../src/files/postgresFileRepository.js";
 import { createFileService } from "../src/files/fileService.js";
 import { createDatabase } from "../src/db/client.js";
-import { books, users } from "../src/db/schema.js";
+import { books, devices, users } from "../src/db/schema.js";
 import {
   applyMigrationsToSchema,
   dropTestSchema,
 } from "../src/db/testDatabase.js";
 import type { ObjectStore } from "../src/storage/objectStore.js";
+import { PostgresSyncStore } from "../src/sync/postgresSyncStore.js";
 
 describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
   "PostgreSQL managed file lifecycle",
@@ -51,12 +52,31 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
       now: () => new Date(now),
       generateId: () => generatedIds.shift()!,
     });
+    const syncStore = new PostgresSyncStore({
+      db: database.db,
+      cursorSecret: "a-secure-cursor-secret-that-is-at-least-32-bytes",
+      now: () => new Date(now),
+    });
 
     beforeAll(async () => {
       await applyMigrationsToSchema(schemaName);
       await database.db.insert(users).values([
         { id: userA, normalizedEmail: "a@example.com" },
         { id: userB, normalizedEmail: "b@example.com" },
+      ]);
+      await database.db.insert(devices).values([
+        {
+          id: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
+          userId: userA,
+          name: "Phone A",
+          platform: "android",
+        },
+        {
+          id: "a4c5868a-5437-4df2-ad1c-10daf31f7e9c",
+          userId: userB,
+          name: "Phone B",
+          platform: "android",
+        },
       ]);
       await database.db.insert(books).values([
         {
@@ -88,6 +108,7 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
     it("deduplicates a retry but isolates the same hash between users", async () => {
       const requestA = {
         userId: userA,
+        deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
         bookId: bookA,
         sha256,
         byteSize: 123456,
@@ -99,6 +120,7 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
       const otherUser = await service.reserveUpload({
         ...requestA,
         userId: userB,
+        deviceId: "a4c5868a-5437-4df2-ad1c-10daf31f7e9c",
         bookId: bookB,
         originalFileName: "b.epub",
       });
@@ -112,6 +134,7 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
     it("persists completion and deletion without deleting book metadata", async () => {
       await service.complete({
         userId: userA,
+        deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
         fileId: fileA,
         byteSize: 123456,
       });
@@ -119,8 +142,27 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
         userId: userA,
         fileId: fileA,
       })).resolves.toMatchObject({ fileId: fileA });
+      const readyChanges = await syncStore.pull({
+        userId: userA,
+        limit: 500,
+      });
+      expect(
+        readyChanges.changes
+          .filter(({ entityType }) => entityType === "fileObject")
+          .map(({ action, payload }) => ({
+            action,
+            state: payload && "state" in payload ? payload.state : null,
+          })),
+      ).toEqual([
+        { action: "upsert", state: "pending" },
+        { action: "upsert", state: "ready" },
+      ]);
 
-      await service.remove({ userId: userA, fileId: fileA });
+      await service.remove({
+        userId: userA,
+        deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
+        fileId: fileA,
+      });
       await expect(service.download({
         userId: userA,
         fileId: fileA,
@@ -129,6 +171,17 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
         userId: userA,
         bookId: bookA,
       })).resolves.toBe(true);
+      const removed = await syncStore.pull({
+        userId: userA,
+        cursor: readyChanges.cursor,
+        limit: 500,
+      });
+      expect(removed.changes).toHaveLength(1);
+      expect(removed.changes[0]).toMatchObject({
+        entityType: "fileObject",
+        action: "delete",
+        payload: null,
+      });
     });
   },
 );

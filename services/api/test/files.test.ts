@@ -54,6 +54,7 @@ describe("managed file routes", () => {
     expect(reserve.statusCode).toBe(200);
     expect(fileService.reserveUpload).toHaveBeenCalledWith({
       userId,
+      deviceId,
       bookId,
       sha256: "a".repeat(64),
       byteSize: 123456,
@@ -63,6 +64,7 @@ describe("managed file routes", () => {
     expect(complete.statusCode).toBe(200);
     expect(fileService.complete).toHaveBeenCalledWith({
       userId,
+      deviceId,
       fileId,
       byteSize: 123456,
     });
@@ -83,7 +85,11 @@ describe("managed file routes", () => {
     expect(download.statusCode).toBe(200);
     expect(fileService.download).toHaveBeenCalledWith({ userId, fileId });
     expect(remove.statusCode).toBe(204);
-    expect(fileService.remove).toHaveBeenCalledWith({ userId, fileId });
+    expect(fileService.remove).toHaveBeenCalledWith({
+      userId,
+      deviceId,
+      fileId,
+    });
     await app.close();
   });
 

@@ -1,13 +1,39 @@
 import { mutationBatchSchema } from "@simple-cloud-reader/sync-contract";
 import type {
   FastifyInstance,
+  FastifyReply,
   preHandlerHookHandler,
 } from "fastify";
-import type { InMemorySyncStore } from "../sync/inMemorySyncStore.js";
+import { ZodError } from "zod";
+import type { SyncStore } from "../sync/syncStore.js";
 
 export interface SyncRouteDependencies {
-  syncStore: InMemorySyncStore;
+  syncStore: SyncStore;
   authenticate: preHandlerHookHandler;
+}
+
+async function sendSyncResponse(
+  reply: FastifyReply,
+  callback: () => Promise<unknown>,
+): Promise<unknown> {
+  try {
+    return await callback();
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return reply.code(400).send({ error: "invalid_request" });
+    }
+    if (
+      error
+      && typeof error === "object"
+      && "statusCode" in error
+      && "code" in error
+      && typeof error.statusCode === "number"
+      && typeof error.code === "string"
+    ) {
+      return reply.code(error.statusCode).send({ error: error.code });
+    }
+    throw error;
+  }
 }
 
 export async function registerSyncRoutes(
@@ -17,22 +43,32 @@ export async function registerSyncRoutes(
   app.post(
     "/v1/sync/push",
     { preHandler: dependencies.authenticate },
-    async (request) =>
-      dependencies.syncStore.push(
-        request.auth.userId,
-        mutationBatchSchema.parse(request.body),
-      ),
+    async (request, reply) =>
+      sendSyncResponse(reply, () => {
+        const batch = mutationBatchSchema.parse(request.body);
+        return dependencies.syncStore.push({
+          userId: request.auth.userId,
+          authenticatedDeviceId: request.auth.deviceId,
+          batch,
+        });
+      })
   );
 
-  app.get<{ Querystring: { cursor?: string } }>(
+  app.get<{
+    Querystring: { cursor?: string; limit?: string };
+  }>(
     "/v1/sync/pull",
     { preHandler: dependencies.authenticate },
-    async (request) => {
-      const cursor = Number.parseInt(request.query.cursor ?? "0", 10);
-      return dependencies.syncStore.pull(
-        request.auth.userId,
-        Number.isFinite(cursor) ? cursor : 0,
-      );
-    },
+    async (request, reply) =>
+      sendSyncResponse(reply, () => {
+        const parsedLimit = Number.parseInt(request.query.limit ?? "500", 10);
+        return dependencies.syncStore.pull({
+          userId: request.auth.userId,
+          ...(request.query.cursor
+            ? { cursor: request.query.cursor }
+            : {}),
+          limit: Number.isFinite(parsedLimit) ? parsedLimit : 500,
+        });
+      })
   );
 }
