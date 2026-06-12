@@ -1,5 +1,7 @@
 import {
+  DeleteObjectCommand,
   GetObjectCommand,
+  HeadObjectCommand,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
@@ -9,8 +11,19 @@ export interface ObjectStore {
   createUploadUrl(
     key: string,
     contentType: string,
-  ): Promise<{ key: string; contentType: string; url: string }>;
-  createDownloadUrl(key: string): Promise<{ key: string; url: string }>;
+  ): Promise<{
+    key: string;
+    contentType: string;
+    url: string;
+    expiresAt: Date;
+  }>;
+  createDownloadUrl(
+    key: string,
+  ): Promise<{ key: string; url: string; expiresAt: Date }>;
+  headObject(
+    key: string,
+  ): Promise<{ exists: boolean; byteSize?: number }>;
+  deleteObject(key: string): Promise<void>;
 }
 
 export interface ObjectStoreConfig {
@@ -44,6 +57,7 @@ export function createObjectStore(config: ObjectStoreConfig): ObjectStore {
         key,
         contentType,
         url: await getSignedUrl(client, command, { expiresIn: 900 }),
+        expiresAt: new Date(Date.now() + 900_000),
       };
     },
     async createDownloadUrl(key) {
@@ -54,7 +68,38 @@ export function createObjectStore(config: ObjectStoreConfig): ObjectStore {
       return {
         key,
         url: await getSignedUrl(client, command, { expiresIn: 900 }),
+        expiresAt: new Date(Date.now() + 900_000),
       };
+    },
+    async headObject(key) {
+      try {
+        const response = await client.send(new HeadObjectCommand({
+          Bucket: config.S3_BUCKET,
+          Key: key,
+        }));
+        return typeof response.ContentLength === "number"
+          ? { exists: true, byteSize: response.ContentLength }
+          : { exists: true };
+      } catch (error) {
+        if (
+          error
+          && typeof error === "object"
+          && "$metadata" in error
+          && typeof error.$metadata === "object"
+          && error.$metadata
+          && "httpStatusCode" in error.$metadata
+          && error.$metadata.httpStatusCode === 404
+        ) {
+          return { exists: false };
+        }
+        throw error;
+      }
+    },
+    async deleteObject(key) {
+      await client.send(new DeleteObjectCommand({
+        Bucket: config.S3_BUCKET,
+        Key: key,
+      }));
     },
   };
 }

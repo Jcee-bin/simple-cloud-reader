@@ -5,6 +5,8 @@ import { PostgresAuthRepository } from "./auth/postgresAuthRepository.js";
 import { loadConfig } from "./config.js";
 import { createDatabase } from "./db/client.js";
 import { createResendEmailSender } from "./email/resendEmailSender.js";
+import { createFileService } from "./files/fileService.js";
+import { PostgresFileRepository } from "./files/postgresFileRepository.js";
 import { createObjectStore } from "./storage/objectStore.js";
 
 const config = loadConfig();
@@ -20,9 +22,13 @@ const authService = createAuthService({
   publicAppUrl: config.PUBLIC_APP_URL,
   jwtSecret: config.JWT_SECRET,
 });
+const fileService = createFileService({
+  repository: new PostgresFileRepository(database.db),
+  objectStore,
+});
 const app = buildApp({
   authService,
-  objectStore,
+  fileService,
   authenticate: createAuthenticate({
     jwtSecret: config.JWT_SECRET,
     accessRepository: authRepository,

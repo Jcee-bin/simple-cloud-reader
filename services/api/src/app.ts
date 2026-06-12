@@ -15,7 +15,7 @@ import {
 
 type AppDependencies =
   & Partial<AuthRouteDependencies>
-  & Partial<Pick<FileRouteDependencies, "objectStore" | "authenticate">>
+  & Partial<Pick<FileRouteDependencies, "fileService" | "authenticate">>
   & Partial<Pick<SyncRouteDependencies, "syncStore">>;
 
 export function buildApp(
@@ -28,10 +28,10 @@ export function buildApp(
       authService: dependencies.authService,
     });
   }
-  if (dependencies?.objectStore && dependencies.authenticate) {
+  if (dependencies?.fileService && dependencies.authenticate) {
     void app.register(registerFileRoutes, {
       authenticate: dependencies.authenticate,
-      objectStore: dependencies.objectStore,
+      fileService: dependencies.fileService,
     });
   }
   if (dependencies?.syncStore && dependencies.authenticate) {
