@@ -21,7 +21,7 @@ describe.runIf(Boolean(process.env.TEST_DATABASE_URL))(
       searchPath: schemaName,
     });
     const jwtSecret = "phase-one-jwt-secret-that-is-at-least-32-bytes";
-    const now = new Date("2026-06-12T00:00:00.000Z");
+    const now = new Date();
     const sentLinks: string[] = [];
     const objectStore: ObjectStore = {
       checkReady: vi.fn(async () => undefined),
