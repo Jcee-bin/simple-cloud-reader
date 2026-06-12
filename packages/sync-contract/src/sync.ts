@@ -1,27 +1,55 @@
 import { z } from "zod";
-import { canonicalLocatorSchema } from "./locator.js";
+import {
+  entityIdSchema,
+  entityPayloadSchemas,
+  syncEntityTypeSchema,
+} from "./entities.js";
 
-export const entityTypeSchema = z.enum([
-  "book",
-  "progress",
-  "highlight",
-  "note",
-  "bookmark",
-  "collection",
-  "collectionMembership",
-]);
+export const entityTypeSchema = syncEntityTypeSchema;
 
-export const mutationOperationSchema = z.object({
-  operationId: z.string().min(1),
-  entityType: entityTypeSchema,
-  entityId: z.string().min(1),
-  action: z.enum(["upsert", "delete"]),
+const mutationMetadataShape = {
+  operationId: z.uuid(),
+  entityId: entityIdSchema,
+  baseVersion: z.number().int().nonnegative().nullable(),
   clientTimestamp: z.iso.datetime(),
-  payload: z.union([
-    canonicalLocatorSchema,
-    z.record(z.string(), z.unknown()),
-  ]),
-});
+};
+
+function createEntityMutationSchema<
+  TEntityType extends keyof typeof entityPayloadSchemas,
+>(
+  entityType: TEntityType,
+  payloadSchema: (typeof entityPayloadSchemas)[TEntityType],
+) {
+  const upsertSchema = z.object({
+    ...mutationMetadataShape,
+    entityType: z.literal(entityType),
+    action: z.literal("upsert"),
+    deletedAt: z.null(),
+    payload: payloadSchema,
+  }).strict();
+  const deleteSchema = z.object({
+    ...mutationMetadataShape,
+    entityType: z.literal(entityType),
+    action: z.literal("delete"),
+    deletedAt: z.iso.datetime(),
+    payload: z.null(),
+  }).strict();
+
+  return z.discriminatedUnion("action", [upsertSchema, deleteSchema]);
+}
+
+export const mutationOperationSchema = z.union(
+  Object.entries(entityPayloadSchemas).map(([entityType, payloadSchema]) =>
+    createEntityMutationSchema(
+      entityType as keyof typeof entityPayloadSchemas,
+      payloadSchema,
+    )
+  ) as [
+    ReturnType<typeof createEntityMutationSchema>,
+    ReturnType<typeof createEntityMutationSchema>,
+    ...ReturnType<typeof createEntityMutationSchema>[],
+  ],
+);
 
 export const mutationBatchSchema = z.object({
   deviceId: z.string().min(1),
@@ -40,16 +68,36 @@ export const mutationBatchSchema = z.object({
   });
 });
 
-export const syncChangeSchema = mutationOperationSchema.extend({
-  serverVersion: z.number().int().positive(),
-  serverTimestamp: z.iso.datetime(),
-});
+export const syncChangeSchema = z.intersection(
+  mutationOperationSchema,
+  z.object({
+    deviceId: z.string().min(1).max(128),
+    serverVersion: z.number().int().positive(),
+    serverTimestamp: z.iso.datetime(),
+  }).strict(),
+);
+
+export const pushOperationResultSchema = z.object({
+  operationId: z.uuid(),
+  status: z.enum(["accepted", "duplicate", "conflict", "rejected"]),
+  serverVersion: z.number().int().positive().optional(),
+  errorCode: z.string().min(1).max(120).optional(),
+}).strict();
+
+export const pushResponseSchema = z.object({
+  cursor: z.string().min(1),
+  results: z.array(pushOperationResultSchema).max(100),
+}).strict();
 
 export const pullResponseSchema = z.object({
   cursor: z.string().min(1),
   hasMore: z.boolean(),
-  changes: z.array(syncChangeSchema),
-});
+  changes: z.array(syncChangeSchema).max(500),
+}).strict();
 
 export type MutationBatch = z.infer<typeof mutationBatchSchema>;
+export type MutationOperation = z.infer<typeof mutationOperationSchema>;
 export type SyncChange = z.infer<typeof syncChangeSchema>;
+export type PushOperationResult = z.infer<typeof pushOperationResultSchema>;
+export type PushResponse = z.infer<typeof pushResponseSchema>;
+export type PullResponse = z.infer<typeof pullResponseSchema>;
