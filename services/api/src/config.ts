@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const configSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
+  DATABASE_URL: z.url(),
   S3_ENDPOINT: z.url(),
   S3_REGION: z.string().min(1).default("auto"),
   S3_ACCESS_KEY_ID: z.string().min(1),

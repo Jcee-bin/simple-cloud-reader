@@ -10,6 +10,22 @@ on:
 jobs:
   contract-and-api:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: simple_cloud_reader
+          POSTGRES_USER: reader
+          POSTGRES_PASSWORD: reader
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U reader -d simple_cloud_reader"
+          --health-interval 2s
+          --health-timeout 2s
+          --health-retries 20
+    env:
+      TEST_DATABASE_URL: postgres://reader:reader@localhost:5432/simple_cloud_reader
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,6 +36,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - run: npm run db:check --workspace=@simple-cloud-reader/api
 
   windows-locator:
     runs-on: windows-latest
