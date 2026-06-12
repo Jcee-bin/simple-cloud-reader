@@ -61,7 +61,7 @@ jobs:
           sudo apt-get install --no-install-recommends -y \
             autoconf automake build-essential ccache cmake gettext \
             libffi-dev libssl-dev libtool nasm ninja-build patch \
-            pkg-config procps-ng unzip wget
+            pkg-config procps unzip wget
           python3 -m pip install --disable-pip-version-check meson ruamel.yaml
       - name: Build KOReader base
         run: |
