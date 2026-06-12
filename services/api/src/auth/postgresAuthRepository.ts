@@ -1,4 +1,4 @@
-import { and, eq, gte } from "drizzle-orm";
+import { and, eq, gte, isNull } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import {
   devices,
@@ -20,6 +20,23 @@ export class PostgresAuthRepository implements AuthRepository {
 
   async storeMagicLink(record: StoredMagicLink): Promise<void> {
     await this.db.insert(magicLinks).values(record);
+  }
+
+  async hasActiveDevice(input: {
+    userId: string;
+    deviceId: string;
+  }): Promise<boolean> {
+    const [active] = await this.db
+      .select({ id: devices.id })
+      .from(devices)
+      .innerJoin(users, eq(users.id, devices.userId))
+      .where(and(
+        eq(devices.id, input.deviceId),
+        eq(devices.userId, input.userId),
+        isNull(users.deletedAt),
+      ))
+      .limit(1);
+    return Boolean(active);
   }
 
   async countRecentMagicLinkRequests(input: {

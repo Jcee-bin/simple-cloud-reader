@@ -1,4 +1,7 @@
-import type { FastifyInstance } from "fastify";
+import type {
+  FastifyInstance,
+  preHandlerHookHandler,
+} from "fastify";
 import { z } from "zod";
 import type { ObjectStore } from "../storage/objectStore.js";
 
@@ -7,13 +10,9 @@ const uploadUrlRequestSchema = z.object({
   contentType: z.string().min(1),
 });
 
-export interface AuthenticatedUser {
-  userId: string;
-}
-
 export interface FileRouteDependencies {
   objectStore: ObjectStore;
-  authenticate(): Promise<AuthenticatedUser>;
+  authenticate: preHandlerHookHandler;
 }
 
 export async function registerFileRoutes(
@@ -22,11 +21,11 @@ export async function registerFileRoutes(
 ): Promise<void> {
   app.post<{ Params: { bookId: string } }>(
     "/v1/files/:bookId/upload-url",
+    { preHandler: dependencies.authenticate },
     async (request, reply) => {
-      const user = await dependencies.authenticate();
       const body = uploadUrlRequestSchema.parse(request.body);
       const key =
-        `users/${user.userId}/books/${request.params.bookId}/${body.sha256}`;
+        `users/${request.auth.userId}/books/${request.params.bookId}/${body.sha256}`;
 
       return reply.send(
         await dependencies.objectStore.createUploadUrl(key, body.contentType),

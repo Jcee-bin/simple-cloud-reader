@@ -22,6 +22,13 @@ class MemoryAuthRepository implements AuthRepository {
   readonly users = new Map<string, UserRecord>();
   readonly devices = new Map<string, { userId: string }>();
 
+  async hasActiveDevice(input: {
+    userId: string;
+    deviceId: string;
+  }): Promise<boolean> {
+    return this.devices.get(input.deviceId)?.userId === input.userId;
+  }
+
   async storeMagicLink(record: StoredMagicLink): Promise<void> {
     this.magicLinks.set(record.tokenHash, record);
   }

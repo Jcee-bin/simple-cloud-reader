@@ -6,7 +6,12 @@ describe("sync API", () => {
   it("deduplicates retries and returns changes after a cursor", async () => {
     const syncStore = new InMemorySyncStore();
     const app = buildApp({
-      authenticate: async () => ({ userId: "user-1" }),
+      authenticate: async (request) => {
+        request.auth = {
+          userId: "user-1",
+          deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
+        };
+      },
       syncStore,
     });
     const batch = {

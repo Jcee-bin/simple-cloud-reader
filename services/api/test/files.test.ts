@@ -14,7 +14,12 @@ describe("POST /v1/files/:bookId/upload-url", () => {
     };
     const app = buildApp({
       objectStore,
-      authenticate: async () => ({ userId: "user-1" }),
+      authenticate: async (request) => {
+        request.auth = {
+          userId: "user-1",
+          deviceId: "93f39cf5-d988-49d9-9cc0-a857d13ac1d6",
+        };
+      },
     });
 
     const response = await app.inject({

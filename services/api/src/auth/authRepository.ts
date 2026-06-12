@@ -1,3 +1,5 @@
+import type { AccessRepository } from "./authenticate.js";
+
 export interface StoredMagicLink {
   id: string;
   normalizedEmail: string;
@@ -32,7 +34,7 @@ export type RefreshRotationResult =
   | { status: "rotated"; user: UserRecord }
   | { status: "invalid" | "reused" };
 
-export interface AuthRepository {
+export interface AuthRepository extends AccessRepository {
   storeMagicLink(record: StoredMagicLink): Promise<void>;
   countRecentMagicLinkRequests(input: {
     normalizedEmail: string;
