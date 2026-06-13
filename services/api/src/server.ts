@@ -1,4 +1,6 @@
 import { buildApp } from "./app.js";
+import { createAccountService } from "./account/accountService.js";
+import { PostgresAccountRepository } from "./account/postgresAccountRepository.js";
 import { createAuthService } from "./auth/authService.js";
 import { createAuthenticate } from "./auth/authenticate.js";
 import { PostgresAuthRepository } from "./auth/postgresAuthRepository.js";
@@ -9,6 +11,7 @@ import { createFileService } from "./files/fileService.js";
 import { PostgresFileRepository } from "./files/postgresFileRepository.js";
 import { createObjectStore } from "./storage/objectStore.js";
 import { PostgresSyncStore } from "./sync/postgresSyncStore.js";
+import { productionLogger } from "./logging.js";
 
 const config = loadConfig();
 const database = createDatabase(config.DATABASE_URL);
@@ -26,12 +29,20 @@ const authService = createAuthService({
 const fileService = createFileService({
   repository: new PostgresFileRepository(database.db),
   objectStore,
+  maxFileBytes: config.MAX_FILE_BYTES,
+  maxUserStorageBytes: config.MAX_USER_STORAGE_BYTES,
 });
 const syncStore = new PostgresSyncStore({
   db: database.db,
   cursorSecret: config.CURSOR_SECRET,
 });
+const accountService = createAccountService({
+  repository: new PostgresAccountRepository(database.db),
+  objectStore,
+});
 const app = buildApp({
+  logger: productionLogger,
+  accountService,
   authService,
   fileService,
   syncStore,

@@ -14,6 +14,10 @@ const configSchema = z.object({
   S3_SECRET_ACCESS_KEY: z.string().min(1),
   S3_BUCKET: z.string().min(1),
   S3_FORCE_PATH_STYLE: z.stringbool().default(false),
+  MAX_FILE_BYTES: z.coerce.number().int().positive()
+    .default(250 * 1024 * 1024),
+  MAX_USER_STORAGE_BYTES: z.coerce.number().int().positive()
+    .default(2 * 1024 ** 3),
 });
 
 export type ApiConfig = z.infer<typeof configSchema>;

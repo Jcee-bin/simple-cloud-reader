@@ -6,10 +6,15 @@ import type {
 } from "fastify";
 import { ZodError } from "zod";
 import type { SyncStore } from "../sync/syncStore.js";
+import {
+  createRateLimitHook,
+  type FixedWindowRateLimiter,
+} from "../security/rateLimiter.js";
 
 export interface SyncRouteDependencies {
   syncStore: SyncStore;
   authenticate: preHandlerHookHandler;
+  rateLimiter: FixedWindowRateLimiter;
 }
 
 async function sendSyncResponse(
@@ -42,7 +47,15 @@ export async function registerSyncRoutes(
 ): Promise<void> {
   app.post(
     "/v1/sync/push",
-    { preHandler: dependencies.authenticate },
+    { preHandler: [
+      dependencies.authenticate,
+      createRateLimitHook({
+        limiter: dependencies.rateLimiter,
+        scope: "sync:push",
+        policy: { limit: 120, windowMs: 60_000 },
+        authenticated: true,
+      }),
+    ] },
     async (request, reply) =>
       sendSyncResponse(reply, () => {
         const batch = mutationBatchSchema.parse(request.body);
@@ -58,7 +71,15 @@ export async function registerSyncRoutes(
     Querystring: { cursor?: string; limit?: string };
   }>(
     "/v1/sync/pull",
-    { preHandler: dependencies.authenticate },
+    { preHandler: [
+      dependencies.authenticate,
+      createRateLimitHook({
+        limiter: dependencies.rateLimiter,
+        scope: "sync:pull",
+        policy: { limit: 120, windowMs: 60_000 },
+        authenticated: true,
+      }),
+    ] },
     async (request, reply) =>
       sendSyncResponse(reply, () => {
         const parsedLimit = Number.parseInt(request.query.limit ?? "500", 10);

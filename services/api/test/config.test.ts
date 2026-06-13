@@ -31,6 +31,8 @@ describe("loadConfig", () => {
       S3_SECRET_ACCESS_KEY: "secret",
       S3_BUCKET: "books",
       S3_FORCE_PATH_STYLE: false,
+      MAX_FILE_BYTES: 250 * 1024 * 1024,
+      MAX_USER_STORAGE_BYTES: 2 * 1024 ** 3,
     });
   });
 });

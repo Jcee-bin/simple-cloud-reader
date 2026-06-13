@@ -25,11 +25,26 @@ class MemoryFileRepository implements FileRepository {
     return this.books.has(`${input.userId}:${input.bookId}`);
   }
 
-  async reservePendingFile(input: FileRecord): Promise<FileRecord> {
+  async reservePendingFile(
+    input: FileRecord,
+    _originatingDeviceId: string,
+    limits: { maxUserStorageBytes: number },
+  ): Promise<FileRecord> {
     const existing = [...this.files.values()].find(
       (file) => file.userId === input.userId && file.sha256 === input.sha256,
     );
     if (existing) return existing;
+    const usage = [...this.files.values()]
+      .filter((file) => file.userId === input.userId && !file.deletedAt)
+      .reduce((total, file) => total + file.byteSize, 0);
+    if (usage + input.byteSize > limits.maxUserStorageBytes) {
+      const error = new Error("storage_quota_exceeded");
+      Object.assign(error, {
+        statusCode: 409,
+        code: "storage_quota_exceeded",
+      });
+      throw error;
+    }
     this.files.set(input.id, input);
     return input;
   }
@@ -76,7 +91,10 @@ class MemoryFileRepository implements FileRepository {
   }
 }
 
-function createHarness() {
+function createHarness(options: {
+  maxFileBytes?: number;
+  maxUserStorageBytes?: number;
+} = {}) {
   const repository = new MemoryFileRepository();
   const objectStore: ObjectStore = {
     checkReady: vi.fn(async () => undefined),
@@ -99,11 +117,49 @@ function createHarness() {
     objectStore,
     now: () => new Date(now),
     generateId: () => fileId,
+    ...options,
   });
   return { objectStore, repository, service };
 }
 
 describe("managed file lifecycle", () => {
+  it("rejects files above the configured single-file ceiling", async () => {
+    const { service } = createHarness({
+      maxFileBytes: 10,
+    });
+
+    await expect(service.reserveUpload({
+      userId,
+      deviceId,
+      bookId,
+      sha256,
+      byteSize: 11,
+      contentType: "application/epub+zip",
+      originalFileName: "large.epub",
+    })).rejects.toMatchObject({
+      statusCode: 413,
+      code: "file_too_large",
+    });
+  });
+
+  it("rejects reservations above the configured user storage quota", async () => {
+    const { service } = createHarness({
+      maxUserStorageBytes: 10,
+    });
+
+    await expect(service.reserveUpload({
+      userId,
+      deviceId,
+      bookId,
+      sha256,
+      byteSize: 11,
+      contentType: "application/epub+zip",
+      originalFileName: "quota.epub",
+    })).rejects.toMatchObject({
+      statusCode: 409,
+      code: "storage_quota_exceeded",
+    });
+  });
   it("reserves one pending user-scoped upload and deduplicates retries", async () => {
     const { objectStore, repository, service } = createHarness();
     const request = {

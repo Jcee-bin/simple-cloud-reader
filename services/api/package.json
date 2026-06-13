@@ -8,6 +8,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:check": "drizzle-kit check",
+    "maintenance": "node dist/src/maintenance.js",
     "test": "vitest run --exclude dist/**",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

@@ -2,7 +2,8 @@ import { and, eq, isNull, sql } from "drizzle-orm";
 import { randomUUID } from "node:crypto";
 import type { Database } from "../db/client.js";
 import { books, changeLog, fileObjects } from "../db/schema.js";
-import type {
+import {
+  FileError,
   FileRecord,
   FileRepository,
 } from "./fileService.js";
@@ -81,8 +82,42 @@ export class PostgresFileRepository implements FileRepository {
   async reservePendingFile(
     input: FileRecord,
     originatingDeviceId: string,
+    limits: { maxUserStorageBytes: number },
   ): Promise<FileRecord> {
     return this.db.transaction(async (transaction) => {
+      await transaction.execute(sql`
+        SELECT pg_advisory_xact_lock(
+          hashtextextended(${`storage-quota:${input.userId}`}, 0)
+        )
+      `);
+      const [usage] = await transaction
+        .select({
+          bytes: sql<number>`
+            coalesce(sum(${fileObjects.byteSize}), 0)
+          `.mapWith(Number),
+        })
+        .from(fileObjects)
+        .where(and(
+          eq(fileObjects.userId, input.userId),
+          isNull(fileObjects.deletedAt),
+        ));
+      const [sameHash] = await transaction
+        .select({
+          deletedAt: fileObjects.deletedAt,
+        })
+        .from(fileObjects)
+        .where(and(
+          eq(fileObjects.userId, input.userId),
+          eq(fileObjects.sha256, input.sha256),
+        ))
+        .limit(1);
+      const additionalBytes = sameHash && !sameHash.deletedAt
+        ? 0
+        : input.byteSize;
+      if ((usage?.bytes ?? 0) + additionalBytes > limits.maxUserStorageBytes) {
+        throw new FileError(409, "storage_quota_exceeded");
+      }
+
       const [created] = await transaction
         .insert(fileObjects)
         .values(input)

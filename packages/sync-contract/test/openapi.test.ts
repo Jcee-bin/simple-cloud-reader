@@ -22,6 +22,7 @@ describe("OpenAPI v1 contract", () => {
     );
 
     expect(operations.map((operation) => operation.operationId).sort()).toEqual([
+      "deleteAccount",
       "getHealth",
       "getLiveness",
       "getReadiness",

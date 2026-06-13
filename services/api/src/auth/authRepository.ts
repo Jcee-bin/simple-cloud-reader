@@ -35,6 +35,11 @@ export type RefreshRotationResult =
   | { status: "invalid" | "reused" };
 
 export interface AuthRepository extends AccessRepository {
+  cleanupAuthArtifacts(input: {
+    now: Date;
+    usedBefore: Date;
+    revokedBefore: Date;
+  }): Promise<{ magicLinks: number; refreshSessions: number }>;
   storeMagicLink(record: StoredMagicLink): Promise<void>;
   countRecentMagicLinkRequests(input: {
     normalizedEmail: string;

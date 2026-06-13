@@ -20,6 +20,7 @@ describe("GET /openapi.json", () => {
   it("documents every registered Phase 1 route with the correct method", async () => {
     const app = buildApp({
       authService: {} as never,
+      accountService: {} as never,
       authenticate: async () => undefined,
       fileService: {} as never,
       syncStore: {} as never,

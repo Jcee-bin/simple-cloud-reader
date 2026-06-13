@@ -1,7 +1,13 @@
 # Phase 1 Backend Proof
 
 **Branch:** `phase-0-technical-foundation`  
-**Updated:** 2026-06-12
+**Updated:** 2026-06-13
+
+Production hardening now includes bounded IP and per-user rate policies, a
+1 MiB JSON body limit, request timeouts, security headers, a 250 MiB file
+ceiling, a transactionally serialized 2 GiB per-user quota, authenticated
+bucket-first account deletion, redacted production logs, expired-auth
+maintenance, and sustained-traffic coverage for `429` behavior.
 
 | Proof | Status | Evidence |
 | --- | --- | --- |

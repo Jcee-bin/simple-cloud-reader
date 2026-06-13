@@ -209,6 +209,17 @@ export function generateOpenApiDocument(): OpenApiDocument {
           },
         },
       },
+      "/v1/account": {
+        delete: {
+          operationId: "deleteAccount",
+          security: [{ bearerAuth: [] }],
+          responses: {
+            "204": noContent("Account and owned data deleted."),
+            "401": jsonResponse("Authentication required.", "Error"),
+            "429": jsonResponse("Rate limit exceeded.", "Error"),
+          },
+        },
+      },
       "/v1/books/{bookId}/files": {
         post: {
           operationId: "reserveBookFileUpload",

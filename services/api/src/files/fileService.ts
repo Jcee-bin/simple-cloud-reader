@@ -33,6 +33,7 @@ export interface FileRepository {
   reservePendingFile(
     input: FileRecord,
     originatingDeviceId: string,
+    limits: { maxUserStorageBytes: number },
   ): Promise<FileRecord>;
   findOwnedFile(input: {
     userId: string;
@@ -66,9 +67,13 @@ export function createFileService(input: {
   objectStore: ObjectStore;
   now?: () => Date;
   generateId?: () => string;
+  maxFileBytes?: number;
+  maxUserStorageBytes?: number;
 }) {
   const now = input.now ?? (() => new Date());
   const generateId = input.generateId ?? randomUUID;
+  const maxFileBytes = input.maxFileBytes ?? 250 * 1024 * 1024;
+  const maxUserStorageBytes = input.maxUserStorageBytes ?? 2 * 1024 ** 3;
 
   async function requireOwnedFile(
     userId: string,
@@ -97,6 +102,9 @@ export function createFileService(input: {
         contentType: rawInput.contentType,
         originalFileName: rawInput.originalFileName,
       });
+      if (request.byteSize > maxFileBytes) {
+        throw new FileError(413, "file_too_large");
+      }
       if (!await input.repository.hasOwnedBook({
         userId: rawInput.userId,
         bookId: rawInput.bookId,
@@ -129,7 +137,7 @@ export function createFileService(input: {
         createdAt,
         updatedAt: createdAt,
         deletedAt: null,
-      }, rawInput.deviceId);
+      }, rawInput.deviceId, { maxUserStorageBytes });
       if (
         file.byteSize !== request.byteSize
         || file.contentType !== request.contentType

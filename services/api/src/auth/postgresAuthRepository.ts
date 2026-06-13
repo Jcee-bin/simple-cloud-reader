@@ -1,4 +1,4 @@
-import { and, eq, gte, isNull } from "drizzle-orm";
+import { and, eq, gte, isNotNull, isNull, lt, or } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import {
   devices,
@@ -17,6 +17,42 @@ import type {
 
 export class PostgresAuthRepository implements AuthRepository {
   constructor(private readonly db: Database) {}
+
+  async cleanupAuthArtifacts(input: {
+    now: Date;
+    usedBefore: Date;
+    revokedBefore: Date;
+  }): Promise<{ magicLinks: number; refreshSessions: number }> {
+    const [removedLinks, removedSessions] = await this.db.transaction(
+      async (transaction) => {
+        const links = await transaction
+          .delete(magicLinks)
+          .where(or(
+            lt(magicLinks.expiresAt, input.now),
+            and(
+              isNotNull(magicLinks.usedAt),
+              lt(magicLinks.usedAt, input.usedBefore),
+            ),
+          ))
+          .returning({ id: magicLinks.id });
+        const sessions = await transaction
+          .delete(refreshSessions)
+          .where(or(
+            lt(refreshSessions.expiresAt, input.now),
+            and(
+              isNotNull(refreshSessions.revokedAt),
+              lt(refreshSessions.revokedAt, input.revokedBefore),
+            ),
+          ))
+          .returning({ id: refreshSessions.id });
+        return [links.length, sessions.length] as const;
+      },
+    );
+    return {
+      magicLinks: removedLinks,
+      refreshSessions: removedSessions,
+    };
+  }
 
   async storeMagicLink(record: StoredMagicLink): Promise<void> {
     await this.db.insert(magicLinks).values(record);

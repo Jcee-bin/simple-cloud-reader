@@ -3492,6 +3492,41 @@
         }
       }
     },
+    "/v1/account": {
+      "delete": {
+        "operationId": "deleteAccount",
+        "responses": {
+          "204": {
+            "description": "Account and owned data deleted."
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Authentication required."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "description": "Rate limit exceeded."
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/auth/magic-link": {
       "post": {
         "operationId": "requestMagicLink",

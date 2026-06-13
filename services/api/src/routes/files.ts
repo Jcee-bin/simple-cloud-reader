@@ -10,10 +10,27 @@ import {
 } from "@simple-cloud-reader/sync-contract";
 import { ZodError } from "zod";
 import type { FileService } from "../files/fileService.js";
+import {
+  createRateLimitHook,
+  type FixedWindowRateLimiter,
+} from "../security/rateLimiter.js";
 
 export interface FileRouteDependencies {
   fileService: FileService;
   authenticate: preHandlerHookHandler;
+  rateLimiter: FixedWindowRateLimiter;
+}
+
+function protectedHandlers(dependencies: FileRouteDependencies) {
+  return [
+    dependencies.authenticate,
+    createRateLimitHook({
+      limiter: dependencies.rateLimiter,
+      scope: "files",
+      policy: { limit: 60, windowMs: 60_000 },
+      authenticated: true,
+    }),
+  ];
 }
 
 async function sendFileResponse(
@@ -46,7 +63,7 @@ export async function registerFileRoutes(
 ): Promise<void> {
   app.post<{ Params: { bookId: string } }>(
     "/v1/books/:bookId/files",
-    { preHandler: dependencies.authenticate },
+    { preHandler: protectedHandlers(dependencies) },
     async (request, reply) =>
       sendFileResponse(reply, async () => {
         const body = fileUploadRequestSchema.parse(request.body);
@@ -62,7 +79,7 @@ export async function registerFileRoutes(
 
   app.post<{ Params: { fileId: string } }>(
     "/v1/files/:fileId/complete",
-    { preHandler: dependencies.authenticate },
+    { preHandler: protectedHandlers(dependencies) },
     async (request, reply) =>
       sendFileResponse(reply, async () => {
         const body = fileUploadCompleteSchema.parse(request.body);
@@ -79,7 +96,7 @@ export async function registerFileRoutes(
 
   app.get<{ Params: { fileId: string } }>(
     "/v1/files/:fileId/download-url",
-    { preHandler: dependencies.authenticate },
+    { preHandler: protectedHandlers(dependencies) },
     async (request, reply) =>
       sendFileResponse(
         reply,
@@ -95,7 +112,7 @@ export async function registerFileRoutes(
 
   app.delete<{ Params: { fileId: string } }>(
     "/v1/files/:fileId",
-    { preHandler: dependencies.authenticate },
+    { preHandler: protectedHandlers(dependencies) },
     async (request, reply) =>
       sendFileResponse(reply, async () => {
         const fileId = entityIdSchema.parse(request.params.fileId);

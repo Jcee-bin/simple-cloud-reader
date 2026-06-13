@@ -17,6 +17,9 @@ const userId = "6cf8c51d-45b9-4c7f-bf58-bab0a80e18ef";
 const deviceId = "93f39cf5-d988-49d9-9cc0-a857d13ac1d6";
 
 class MemoryAuthRepository implements AuthRepository {
+  async cleanupAuthArtifacts() {
+    return { magicLinks: 0, refreshSessions: 0 };
+  }
   readonly magicLinks = new Map<string, StoredMagicLink>();
   readonly refreshSessions = new Map<string, RefreshSessionRecord>();
   readonly users = new Map<string, UserRecord>();
