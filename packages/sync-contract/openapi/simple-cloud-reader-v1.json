@@ -3210,6 +3210,91 @@
             "items": {
               "additionalProperties": false,
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "currentLocator": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "engine": {
+                          "enum": [
+                            "koreader",
+                            "readium"
+                          ],
+                          "type": "string"
+                        },
+                        "engineLocation": {
+                          "additionalProperties": {},
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "type": "object"
+                        },
+                        "format": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "progression": {
+                          "maximum": 1,
+                          "minimum": 0,
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "format",
+                        "progression",
+                        "engine",
+                        "engineLocation"
+                      ],
+                      "type": "object"
+                    },
+                    "kind": {
+                      "const": "backward_progress",
+                      "type": "string"
+                    },
+                    "proposedLocator": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "engine": {
+                          "enum": [
+                            "koreader",
+                            "readium"
+                          ],
+                          "type": "string"
+                        },
+                        "engineLocation": {
+                          "additionalProperties": {},
+                          "propertyNames": {
+                            "type": "string"
+                          },
+                          "type": "object"
+                        },
+                        "format": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "progression": {
+                          "maximum": 1,
+                          "minimum": 0,
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "format",
+                        "progression",
+                        "engine",
+                        "engineLocation"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "currentLocator",
+                    "proposedLocator"
+                  ],
+                  "type": "object"
+                },
                 "errorCode": {
                   "maxLength": 120,
                   "minLength": 1,

@@ -4,6 +4,7 @@ import {
   entityPayloadSchemas,
   syncEntityTypeSchema,
 } from "./entities.js";
+import { canonicalLocatorSchema } from "./locator.js";
 
 export const entityTypeSchema = syncEntityTypeSchema;
 
@@ -119,6 +120,11 @@ export const pushOperationResultSchema = z.object({
   status: z.enum(["accepted", "duplicate", "conflict", "rejected"]),
   serverVersion: z.number().int().positive().optional(),
   errorCode: z.string().min(1).max(120).optional(),
+  conflict: z.object({
+    kind: z.literal("backward_progress"),
+    currentLocator: canonicalLocatorSchema,
+    proposedLocator: canonicalLocatorSchema,
+  }).strict().optional(),
 }).strict();
 
 export const pushResponseSchema = z.object({

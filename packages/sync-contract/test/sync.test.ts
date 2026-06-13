@@ -106,6 +106,40 @@ describe("mutationBatchSchema", () => {
     }).results[0]?.status).toBe("accepted");
   });
 
+  it("returns both reading locations for a backward-progress conflict", () => {
+    const currentLocator = {
+      format: "epub",
+      progression: 0.72,
+      engine: "readium",
+      engineLocation: { href: "chapter-8.xhtml" },
+    };
+    const proposedLocator = {
+      format: "epub",
+      progression: 0.55,
+      engine: "koreader",
+      engineLocation: { xpointer: "/body/DocFragment[5]" },
+    };
+
+    expect(pushResponseSchema.parse({
+      cursor: "opaque-cursor",
+      results: [{
+        operationId,
+        status: "conflict",
+        serverVersion: 2,
+        errorCode: "backward_progress",
+        conflict: {
+          kind: "backward_progress",
+          currentLocator,
+          proposedLocator,
+        },
+      }],
+    }).results[0]?.conflict).toEqual({
+      kind: "backward_progress",
+      currentLocator,
+      proposedLocator,
+    });
+  });
+
   it("limits pull pages to 500 changes", () => {
     const change = {
       operationId,

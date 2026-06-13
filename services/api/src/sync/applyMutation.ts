@@ -11,6 +11,7 @@ import {
   pushOperationResultSchema,
 } from "@simple-cloud-reader/sync-contract";
 import { randomUUID } from "node:crypto";
+import { isDeepStrictEqual } from "node:util";
 import { and, eq, isNull, sql } from "drizzle-orm";
 import type { Database } from "../db/client.js";
 import {
@@ -19,6 +20,7 @@ import {
   changeLog,
   collectionMemberships,
   collections,
+  entityHistory,
   fileObjects,
   highlights,
   libraryMemberships,
@@ -33,6 +35,7 @@ type SyncTransaction = Parameters<
 interface EntityVersion {
   userId: string;
   version: number;
+  deletedAt: Date | null;
 }
 
 async function readEntityVersion(
@@ -50,7 +53,11 @@ async function readEntityVersion(
       | typeof collectionMemberships,
   ) => {
     const [record] = await transaction
-      .select({ userId: table.userId, version: table.version })
+      .select({
+        userId: table.userId,
+        version: table.version,
+        deletedAt: table.deletedAt,
+      })
       .from(table)
       .where(eq(table.id, operation.entityId))
       .limit(1);
@@ -500,6 +507,68 @@ async function deleteEntity(
   }
 }
 
+async function readHighlight(
+  transaction: SyncTransaction,
+  userId: string,
+  entityId: string,
+) {
+  const [highlight] = await transaction
+    .select({
+      bookId: highlights.bookId,
+      selectedText: highlights.selectedText,
+      prefix: highlights.prefix,
+      suffix: highlights.suffix,
+      colorRole: highlights.colorRole,
+      note: highlights.note,
+      locator: highlights.locator,
+      version: highlights.version,
+      deletedAt: highlights.deletedAt,
+    })
+    .from(highlights)
+    .where(and(
+      eq(highlights.id, entityId),
+      eq(highlights.userId, userId),
+    ))
+    .limit(1);
+  return highlight ?? null;
+}
+
+async function readProgress(
+  transaction: SyncTransaction,
+  userId: string,
+  entityId: string,
+) {
+  const [progress] = await transaction
+    .select({
+      bookId: readingPositions.bookId,
+      locator: readingPositions.locator,
+      updatedAt: readingPositions.updatedAt,
+      deletedAt: readingPositions.deletedAt,
+    })
+    .from(readingPositions)
+    .where(and(
+      eq(readingPositions.id, entityId),
+      eq(readingPositions.userId, userId),
+    ))
+    .limit(1);
+  return progress ?? null;
+}
+
+function sameHighlightExceptNote(
+  current: NonNullable<Awaited<ReturnType<typeof readHighlight>>>,
+  proposed: ReturnType<typeof highlightPayloadSchema.parse>,
+): boolean {
+  return current.bookId === proposed.bookId
+    && current.selectedText === proposed.selectedText
+    && current.prefix === proposed.prefix
+    && current.suffix === proposed.suffix
+    && current.colorRole === proposed.colorRole
+    && isDeepStrictEqual(current.locator, proposed.locator);
+}
+
+const RECENT_PROGRESS_WINDOW_MS = 24 * 60 * 60 * 1_000;
+const BACKWARD_PROGRESS_THRESHOLD = 0.1;
+
 export async function applyMutation(input: {
   transaction: SyncTransaction;
   userId: string;
@@ -528,11 +597,26 @@ export async function applyMutation(input: {
     return { ...prior, status: "duplicate" };
   }
 
+  await input.transaction.execute(sql`
+    SELECT pg_advisory_xact_lock(
+      hashtextextended(
+        ${`${input.userId}:${input.operation.entityType}:${input.operation.entityId}`},
+        0
+      )
+    )
+  `);
   const current = await readEntityVersion(
     input.transaction,
     input.operation,
   );
-  let result: PushOperationResult;
+  const versionMismatch = current
+    ? input.operation.baseVersion !== current.version
+    : ![null, 0].includes(input.operation.baseVersion);
+  let acceptsStaleVersion = false;
+  let highlightHistory:
+    | NonNullable<Awaited<ReturnType<typeof readHighlight>>>
+    | null = null;
+  let result: PushOperationResult | undefined;
   if (current && current.userId !== input.userId) {
     result = {
       operationId: input.operation.operationId,
@@ -541,23 +625,115 @@ export async function applyMutation(input: {
     };
   } else if (
     current
-      ? input.operation.baseVersion !== current.version
-      : ![null, 0].includes(input.operation.baseVersion)
+    && !current.deletedAt
+    && input.operation.entityType === "progress"
+    && input.operation.action === "upsert"
   ) {
+    const proposed = progressPayloadSchema.parse(input.operation.payload);
+    const progress = await readProgress(
+      input.transaction,
+      input.userId,
+      input.operation.entityId,
+    );
+    if (!progress || progress.deletedAt) {
+      result = {
+        operationId: input.operation.operationId,
+        status: "conflict",
+        serverVersion: current.version,
+        errorCode: "version_conflict",
+      };
+    } else {
+      const currentLocator = progressPayloadSchema.parse({
+        bookId: progress.bookId,
+        locator: progress.locator,
+      }).locator;
+      const ageMs = input.serverTimestamp.getTime()
+        - progress.updatedAt.getTime();
+      const backwardDistance = currentLocator.progression
+        - proposed.locator.progression;
+      if (
+        ageMs >= 0
+        && ageMs <= RECENT_PROGRESS_WINDOW_MS
+        && backwardDistance > BACKWARD_PROGRESS_THRESHOLD
+      ) {
+        result = {
+          operationId: input.operation.operationId,
+          status: "conflict",
+          serverVersion: current.version,
+          errorCode: "backward_progress",
+          conflict: {
+            kind: "backward_progress",
+            currentLocator,
+            proposedLocator: proposed.locator,
+          },
+        };
+      } else {
+        acceptsStaleVersion = true;
+      }
+    }
+  } else if (
+    versionMismatch
+    && current
+    && !current.deletedAt
+    && input.operation.entityType === "highlight"
+    && input.operation.action === "upsert"
+  ) {
+    const proposed = highlightPayloadSchema.parse(input.operation.payload);
+    const highlight = await readHighlight(
+      input.transaction,
+      input.userId,
+      input.operation.entityId,
+    );
+    if (
+      highlight
+      && !highlight.deletedAt
+      && sameHighlightExceptNote(highlight, proposed)
+    ) {
+      acceptsStaleVersion = true;
+      highlightHistory = highlight;
+    } else {
+      result = {
+        operationId: input.operation.operationId,
+        status: "conflict",
+        serverVersion: current.version,
+        errorCode: "version_conflict",
+      };
+    }
+  } else if (versionMismatch) {
     result = {
       operationId: input.operation.operationId,
       status: "conflict",
       ...(current ? { serverVersion: current.version } : {}),
       errorCode: "version_conflict",
     };
-  } else if (input.operation.entityType === "fileObject") {
+  }
+
+  if (!result && input.operation.entityType === "fileObject") {
     result = {
       operationId: input.operation.operationId,
       status: "rejected",
       errorCode: "managed_file_required",
     };
-  } else {
+  } else if (!result) {
     const nextVersion = (current?.version ?? 0) + 1;
+    if (highlightHistory && acceptsStaleVersion) {
+      await input.transaction.insert(entityHistory).values({
+        userId: input.userId,
+        entityType: "highlight",
+        entityId: input.operation.entityId,
+        version: highlightHistory.version,
+        payload: {
+          bookId: highlightHistory.bookId,
+          selectedText: highlightHistory.selectedText,
+          prefix: highlightHistory.prefix,
+          suffix: highlightHistory.suffix,
+          colorRole: highlightHistory.colorRole,
+          note: highlightHistory.note,
+          locator: highlightHistory.locator,
+        },
+        recordedAt: input.serverTimestamp,
+      });
+    }
     const applied = input.operation.action === "upsert"
       ? await upsertEntity(
         input.transaction,
