@@ -1,0 +1,62 @@
+name: Bug report
+description: Report reproducible incorrect behavior
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Do not report vulnerabilities or include credentials here. Use a private security advisory.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Backend API
+        - Windows app
+        - Android app
+        - Sync contract
+        - Documentation or infrastructure
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the expected and actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Commit, build, or version
+      placeholder: Commit SHA or application build
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, device, app build, and network state. Remove personal data.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs
+      description: Remove tokens, email addresses, signed URLs, database URLs, and bucket credentials.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, personal books, and personal information.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
