@@ -16,6 +16,8 @@ Public and continuation documents:
 - `docs/architecture/backend-schema.md`: deployment, ER, and flow diagrams.
 - `docs/PORTFOLIO.md`: truthful resume bullets and interview talking points.
 - `CLAUDE.md`: repository rules for a coding agent.
+- `FRONTEND_HANDOFF.md`: complete Windows-and-Android frontend behavior,
+  checkpoints, and Claude execution prompt.
 - `NEXT_STEPS.md`: Windows-first milestones and ready-to-paste Claude prompt.
 
 Simple Cloud Reader is a source-available, ReadEra-inspired reader with a calm
