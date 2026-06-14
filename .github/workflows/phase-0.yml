@@ -1,0 +1,111 @@
+name: Phase 0
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - phase-0-technical-foundation
+
+jobs:
+  contract-and-api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: simple_cloud_reader
+          POSTGRES_USER: reader
+          POSTGRES_PASSWORD: reader
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U reader -d simple_cloud_reader"
+          --health-interval 2s
+          --health-timeout 2s
+          --health-retries 20
+    env:
+      TEST_DATABASE_URL: postgres://reader:reader@localhost:5432/simple_cloud_reader
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm run db:check --workspace=@simple-cloud-reader/api
+
+  windows-locator:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/windows/package-lock.json
+      - run: npm ci
+      - run: npm run build --workspace=@simple-cloud-reader/sync-contract
+      - run: corepack npm@11.17.0 ci --ignore-scripts
+        working-directory: apps/windows
+      - run: corepack npm@11.17.0 run testFile -- test/simpleCloud/canonicalLocator.test.ts
+        working-directory: apps/windows
+      - run: |
+          $env:ESLINT_USE_FLAT_CONFIG = "false"
+          corepack npm@11.17.0 exec -- eslint src/common/simpleCloud/canonicalLocator.ts test/simpleCloud/canonicalLocator.test.ts
+        working-directory: apps/windows
+      - run: corepack npm@11.17.0 run build:dev:main
+        working-directory: apps/windows
+
+  android-locator:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/android
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            autoconf automake build-essential ccache cmake gettext \
+            libffi-dev libssl-dev libtool libx11-dev libxcursor-dev \
+            libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxss-dev \
+            libxtst-dev nasm ninja-build patch \
+            pkg-config procps unzip wget
+          python3 -m pip install --disable-pip-version-check meson ruamel.yaml
+      - name: Bootstrap KOReader dependencies
+        run: |
+          checkout_repo() {
+            local path="$1"
+            local url="$2"
+            local commit="$3"
+            git init "$path"
+            git -C "$path" remote add origin "$url"
+            git -C "$path" fetch --depth 1 origin "$commit"
+            git -C "$path" checkout --detach FETCH_HEAD
+          }
+
+          checkout_repo base https://github.com/koreader/koreader-base.git \
+            1f9ad7658b6af31d20c75062600c7225c2fbb7c3
+          checkout_repo l10n https://github.com/koreader/koreader-translations.git \
+            30f935580609e2ff8e7cc45214846e8af33beeca
+          checkout_repo resources/fonts https://github.com/koreader/koreader-fonts.git \
+            046976988aa33639d60d6ffd25c7a0ff50b72ac0
+          checkout_repo test https://github.com/koreader/test-data.git \
+            c3b5d06e1ae8ea088bd898b0e7f9da3753d0d86c
+
+          git -C base submodule update --init --depth 1 --jobs 3
+      - name: Build KOReader base
+        run: |
+          make base
+      - name: Run canonical locator test
+        run: ./kodev test front simplecloud_canonicallocator

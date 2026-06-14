@@ -1,0 +1,23 @@
+{
+  "name": "simple-cloud-reader",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=11.0.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "pretest": "npm run build --workspace=@simple-cloud-reader/sync-contract",
+    "test": "npm run test --workspaces --if-present",
+    "pretypecheck": "npm run build --workspace=@simple-cloud-reader/sync-contract",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3"
+  }
+}

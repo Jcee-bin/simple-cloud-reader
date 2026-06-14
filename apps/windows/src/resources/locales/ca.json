@@ -1,0 +1,1362 @@
+{
+    "accessibility": {
+        "bookMenu": "Menú",
+        "closeDialog": "Tancar",
+        "leftSlideButton": "Lliscar llista a l'esquerra",
+        "mainContent": "Contingut principal",
+        "rightSlideButton": "Lliscar llista a la dreta",
+        "skipLink": "Passar el contingut",
+        "toolbar": "Barra d'eines"
+    },
+    "apiapp": {
+        "documentation": "Documentació de Thorium",
+        "howItWorks": "Com funciona?",
+        "informations": "A França, moltes biblioteques públiques proporcionen un catàleg llegible per màquina (similar a OPDS però no idèntic), permetent als usuaris descarregar publicacions digitals de la seva biblioteca personal. La integració d'aquesta tecnologia en el Thorium Reader permet descarregar un llibre electrònic o audiollibre directament en el Thorium Reader per a la lectura instantània.\nCom connecteu el vostre compte de la biblioteca pública francesa amb Thorium Reader? És senzill. Introduïu una ciutat francesa ('París') o part del nom de la biblioteca al camp Cerca i premeu el botó Cerca. Apareixerà una llista de biblioteques públiques corresponents a la vostra cerca. Seleccioneu una biblioteca i premeu Afegeix. A la llista actualitzada de catàlegs, seleccioneu aquesta biblioteca: es mostrarà un formulari d'autenticació. Introdueix el teu nom d'usuari/email i contrasenya i prem Inici de sessió. Ja pots veure el contingut de la teva prestatgeria personal, des de la qual podràs descarregar i llegir els llibres electrònics i audiollibres que has prestat prèviament.",
+        "noLibraryFound": "Biblioteca no trobada ({{- name}})"
+    },
+    "app": {
+        "edit": {
+            "copy": "Copiar",
+            "cut": "Tallar",
+            "paste": "Pegar",
+            "print": "",
+            "redo": "Refer",
+            "selectAll": "Seleccionar tot",
+            "title": "Editar",
+            "undo": "Desfer"
+        },
+        "hide": "Ocultar {{- appName}}",
+        "quit": "Sortir de {{- appName}}",
+        "session": {
+            "exit": {
+                "askBox": {
+                    "button": {
+                        "no": "No",
+                        "yes": "Sí"
+                    },
+                    "help": "",
+                    "message": "Vols guardar la sessió?",
+                    "title": "Guardar sessió"
+                }
+            }
+        },
+        "update": {
+            "message": "Hi ha una nova versió disponible, feu clic per obtenir més informació.",
+            "title": "{{- appName}} software actualitzat."
+        },
+        "window": {
+            "showLibrary": "Mostrar biblioteca"
+        }
+    },
+    "catalog": {
+        "AddToFavorites": "",
+        "about": {
+            "title": "Sobre {{appName}}"
+        },
+        "addBookToLib": "Importar",
+        "addTags": "Afegir etiqueta",
+        "addTagsButton": "Afegir",
+        "allBooks": "Tots els llibres",
+        "bookInfo": "Sobre aquest llibre",
+        "column": {
+            "ascending": "ascendent",
+            "descending": "descendent",
+            "unsorted": "sense ordenar"
+        },
+        "customization": {
+            "fallback": {
+                "description": "",
+                "publications": "",
+                "screen": "",
+                "title": ""
+            }
+        },
+        "delete": "Eliminar",
+        "deleteBook": "Eliminar",
+        "deleteTag": "Eliminar etiqueta",
+        "description": "Descripció",
+        "emptyTagList": "No tens llibres etiquetats.",
+        "entry": {
+            "continueReading": "Reprendre lectura",
+            "lastAdditions": "Afegits recentment"
+        },
+        "export": "Exportar",
+        "exportAnnotation": "",
+        "format": "Format",
+        "importAnnotation": "",
+        "lang": "Idioma",
+        "lastRead": "Última lectura",
+        "login": "",
+        "logout": "",
+        "missing": "",
+        "missingUnavailableDescription": "",
+        "moreInfo": "Més información",
+        "myBooks": "Els meus llibres",
+        "noPublicationHelpL1": "Deposita els arxius aquí",
+        "noPublicationHelpL2": "o utiltza el botó \"{{- importTitle }}\" de dalt.",
+        "noPublicationHelpL3": "S'admiteixen fitxers protegits LCP.",
+        "noPublicationHelpL4": "Extensions admitides:",
+        "numberOfPages": "Nombre de pàgines",
+        "opds": {
+            "auth": {
+                "cancel": "Cancel·lar",
+                "external": "",
+                "fallback": "",
+                "login": "Iniciar sessió",
+                "password": "Contrasenya",
+                "register": "Registre",
+                "retry": "",
+                "unauthorized": "",
+                "unauthorizedUnsupportedType": "",
+                "username": "Usuari / Direcció de correu eletrònic"
+            },
+            "info": {
+                "availableSince": "Des de",
+                "availableState": {
+                    "available": "Disponible",
+                    "ready": "Llest",
+                    "reserved": "Reservat",
+                    "unavailable": "No disponible",
+                    "unknown": "Desconegut"
+                },
+                "availableUntil": "Fins",
+                "copyAvalaible": "Número de disponibles",
+                "copyTotal": "Número de còpies",
+                "holdPosition": "La teua ubicació",
+                "holdTotal": "Reservats",
+                "numberOfItems": "Número d'elements",
+                "priveValue": "Preu",
+                "state": "Estat"
+            }
+        },
+        "openFolder": "",
+        "publisher": "Editor",
+        "readBook": "Llegir",
+        "released": "Publicat en",
+        "removeFromFavorites": "",
+        "selectTableHeaders": "",
+        "sort": "Ordenar per",
+        "tag": "Etiqueta",
+        "tags": "Etiquetes",
+        "update": "Editar"
+    },
+    "dialog": {
+        "annotations": {
+            "descAuthor": "",
+            "descCreator": "",
+            "descList_many": "",
+            "descList_one": "",
+            "descList_other": "",
+            "descNewer_many": "",
+            "descNewer_one": "",
+            "descNewer_other": "",
+            "descOlder_many": "",
+            "descOlder_one": "",
+            "descOlder_other": "",
+            "descTitle": "",
+            "importAll": "",
+            "importWithoutConflict": "",
+            "origin": "",
+            "title": ""
+        },
+        "cancel": "Cancel·lar",
+        "customization": {
+            "splashscreen": {
+                "fallbackWelcomeScreen": "",
+                "state": "",
+                "title": ""
+            }
+        },
+        "deleteAnnotations": "",
+        "deleteAnnotationsText_many": "",
+        "deleteAnnotationsText_one": "",
+        "deleteAnnotationsText_other": "",
+        "deleteBookmarks": "",
+        "deleteBookmarksText_many": "",
+        "deleteBookmarksText_one": "",
+        "deleteBookmarksText_other": "",
+        "deleteFeed": "Segur que vols eliminar aquest catàleg?",
+        "deletePublication": "Segur que vols eliminar aquesta publicació?",
+        "deletePublicationWithNotes": "",
+        "import": "Segur que vols importar aquests fitxers?",
+        "importError": "S'ha produït un error, comprova l'extensió del teu fitxer ({{acceptedExtension}})",
+        "renew": "Segur que vols renovar d'aquest préstec?",
+        "return": "Segur que vols retornar la llicència per a aquesta publicació?",
+        "yes": "Sí"
+    },
+    "error": {
+        "errorBox": {
+            "error": "Missatge d'error",
+            "message": "S'ha produït un error en {{- filename}}",
+            "title": "Error intern de {{- appName}}"
+        }
+    },
+    "header": {
+        "allBooks": "Tots els llibres",
+        "catalogs": "Catàlegs",
+        "downloads": "Descàrregues",
+        "fitlerTagTitle": "Filtrar per etiqueta",
+        "gridTitle": "Presentació en quadrícula",
+        "home": "Menú biblioteca",
+        "homeTitle": "Inici",
+        "importTitle": "Importar publicació",
+        "listTitle": "Presentació en llista",
+        "myCatalogs": "Els meus catàlegs",
+        "refreshTitle": "Recarregar",
+        "searchPlaceholder": "Cercar",
+        "searchTitle": "Iniciar cerca",
+        "settings": "Opcions de configuració",
+        "settingsLabel": "",
+        "viewMode": "Mode de visualització"
+    },
+    "library": {
+        "filter": {
+            "addFilters": "",
+            "filterBy": "",
+            "selectOption": ""
+        },
+        "lcp": {
+            "hidePassphrase": "",
+            "hint": "Suggeriment : ",
+            "open": "",
+            "password": "Contrassenya",
+            "sentence": "Aquesta publicació requereix una contrassenya LCP per obrir-se: ",
+            "showPassphrase": "",
+            "urlHint": "Has olvidat la contrassenya? Clica si necessites ajuda",
+            "whatIsLcp?": "Què és LCP?",
+            "whatIsLcpInfoDetails": "LCP significa 'Protecció del contingut llicenciat'.",
+            "whatIsLcpInfoDetailsLink": "Per saber-ne més, feu clic en aquest enllaç a la pàgina web de l'EDRLab."
+        },
+        "sorting": {
+            "addSorting": "",
+            "author": "",
+            "language": "",
+            "readingState": "",
+            "sortBy": "",
+            "title": ""
+        }
+    },
+    "message": {
+        "annotations": {
+            "alreadyImported": "",
+            "emptyFile": "",
+            "errorParsing": "",
+            "noBelongTo": "",
+            "nothing": "",
+            "success": ""
+        },
+        "download": {
+            "cancelled": "",
+            "error": "La descàrrega de {{- title}} ha fallat: [{{- err}}]",
+            "errors": {
+                "hashMismatch": "",
+                "httpGet": "",
+                "invalidFilename": "",
+                "invalidLink": "",
+                "invalidTempDirectory": "",
+                "lengthMismatch": "",
+                "readStreamMissing": "",
+                "tooManyFilenameAttempts": ""
+            }
+        },
+        "import": {
+            "alreadyImport": "{{- title}} ja estava importat",
+            "fail": "La importació de {{- path}} ha fallat. {{- err}}",
+            "success": "La importació de {{- title}} ha acabat."
+        },
+        "open": {
+            "error": "No es pot obrir la publicació: {{- err}}",
+            "folderNotFound": ""
+        },
+        "storage": {
+            "removed": "",
+            "updateFailed": "",
+            "updated": ""
+        },
+        "wipeData": ""
+    },
+    "opds": {
+        "addForm": {
+            "addButton": "Afegir",
+            "name": "Nom:",
+            "namePlaceholder": "Nom",
+            "url": "Enllaç:",
+            "urlPlaceholder": "Enllaç"
+        },
+        "addFormApiapp": {
+            "title": "Afegeix un compte de biblioteca"
+        },
+        "addMenu": "Afegir catàleg OPDS",
+        "breadcrumbRoot": "Catàlegs",
+        "documentation": "Lloc web oficial de l'OPDS",
+        "empty": "No s'han trovat publicacions",
+        "firstPage": "Primera",
+        "informations": "Imagina't un món on explorar i descarregar publicacions digitals de biblioteques públiques i llibreters digitals amb pocs clics. Això és exactament el que ofereix el format de catàleg Open Publication Distribution System (OPDS). Amb OPDS, pots navegar a través de catàlegs de diversos proveïdors de llibres electrònics, registrar-te, demanar en préstec, comprar una publicació o visitar la teva biblioteca personal. Fins i tot pots descarregar un llibre electrònic o un audiollibre directament al Thorium Reader per a la lectura instantània.\nLlavors, com trobes un catàleg OPDS? És senzill. Cerca un enllaç (URL) que condueixi al catàleg. Copia aquest URL al camp Enllaç anterior. Tingues en compte que no hi ha una finestreta única per a tots els catàlegs d'OPDS actius. Hauràs de contactar amb la teva biblioteca o llibreter preferits i demanar la seva URL del catàleg OPDS. Si no esteu segur d'on començar, la Viquipèdia té alguns registres de catàlegs OPDS en diversos idiomes que poden ser útils.\nEl camp Nom es deixa a la vostra conveniència; proporciona una manera fàcil d'identificar el canal en el lector de Thorium.",
+        "lastPage": "Última",
+        "menu": {
+            "aboutBook": "Sobre aquest llibre",
+            "addExtract": "Importar mostra",
+            "goBuyBook": "Comprar aquest llibre",
+            "goLoanBook": "Demanar prestat aquest llibre",
+            "goRevokeLoanBook": "Cancel·lar préstamo",
+            "goSubBook": "Subscriure's"
+        },
+        "network": {
+            "error": "No es pot accedir al catàleg OPDS",
+            "noInternet": "No hi ha internet",
+            "noInternetMessage": "Intenta: comprovar el cable de xarxa, mòdem, router o wifi",
+            "reject": "Ho sentim, s'ha produït un error inesperat al intentar processar el catàleg OPDS",
+            "timeout": "S'ha acabat el temps d'espera de la xarxa; per favor, intenta-ho més tard"
+        },
+        "next": "Següent",
+        "previous": "Anterior",
+        "resumeBrowsing": "",
+        "shelf": "Prestatge",
+        "updateForm": {
+            "name": "Nom:",
+            "title": "Edita el canal OPDS",
+            "updateButton": "Editar",
+            "url": "Enllaç:"
+        },
+        "whatIsOpds": "Què és OPDS?"
+    },
+    "publ-a11y-display-guide": {
+        "accessibility-summary": {
+            "accessibility-summary-title": ""
+        },
+        "additional-accessibility-information": {
+            "additional-accessibility-information-aria": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-audio-descriptions": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-braille": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-full-ruby-annotations": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-high-contrast-between-foreground-and-background-audio": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-high-contrast-between-text-and-background": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-large-print": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-page-breaks": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-ruby-annotations": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-sign-language": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-tactile-graphics": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-tactile-objects": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-text-to-speech-hinting": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "additional-accessibility-information-title": ""
+        },
+        "conformance": {
+            "conformance-a": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-aa": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-aaa": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-certifier": {
+                "compact": ""
+            },
+            "conformance-certifier-credentials": {
+                "compact": ""
+            },
+            "conformance-details-certifier-report": {
+                "compact": ""
+            },
+            "conformance-details-claim": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-epub-accessibility-1-0": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-epub-accessibility-1-1": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-level-a": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-level-aa": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-level-aaa": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-wcag-2-0": {
+                "compact": ""
+            },
+            "conformance-details-wcag-2-1": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-details-wcag-2-2": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-no": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "conformance-title": "",
+            "conformance-unknown-standard": {
+                "compact": "",
+                "descriptive": ""
+            }
+        },
+        "hazards": {
+            "hazards-flashing": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-flashing-none": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-flashing-unknown": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-motion": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-motion-none": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-motion-unknown": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-no-metadata": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-none": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-sound": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-sound-none": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-sound-unknown": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "hazards-title": "",
+            "hazards-unknown": {
+                "compact": "",
+                "descriptive": ""
+            }
+        },
+        "navigation": {
+            "navigation-index": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "navigation-no-metadata": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "navigation-page-navigation": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "navigation-structural": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "navigation-title": "",
+            "navigation-toc": {
+                "compact": "",
+                "descriptive": ""
+            }
+        },
+        "rich-content": {
+            "rich-content-accessible-chemistry-as-latex": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-accessible-chemistry-as-mathml": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-accessible-math-as-latex": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-accessible-math-as-mathml": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-accessible-math-described": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-closed-captions": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-extended": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-open-captions": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-title": "",
+            "rich-content-transcript": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "rich-content-unknown": {
+                "compact": "",
+                "descriptive": ""
+            }
+        },
+        "ways-of-reading": {
+            "ways-of-reading-nonvisual-reading-alt-text": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-nonvisual-reading-no-metadata": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-nonvisual-reading-none": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-nonvisual-reading-not-fully": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-nonvisual-reading-readable": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-prerecorded-audio-complementary": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-prerecorded-audio-only": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-prerecorded-audio-synchronized": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-title": "",
+            "ways-of-reading-visual-adjustments-modifiable": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-visual-adjustments-unknown": {
+                "compact": "",
+                "descriptive": ""
+            },
+            "ways-of-reading-visual-adjustments-unmodifiable": {
+                "compact": "",
+                "descriptive": ""
+            }
+        }
+    },
+    "publication": {
+        "accessibility": {
+            "accessModeSufficient": {
+                "textual": "TTS i lector de pantalla amigable"
+            },
+            "accessibilityFeature": {
+                "alternativeText": "Conté text alternatiu",
+                "displayTransformability": "Text i disposició adaptables",
+                "longDescription": "Recursos gràfics completament descrits",
+                "printPageNumbers": "Referència de paginació del llibre imprès",
+                "readingOrder": "Conté un ordre de lectura",
+                "synchronizedAudioText": "Text i àudio sincronitzats",
+                "tableOfContents": "Conté una taula de continguts"
+            },
+            "accessibilityHazard": {
+                "flashing": "Flaix",
+                "motionSimulation": "Simulació de moviment",
+                "name": "Perill:",
+                "noFlashing": "Sense flaix",
+                "noMotionSimulation": "Sense simulació de moviment",
+                "noSound": "Sense so",
+                "none": "Cap",
+                "sound": "So",
+                "unknown": "Desconegut"
+            },
+            "certifierReport": "Informe de certificador",
+            "conformsTo": "Conforma a:",
+            "moreInformation": "Més informació",
+            "name": "Accessibilitat",
+            "noA11y": "No hi ha informació d'accessibilitat disponible"
+        },
+        "actions": "Accions",
+        "audio": {
+            "tracks": "Pistes"
+        },
+        "author": "Autor",
+        "cancelledLcp": "Aquest llibre no es pot llegir perquè la llicència LCP s'ha cancel·lat.",
+        "certificateRevoked": "El certificat està cancel·lat",
+        "certificateSignatureInvalid": "La firma del certificat no és vàlida",
+        "cover": {
+            "img": "Imatge de portada"
+        },
+        "day": "dia",
+        "days": "dies",
+        "duration": {
+            "title": "Duració"
+        },
+        "encryptedNoLicense": "",
+        "expired": "Préstec expirat",
+        "expiredLcp": "Aquest llibre no es pot llegir perquè la llicència LCP ha expirat.",
+        "incorrectPassphrase": "",
+        "lcpEnd": "Fi",
+        "lcpNotSupported": "",
+        "lcpRightsCopy": "Còpia de personatges",
+        "lcpRightsPrint": "Còpia d'impressora",
+        "lcpStart": "Inici",
+        "licenceLCP": "Llicència (LCP)",
+        "licenseCertificateDateInvalid": "La data de la firma de la llicència no és vàlida ({{- dateTime}})",
+        "licenseOutOfDate": "La llicència està desactualitzada",
+        "licenseSignatureInvalid": "La firma de la llicència no és vàlida",
+        "licensed": "Llicenciat",
+        "markAsRead": "Marca com a llegit",
+        "notStarted": "No s'ha iniciat",
+        "onGoing": "En curs",
+        "progression": {
+            "title": "Progrés"
+        },
+        "read": "Finalitzat",
+        "remainingTime": "Préstecs (dies restants)",
+        "renewButton": "Renovar",
+        "returnButton": "Tornar",
+        "returnedLcp": "Aquest llibre no es pot llegir perquè la llicència LCP s'ha retornat.",
+        "revokedLcp": "Aquest llibre no es pot llegir perquè la llicència LCP s'ha cancel·lat.",
+        "seeLess": "Veure menys",
+        "seeMore": "Veure més",
+        "timeLeft": "Esquerra",
+        "title": "Títol",
+        "userKeyCheckInvalid": "Contrasenya incorrecta"
+    },
+    "reader": {
+        "annotations": {
+            "Color": "Color",
+            "addNote": "Anotació",
+            "advancedMode": "Mode instantani (creació automàtica després de seleccionar)",
+            "annotationsExport": {
+                "description": "",
+                "title": ""
+            },
+            "annotationsOptions": "Opcions",
+            "date": "",
+            "error": {
+                "pdf": {
+                    "validationSelection": ""
+                }
+            },
+            "export": "",
+            "filter": {
+                "all": "",
+                "filterByColor": "",
+                "filterByCreator": "",
+                "filterByDrawtype": "",
+                "filterByTag": "",
+                "filterOptions": "",
+                "none": ""
+            },
+            "hide": "No ho mostris",
+            "highlight": "Ressaltat",
+            "noSelectionToast": "Sense selecció",
+            "note": "",
+            "quickAnnotations": "Creació ràpida (omet l'editor)",
+            "saveNote": "Desa",
+            "sorting": {
+                "lastcreated": "",
+                "lastmodified": "",
+                "progression": "",
+                "sortingOptions": ""
+            },
+            "toggleMarginMarks": "Mostra als marges",
+            "type": {
+                "outline": "Contorn",
+                "solid": "Fons sòlid",
+                "strikethrough": "Ratllat",
+                "underline": "Subratllat"
+            }
+        },
+        "bookmarks": {
+            "index": ""
+        },
+        "divina": {
+            "mute": "silenciar",
+            "unmute": "deixar de silenciar"
+        },
+        "dock": {
+            "dockDefault": "",
+            "dockLeft": "",
+            "dockRight": ""
+        },
+        "fxl": {
+            "fit": "Ajusta"
+        },
+        "goToContent": "",
+        "imgViewer": {
+            "title": "",
+            "zoomIn": "",
+            "zoomOut": "",
+            "zoomReset": ""
+        },
+        "marks": {
+            "annotations": "Anotacions",
+            "bookmarks": "Marcadors",
+            "delete": "Eliminar",
+            "edit": "Editar",
+            "goTo": "Anar a la pàgina",
+            "landmarks": "Punts de referència",
+            "saveMark": "Desa el marcador",
+            "search": "Cercar",
+            "searchResult": "Cercar [{{- searchText}}]",
+            "toc": "Taula de contingut"
+        },
+        "media-overlays": {
+            "activate": "Activar lectura en veu alta",
+            "captions": "Text sincronitzat/presentació diàfana",
+            "captionsDescription": "Vista de text simplificada amb estil de llegenda mínim.",
+            "disableContinuousPlay": "",
+            "disableContinuousPlayDescription": "",
+            "ignoreAndUseTTS": "",
+            "ignoreAndUseTTSDescription": "",
+            "next": "Sigüent (Lectura en veu alta)",
+            "pause": "Pausar (Lectura en veu alta)",
+            "play": "Reproduir (Lectura en veu alta)",
+            "previous": "Anterior (Lectura en veu alta)",
+            "skip": "Ometre informació auxiliar",
+            "skipDescription": "Salta sobre / ignora el contingut auxiliar com salts de pàgina, notes al peu/notes finals, etc.",
+            "speed": "Velocitat de reproducció per la lectura en veu alta",
+            "stop": "Detendre lectura en veu alta",
+            "title": "Lectura en veu alta",
+            "useTTSHighlightsForMO": "",
+            "useTTSHighlightsForMODescription": ""
+        },
+        "navigation": {
+            "ZenModeExit": "",
+            "ZenModeTitle": "",
+            "annotationTitle": "anotació",
+            "backHomeTitle": "Tornar a la biblioteca",
+            "bookmarkTitle": "Marcador",
+            "currentPage": "Pàgina actual: {{- current}}",
+            "currentPageTotal": "Pàgina actual: {{- current}}/{{- total}}",
+            "detachWindowTitle": "Mostrar finestra de biblioteca",
+            "goTo": "Anar a",
+            "goToError": "Aquest salt de pàgina no existeix",
+            "goToPlaceHolder": "Introdueix un número de pàgina",
+            "goToTitle": "Anar a pàgina",
+            "history": "",
+            "historyNext": "Salta endavant",
+            "historyPrevious": "Salta enrere",
+            "infoTitle": "Informació",
+            "magnifyingGlassButton": "cercar a la publicació",
+            "openTableOfContentsTitle": "Navegació",
+            "page": "Pàgina",
+            "pdfscalemode": "Ajust o ample de pàgina",
+            "print": "",
+            "printDisabled": "",
+            "screenNext": "",
+            "screenPrevious": "",
+            "settingsTitle": "Opcions de configuració"
+        },
+        "notes": {
+            "colors": {
+                "cyan": "",
+                "darkorange": "",
+                "darkyellow": "",
+                "green": "",
+                "orange": "",
+                "purple": "",
+                "red": "",
+                "yellow": ""
+            }
+        },
+        "picker": {
+            "search": {
+                "founds_many": "{{- count}} trobat/s",
+                "founds_one": "{{- count}} trobat/s",
+                "founds_other": "{{- count}} trobat/s",
+                "input": "text de cerca",
+                "next": "Següent",
+                "notFound": "no hi ha coincidències",
+                "previous": "Anterior",
+                "results": "Resultats",
+                "submit": "Trobar"
+            },
+            "searchTitle": "Cercar:"
+        },
+        "print": {
+            "descriptionLcpCount": "",
+            "descriptionLcpPrintable": "",
+            "howTo": "",
+            "lcpInfo": "",
+            "noPagesLcpLimitReached": "",
+            "noPrintablePages": "",
+            "pageHelpInfo": "",
+            "pageHelpInfo1": "",
+            "pageHelpInfo2": "",
+            "pageHelpInfo3": "",
+            "pageHelpInfo4": "",
+            "pages": "",
+            "preview": "",
+            "print": "",
+            "printablePages": "",
+            "title": ""
+        },
+        "settings": {
+            "column": {
+                "auto": "Automàtic",
+                "one": "1 col.",
+                "title": "Columnes",
+                "two": "2 cols."
+            },
+            "customFontSelected": "",
+            "customizeReader": "Personalitza el format del text",
+            "defaultValue": "",
+            "disabled": "desactivat",
+            "display": "Visualització",
+            "disposition": {
+                "title": "Disposició"
+            },
+            "font": "Font",
+            "fontSize": "Grandària de font",
+            "increaseFontSize": "",
+            "infoCustomFont": "Seleccioneu el tipus de lletra personalitzat del sistema operatiu escrivint el seu nom",
+            "justification": "Alineació",
+            "justify": "Justificar",
+            "letterSpacing": "Espaiat de lletres",
+            "lineSpacing": "Interlineat",
+            "margin": "Marge",
+            "mathjax": "",
+            "mathjaxDescription": "",
+            "noFootnotes": "Desactivar notes al peu",
+            "noRTLFlip": "Desactiva la IU de dreta a esquerra",
+            "noRuby": "Oculta el Ruby japonès",
+            "noTemporaryNavTargetOutline": "",
+            "paginated": "Paginat",
+            "paraSpacing": "Espaiat de paràgrafs",
+            "pdfZoom": {
+                "name": {
+                    "100pct": "100%",
+                    "150pct": "150%",
+                    "200pct": "200%",
+                    "300pct": "300%",
+                    "500pct": "500%",
+                    "50pct": "50%",
+                    "fit": "ajust de pàgina",
+                    "width": "ample de pàgina"
+                },
+                "title": "Zoom"
+            },
+            "preset": {
+                "apply": "",
+                "applyDetails": "",
+                "detail": "",
+                "reset": "",
+                "resetDetails": "",
+                "save": "",
+                "saveDetails": "",
+                "title": ""
+            },
+            "preview": "Previsualització",
+            "reduceFontSize": "",
+            "reduceMotion": "Disminuir moviment",
+            "scrolled": "Desplaçable",
+            "spacing": "Espaiat",
+            "spreadModeEven": "",
+            "text": "Text",
+            "theme": {
+                "name": {
+                    "Contrast1": "Contrast 1",
+                    "Contrast2": "Contrast 2",
+                    "Contrast3": "Contrast 3",
+                    "Contrast4": "Contrast 4",
+                    "Neutral": "Neutral",
+                    "Night": "Nit",
+                    "Paper": "Paper",
+                    "Sepia": "Sèpia"
+                },
+                "title": "Disposició"
+            },
+            "wordSpacing": "Espaiat de paraules"
+        },
+        "svg": {
+            "left": "Esquerra",
+            "right": "Dreta"
+        },
+        "toc": {
+            "publicationNoToc": "aquesta publicació no proporciona taula de contingut"
+        },
+        "tts": {
+            "activate": "Activar text a veu",
+            "language": "",
+            "next": "Següent (Text a veu)",
+            "options": "",
+            "pause": "Pausar text a veu",
+            "play": "Reproduir (Text a veu)",
+            "previous": "Anterior (Text a veu)",
+            "sentenceDetect": "Dividir (Text a veu)",
+            "sentenceDetectDescription": "Trenca els paràgrafs llargs en frases.",
+            "speed": "Velocitat de reproducció per a text a veu",
+            "stop": "Detenir text a veu",
+            "voice": "Veu per a TTS"
+        }
+    },
+    "settings": {
+        "annotationCreator": {
+            "creator": "",
+            "help": "",
+            "name": "",
+            "organization": "",
+            "person": "",
+            "type": ""
+        },
+        "auth": {
+            "help": "",
+            "title": "",
+            "wipeData": "Netejar dades d'autenticació"
+        },
+        "keyboard": {
+            "advancedMenu": "Menú",
+            "cancel": "Cancel·lar",
+            "disclaimer": "Les dreceres es van definir a partir de la disposició de teclat QWERTY.",
+            "editUserJson": "Editar arxiu d'usuari",
+            "exportToHTML": "",
+            "keyboardShortcuts": "Dreceres de teclat",
+            "list": {
+                "AddBookmarkWithLabel": {
+                    "description": "",
+                    "name": ""
+                },
+                "AnnotationsCreate": {
+                    "description": "",
+                    "name": ""
+                },
+                "AnnotationsCreateQuick": {
+                    "description": "",
+                    "name": ""
+                },
+                "AnnotationsToggleMargin": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioNext": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioNextAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioPlayPause": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioPrevious": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioPreviousAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedDecrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedIncrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedReset": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioStop": {
+                    "description": "",
+                    "name": ""
+                },
+                "CloseReader": {
+                    "description": "",
+                    "name": ""
+                },
+                "FXLZoomIn": {
+                    "description": "",
+                    "name": ""
+                },
+                "FXLZoomOut": {
+                    "description": "",
+                    "name": ""
+                },
+                "FXLZoomReset": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusMain": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusMainDeep": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderGotoPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderNavigation": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderNavigationAnnotations": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderNavigationBookmarks": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderNavigationSearch": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderNavigationTOC": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusReaderSettings": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusSearch": {
+                    "description": "",
+                    "name": ""
+                },
+                "FocusToolbar": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextChapter": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextChapterAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextHistory": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextLibraryPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextLibraryPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextOPDSPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextOPDSPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateNextPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousChapter": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousChapterAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousHistory": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousLibraryPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousLibraryPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousOPDSPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousOPDSPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousPage": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigatePreviousPageAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateToBegin": {
+                    "description": "",
+                    "name": ""
+                },
+                "NavigateToEnd": {
+                    "description": "",
+                    "name": ""
+                },
+                "OpenReaderInfo": {
+                    "description": "",
+                    "name": ""
+                },
+                "OpenReaderInfoWhereAmI": {
+                    "description": "",
+                    "name": ""
+                },
+                "Print": {
+                    "description": "",
+                    "name": ""
+                },
+                "SearchNext": {
+                    "description": "",
+                    "name": ""
+                },
+                "SearchNextAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "SearchPrevious": {
+                    "description": "",
+                    "name": ""
+                },
+                "SearchPreviousAlt": {
+                    "description": "",
+                    "name": ""
+                },
+                "SpeakReaderInfoWhereAmI": {
+                    "description": "",
+                    "name": ""
+                },
+                "ToggleBookmark": {
+                    "description": "",
+                    "name": ""
+                },
+                "ToggleReaderFullscreen": {
+                    "description": "",
+                    "name": ""
+                }
+            },
+            "loadUserJson": "Cargar arxiu d'usuari",
+            "noShortcutFound": "",
+            "resetDefaults": "Restablir valors predeterminats",
+            "save": "Guardar",
+            "searchPlaceholder": ""
+        },
+        "language": {
+            "languageChoice": "Selecció d'idioma"
+        },
+        "library": {
+            "enableAPIAPP": "",
+            "title": ""
+        },
+        "note": {
+            "export": {
+                "applyDefaultTemplate": "",
+                "enableCheckbox": "",
+                "overrideHTMLTemplate": ""
+            }
+        },
+        "profiles": {
+            "info": "",
+            "thorium": {
+                "description": "",
+                "title": ""
+            },
+            "version": ""
+        },
+        "screenReaderActivate": {
+            "help": "",
+            "message": "",
+            "title": ""
+        },
+        "session": {
+            "title": "Guardar sessió"
+        },
+        "sharedComputer": {
+            "lcpAutoDeleteExpiredPublications": "",
+            "lcpAutoDeleteExpiredPublicationsDescription": "",
+            "title": ""
+        },
+        "storage": {
+            "actions": {
+                "addDirectory": "",
+                "changeDirectory": "",
+                "removeStorageDirectory": ""
+            },
+            "beta": {
+                "availability": "",
+                "integrity": "",
+                "migration": "",
+                "summary": "",
+                "warning": ""
+            },
+            "configuration": {
+                "chooseFolderDescription": "",
+                "configuredDescription": "",
+                "notConfiguredDescription": ""
+            },
+            "dialogs": {
+                "add": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "edit": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "remove": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                }
+            },
+            "locations": {
+                "defaultDescription": "",
+                "defaultInternal": "",
+                "externalStorage": "",
+                "title": ""
+            }
+        },
+        "tabs": {
+            "appearance": "Aparença",
+            "general": "General",
+            "keyboardShortcuts": "Dreceres del teclat",
+            "profiles": "",
+            "storage": ""
+        },
+        "theme": {
+            "auto": "Automàtic",
+            "dark": "Fosc",
+            "description": "El tema de l'aplicació coincideix amb el sistema operatiu.",
+            "light": "Llum",
+            "title": "Tema d'aplicació"
+        }
+    },
+    "tts": {
+        "highlight": {
+            "mainColor": "",
+            "maskBlockWordOutline": "",
+            "maskBlockWordSolidBackground": "",
+            "maskBlockWordUnderline": "",
+            "maskWordOutline": "",
+            "maskWordSolidBackground": "",
+            "maskWordUnderline": "",
+            "outlineWordOutline": "",
+            "outlineWordSolidBackground": "",
+            "outlineWordUnderline": "",
+            "preview": "",
+            "solidBackgroundWordOutline": "",
+            "solidBackgroundWordSolidBackground": "",
+            "solidBackgroundWordUnderline": "",
+            "style": "",
+            "underlineWordOutline": "",
+            "underlineWordSolidBackground": "",
+            "underlineWordUnderline": "",
+            "wordColor": ""
+        }
+    },
+    "wizard": {
+        "buttons": {
+            "discover": "Descobreix les novetats",
+            "goToBooks": "Ves a les meves publicacions"
+        },
+        "description": {
+            "home": "Thorium sembla diferent! Anem a descobrir que hi ha nou... ",
+            "resources": ""
+        },
+        "dontShow": "No mostreu de nou",
+        "resources": {
+            "discord": "",
+            "website": ""
+        },
+        "tab": {
+            "home": "Inici",
+            "resources": ""
+        },
+        "title": {
+            "resources": "",
+            "welcome": "Benvinguts a Thorium 3"
+        }
+    }
+}

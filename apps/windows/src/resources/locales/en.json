@@ -1,0 +1,1356 @@
+{
+    "accessibility": {
+        "bookMenu": "Menu",
+        "closeDialog": "Close",
+        "leftSlideButton": "Slide to the left",
+        "mainContent": "main content",
+        "rightSlideButton": "Slide to the right",
+        "skipLink": "Skip to content",
+        "toolbar": "toolbar"
+    },
+    "apiapp": {
+        "documentation": "Thorium Documentation",
+        "howItWorks": "How does it work?",
+        "informations": "In France, many public libraries provide a machine-readable catalog (similar to OPDS but not identical), letting patrons download digital publications from their personal bookshelf. Integrating this technology in Thorium Reader allows you to download an ebook or audiobook directly into Thorium Reader for instant reading.\nHow do you connect your French public library account to Thorium Reader? It's simple. Enter a French city ('Paris') or part of the library name in the Search field and hit the Search button. A list of public libraries corresponding to your search will appear. Select a library and hit Add. In the updated list of catalogs, select this library: an authentication form is displayed. Enter your username/email address and password, and hit Login. You can now see the content of your personal bookshelf, from which you can download and read the ebooks and audiobooks you previously borrowed.",
+        "noLibraryFound": "No library found ({{- name}})"
+    },
+    "app": {
+        "edit": {
+            "copy": "Copy",
+            "cut": "Cut",
+            "paste": "Paste",
+            "print": "Print",
+            "redo": "Redo",
+            "selectAll": "Select all",
+            "title": "Edit",
+            "undo": "Undo"
+        },
+        "hide": "Hide {{- appName}}",
+        "quit": "Quit {{- appName}}",
+        "session": {
+            "exit": {
+                "askBox": {
+                    "button": {
+                        "no": "No",
+                        "yes": "Yes"
+                    },
+                    "help": "Activate this if you want reader windows that are open when you close the application to automatically re-open at next launch.",
+                    "message": "Saving and restoring the reading session",
+                    "title": "Save session?"
+                }
+            }
+        },
+        "update": {
+            "message": "New version available, click to learn more.",
+            "title": "{{- appName}} software update."
+        },
+        "window": {
+            "showLibrary": "Show library / bookshelf"
+        }
+    },
+    "catalog": {
+        "AddToFavorites": "Add to favorites",
+        "about": {
+            "title": "About {{- appName}} (online)"
+        },
+        "addBookToLib": "Import",
+        "addTags": "Add tag",
+        "addTagsButton": "Add",
+        "allBooks": "All publications",
+        "bookInfo": "About publication",
+        "column": {
+            "ascending": "ascending",
+            "descending": "descending",
+            "unsorted": "unsorted"
+        },
+        "customization": {
+            "fallback": {
+                "description": "No profile description",
+                "publications": "Profile publications",
+                "screen": "No title",
+                "title": "Profile title"
+            }
+        },
+        "delete": "Delete",
+        "deleteBook": "Delete",
+        "deleteTag": "Delete tag",
+        "description": "Description",
+        "emptyTagList": "No tagged publications.",
+        "entry": {
+            "continueReading": "Resume reading",
+            "lastAdditions": "Recently added"
+        },
+        "export": "Save as",
+        "exportAnnotation": "Export notes",
+        "format": "Format",
+        "importAnnotation": "Import notes",
+        "lang": "Language",
+        "lastRead": "Last Read",
+        "login": "Login",
+        "logout": "Logout",
+        "missing": "Missing files",
+        "missingUnavailableDescription": "This publication cannot be opened because its stored files are unavailable. Re-import it, or go to Settings and then Storage to add or change the additional storage.",
+        "moreInfo": "Publication Details",
+        "myBooks": "My publications",
+        "noPublicationHelpL1": "Drop files here",
+        "noPublicationHelpL2": "or use the \"{{- importTitle }}\" button above.",
+        "noPublicationHelpL3": "LCP-protected publications are supported.",
+        "noPublicationHelpL4": "Supported extensions:",
+        "numberOfPages": "Number of pages",
+        "opds": {
+            "auth": {
+                "cancel": "Cancel",
+                "external": "The login page will open in your web browser, please follow the instructions. Once logged-in, the web browser will return you to this application.",
+                "fallback": "Note: in case of login problems with the default web browser method, try again with the alternative in-application method.",
+                "login": "Login",
+                "password": "Password",
+                "register": "Register",
+                "retry": "Try again",
+                "unauthorized": "Unauthorized",
+                "unauthorizedUnsupportedType": "Unauthorized (unsupported WWWAuthenticate type '{{- type}}')",
+                "username": "Username / Email Address"
+            },
+            "info": {
+                "availableSince": "Since",
+                "availableState": {
+                    "available": "Available",
+                    "ready": "Ready",
+                    "reserved": "Reserved",
+                    "unavailable": "Unavailable",
+                    "unknown": "Unknown"
+                },
+                "availableUntil": "Until",
+                "copyAvalaible": "Available",
+                "copyTotal": "Copies",
+                "holdPosition": "Hold position",
+                "holdTotal": "Held",
+                "numberOfItems": "Number of items",
+                "priveValue": "Price",
+                "state": "State"
+            }
+        },
+        "openFolder": "Open directory",
+        "publisher": "Publisher",
+        "readBook": "Read",
+        "released": "Published on",
+        "removeFromFavorites": "Remove from favorites",
+        "selectTableHeaders": "Select columns to display",
+        "sort": "Sort by",
+        "tag": "Tag",
+        "tags": "Tags",
+        "update": "Edit"
+    },
+    "dialog": {
+        "annotations": {
+            "descAuthor": "by '{{- author}}'",
+            "descCreator": "created by",
+            "descList_one": "{{- count}} note {{- creator}} will be imported into '{{- title}}' {{- author}}",
+            "descList_other": "{{- count}} notes {{- creator}} will be imported into '{{- title}}' {{- author}}",
+            "descNewer_one": "Conflict(s): {{- count}} newer note",
+            "descNewer_other": "Conflict(s): {{- count}} newer notes",
+            "descOlder_one": "Conflict(s): {{- count}} older note",
+            "descOlder_other": "Conflict(s): {{- count}} older notes",
+            "descTitle": "Annotations title: ",
+            "importAll": "Import all notes",
+            "importWithoutConflict": "Import only conflict-free notes",
+            "origin": "Origin publication: '{{- title}}' {{- author}}",
+            "title": "Import notes?"
+        },
+        "cancel": "Cancel",
+        "customization": {
+            "splashscreen": {
+                "fallbackWelcomeScreen": "No welcome-screen provided",
+                "state": "State: {{- state}}",
+                "title": "Provisionning and activating customization profile"
+            }
+        },
+        "deleteAnnotations": "Delete annotations?",
+        "deleteAnnotationsText_one": "Are you sure you want to delete {{- count}} note?",
+        "deleteAnnotationsText_other": "Are you sure you want to delete {{- count}} notes?",
+        "deleteBookmarks": "Delete bookmarks?",
+        "deleteBookmarksText_one": "Are you sure you want to delete {{- count}} bookmark?",
+        "deleteBookmarksText_other": "Are you sure you want to delete {{- count}} bookmarks?",
+        "deleteFeed": "Delete catalog?",
+        "deletePublication": "Delete publication?",
+        "deletePublicationWithNotes": "Warning: this publication has annotations and/or bookmarks, they will be deleted too! (if you want to keep them, make sure to export the notes before removing the publication)",
+        "import": "Confirm import:",
+        "importError": "An error occurred, verify the file extension ({{acceptedExtension}})",
+        "renew": "Renew/extend loan?",
+        "return": "Return publication?",
+        "yes": "Yes"
+    },
+    "error": {
+        "errorBox": {
+            "error": "Error message:",
+            "message": "Error in {{- filename}}",
+            "title": "Internal {{- appName}} Error"
+        }
+    },
+    "header": {
+        "allBooks": "All publications",
+        "catalogs": "Catalogs",
+        "downloads": "Downloads",
+        "fitlerTagTitle": "Filter by tag",
+        "gridTitle": "Grid",
+        "home": "Bookshelf menu",
+        "homeTitle": "Home",
+        "importTitle": "Import publication",
+        "listTitle": "Table",
+        "myCatalogs": "My catalogs",
+        "refreshTitle": "reload",
+        "searchPlaceholder": "Search",
+        "searchTitle": "Search",
+        "settings": "Settings",
+        "settingsLabel": "Application Settings",
+        "viewMode": "View mode"
+    },
+    "library": {
+        "filter": {
+            "addFilters": "Add filters",
+            "filterBy": "Filter by",
+            "selectOption": "Select an item"
+        },
+        "lcp": {
+            "hidePassphrase": "Hide passphrase",
+            "hint": "Hint:",
+            "open": "Open",
+            "password": "Passphrase",
+            "sentence": "This publication needs an LCP passphrase to be opened",
+            "showPassphrase": "Show passphrase",
+            "urlHint": "Forgot your passphrase? Click here to get support.",
+            "whatIsLcp?": "What is LCP?",
+            "whatIsLcpInfoDetails": "LCP stands for 'Licensed Content Protection'.",
+            "whatIsLcpInfoDetailsLink": "To learn more, click this link to the EDRLab website."
+        },
+        "sorting": {
+            "addSorting": "Add sorting",
+            "author": "Author",
+            "language": "Language",
+            "readingState": "Reading State",
+            "sortBy": "Sort by: ",
+            "title": "Title"
+        }
+    },
+    "message": {
+        "annotations": {
+            "alreadyImported": "All notes are already imported.",
+            "emptyFile": "No notes available in the file.",
+            "errorParsing": "Error during file parsing: ",
+            "noBelongTo": "Unable to import notes, at least one note does not belong to the publication.",
+            "nothing": "There is no note ready to be imported, aborting the import",
+            "success": "Import completed successfully."
+        },
+        "download": {
+            "cancelled": "Download cancelled.",
+            "error": "Downloading [{{- title}}] failed: [{{- err}}]",
+            "errors": {
+                "hashMismatch": "Downloaded file integrity check failed: expected SHA-256 hash {{- expected}}, got {{- actual}}.",
+                "httpGet": "HTTP download failed: {{- statusMessage}} ({{- statusCode}}) [{{- url}}]",
+                "invalidFilename": "The temporary download filename is invalid.",
+                "invalidLink": "The download link is invalid.",
+                "invalidTempDirectory": "The temporary download directory is invalid.",
+                "lengthMismatch": "Downloaded file integrity check failed: expected {{- expected}} bytes, got {{- actual}} bytes.",
+                "readStreamMissing": "Download stream is unavailable.",
+                "tooManyFilenameAttempts": "Unable to create a unique temporary download filename: {{- path}}"
+            }
+        },
+        "import": {
+            "alreadyImport": "[{{- title}}] was already imported.",
+            "fail": "Importing [{{- path}}] failed: [{{- err}}]",
+            "success": "Importing [{{- title}}] completed."
+        },
+        "open": {
+            "error": "Loading publication failed: [{{- err}}]",
+            "folderNotFound": "The publication directory cannot be found. Re-import it, or configure the additional storage in Settings > Storage."
+        },
+        "storage": {
+            "removed": "Publication directory removed.",
+            "updateFailed": "Failed to update publication directory: {{- message}}",
+            "updated": "Publication directory updated."
+        },
+        "wipeData": "Login data was cleared (access tokens and cookies)"
+    },
+    "opds": {
+        "addForm": {
+            "addButton": "Add",
+            "name": "Name:",
+            "namePlaceholder": "Name",
+            "url": "Link:",
+            "urlPlaceholder": "Link"
+        },
+        "addFormApiapp": {
+            "title": "Add library account"
+        },
+        "addMenu": "Add OPDS feed",
+        "breadcrumbRoot": "Catalogs",
+        "documentation": "OPDS official website",
+        "empty": "No publication found",
+        "firstPage": "First",
+        "informations": "Imagine a world where you can explore and download digital publications from public libraries and digital booksellers with just a few clicks. That's exactly what the Open Publication Distribution System (OPDS) catalog format offers. With OPDS, you can navigate through catalogs from various ebook providers, sign up, borrow, buy a publication, or visit your personal bookshelf. You can even download an ebook or audiobook directly into Thorium Reader for instant reading.\nSo, how do you find an OPDS catalog? It's simple. Look for a hyperlink (URL) leading to the catalog. Copy this URL into the Link field above. Keep in mind that there's no one-stop shop for all active OPDS catalogs. You'll need to contact your preferred library or bookseller and ask for their OPDS catalog URL. If you're not sure where to start, Wikipedia has a few registries of OPDS catalogs in various languages that might be helpful.\nThe Name field is left at your convenience; it provides an easy way to identify the feed in Thorium Reader.",
+        "lastPage": "Last",
+        "menu": {
+            "aboutBook": "About publication",
+            "addExtract": "Import extract",
+            "goBuyBook": "Buy publication",
+            "goLoanBook": "Borrow publication",
+            "goRevokeLoanBook": "Revoke loan",
+            "goSubBook": "Subscribe"
+        },
+        "network": {
+            "error": "Error accessing feed",
+            "noInternet": "No internet",
+            "noInternetMessage": "Try checking the network cable, modem, router or wifi",
+            "reject": "Sorry, unexpected error!",
+            "timeout": "Network timeout, please try again later"
+        },
+        "next": "Next",
+        "previous": "Previous",
+        "resumeBrowsing": "Resume browsing",
+        "shelf": "Shelf",
+        "updateForm": {
+            "name": "Name:",
+            "title": "Edit OPDS feed",
+            "updateButton": "Edit",
+            "url": "Link:"
+        },
+        "whatIsOpds": "What Is OPDS?"
+    },
+    "publ-a11y-display-guide": {
+        "accessibility-summary": {
+            "accessibility-summary-title": "Accessibility summary"
+        },
+        "additional-accessibility-information": {
+            "additional-accessibility-information-aria": {
+                "compact": "ARIA roles included",
+                "descriptive": "Content is enhanced with ARIA roles to optimize organization and facilitate navigation"
+            },
+            "additional-accessibility-information-audio-descriptions": {
+                "compact": "Audio descriptions",
+                "descriptive": "Audio descriptions"
+            },
+            "additional-accessibility-information-braille": {
+                "compact": "Braille",
+                "descriptive": "Braille"
+            },
+            "additional-accessibility-information-full-ruby-annotations": {
+                "compact": "Full ruby annotations",
+                "descriptive": "Full ruby annotations"
+            },
+            "additional-accessibility-information-high-contrast-between-foreground-and-background-audio": {
+                "compact": "High contrast between foreground and background audio",
+                "descriptive": "High contrast between foreground and background audio"
+            },
+            "additional-accessibility-information-high-contrast-between-text-and-background": {
+                "compact": "High contrast between foreground text and background",
+                "descriptive": "High contrast between foreground text and background"
+            },
+            "additional-accessibility-information-large-print": {
+                "compact": "Large print",
+                "descriptive": "Large print"
+            },
+            "additional-accessibility-information-page-breaks": {
+                "compact": "Page breaks included",
+                "descriptive": "Page breaks included from the original print source"
+            },
+            "additional-accessibility-information-ruby-annotations": {
+                "compact": "Some Ruby annotations",
+                "descriptive": "Some Ruby annotations"
+            },
+            "additional-accessibility-information-sign-language": {
+                "compact": "Sign language",
+                "descriptive": "Sign language"
+            },
+            "additional-accessibility-information-tactile-graphics": {
+                "compact": "Tactile graphics included",
+                "descriptive": "Tactile graphics have been integrated to facilitate access to visual elements for blind people"
+            },
+            "additional-accessibility-information-tactile-objects": {
+                "compact": "Tactile 3D objects",
+                "descriptive": "Tactile 3D objects"
+            },
+            "additional-accessibility-information-text-to-speech-hinting": {
+                "compact": "Text-to-speech hinting provided",
+                "descriptive": "Text-to-speech hinting provided"
+            },
+            "additional-accessibility-information-title": "Additional accessibility information"
+        },
+        "conformance": {
+            "conformance-a": {
+                "compact": "This publication meets minimum accessibility standards",
+                "descriptive": "The publication contains a conformance statement that it meets the EPUB Accessibility and WCAG 2 Level A standard"
+            },
+            "conformance-aa": {
+                "compact": "This publication meets accepted accessibility standards",
+                "descriptive": "The publication contains a conformance statement that it meets the EPUB Accessibility and WCAG 2 Level AA standard"
+            },
+            "conformance-aaa": {
+                "compact": "This publication exceeds accepted accessibility standards",
+                "descriptive": "The publication contains a conformance statement that it meets the EPUB Accessibility and WCAG 2 Level AAA standard"
+            },
+            "conformance-certifier": {
+                "compact": "The publication was certified by "
+            },
+            "conformance-certifier-credentials": {
+                "compact": "The certifier's credential is "
+            },
+            "conformance-details-certifier-report": {
+                "compact": "For more information refer to the certifier's report"
+            },
+            "conformance-details-claim": {
+                "compact": "This publication claims to meet",
+                "descriptive": "This publication claims to meet"
+            },
+            "conformance-details-epub-accessibility-1-0": {
+                "compact": "EPUB Accessibility 1.0",
+                "descriptive": "EPUB Accessibility 1.0"
+            },
+            "conformance-details-epub-accessibility-1-1": {
+                "compact": "EPUB Accessibility 1.1",
+                "descriptive": "EPUB Accessibility 1.1"
+            },
+            "conformance-details-level-a": {
+                "compact": "Level A",
+                "descriptive": "Level A"
+            },
+            "conformance-details-level-aa": {
+                "compact": "Level AA",
+                "descriptive": "Level AA"
+            },
+            "conformance-details-level-aaa": {
+                "compact": "Level AAA",
+                "descriptive": "Level AAA"
+            },
+            "conformance-details-wcag-2-0": {
+                "compact": "WCAG 2.0"
+            },
+            "conformance-details-wcag-2-1": {
+                "compact": "WCAG 2.1",
+                "descriptive": "Web Content Accessibility Guidelines (WCAG) 2.1"
+            },
+            "conformance-details-wcag-2-2": {
+                "compact": "WCAG 2.2",
+                "descriptive": "Web Content Accessibility Guidelines (WCAG) 2.2"
+            },
+            "conformance-no": {
+                "compact": "No information is available",
+                "descriptive": "No information is available"
+            },
+            "conformance-title": "Conformance",
+            "conformance-unknown-standard": {
+                "compact": "Conformance to accepted standards for accessibility of this publication cannot be determined",
+                "descriptive": "Conformance to accepted standards for accessibility of this publication cannot be determined"
+            }
+        },
+        "hazards": {
+            "hazards-flashing": {
+                "compact": "Flashing content",
+                "descriptive": "The publication contains flashing content which can cause photosensitive seizures"
+            },
+            "hazards-flashing-none": {
+                "compact": "No flashing content",
+                "descriptive": "The publication contains no flashing content"
+            },
+            "hazards-flashing-unknown": {
+                "compact": "The presence of flashing content is unknown",
+                "descriptive": "The presence of flashing content is unknown"
+            },
+            "hazards-motion": {
+                "compact": "Motion simulation",
+                "descriptive": "The publication contains motion simulations that can cause motion sickness"
+            },
+            "hazards-motion-none": {
+                "compact": "No motion simulation",
+                "descriptive": "The publication contains no motion simulation"
+            },
+            "hazards-motion-unknown": {
+                "compact": "The presence of motion simulation is unknown",
+                "descriptive": "The presence of motion simulation is unknown"
+            },
+            "hazards-no-metadata": {
+                "compact": "No information is available",
+                "descriptive": "No information is available"
+            },
+            "hazards-none": {
+                "compact": "No hazards",
+                "descriptive": "The publication contains no hazards"
+            },
+            "hazards-sound": {
+                "compact": "Sounds",
+                "descriptive": "The publication contains sounds which can be uncomfortable"
+            },
+            "hazards-sound-none": {
+                "compact": "No sounds",
+                "descriptive": "The publication contains no sounds"
+            },
+            "hazards-sound-unknown": {
+                "compact": "The presence of sounds is unknown",
+                "descriptive": "The presence of sounds is unknown"
+            },
+            "hazards-title": "Hazards",
+            "hazards-unknown": {
+                "compact": "The presence of hazards is unknown",
+                "descriptive": "The presents of hazards is unknown"
+            }
+        },
+        "navigation": {
+            "navigation-index": {
+                "compact": "Index",
+                "descriptive": "Index with links to referenced entries"
+            },
+            "navigation-no-metadata": {
+                "compact": "No information is available",
+                "descriptive": "No information is available"
+            },
+            "navigation-page-navigation": {
+                "compact": "Go to page",
+                "descriptive": "Page list to go to pages from the print source version"
+            },
+            "navigation-structural": {
+                "compact": "Headings",
+                "descriptive": "Elements such as headings, tables, etc for structured navigation"
+            },
+            "navigation-title": "Navigation",
+            "navigation-toc": {
+                "compact": "Table of contents",
+                "descriptive": "Table of contents to all chapters of the text via links"
+            }
+        },
+        "rich-content": {
+            "rich-content-accessible-chemistry-as-latex": {
+                "compact": "Chemical formulas in LaTeX",
+                "descriptive": "Chemical formulas in accessible format (LaTeX)"
+            },
+            "rich-content-accessible-chemistry-as-mathml": {
+                "compact": "Chemical formulas in MathML",
+                "descriptive": "Chemical formulas in accessible format (MathML)"
+            },
+            "rich-content-accessible-math-as-latex": {
+                "compact": "Math as LaTeX",
+                "descriptive": "Math formulas in accessible format (LaTeX)"
+            },
+            "rich-content-accessible-math-as-mathml": {
+                "compact": "Math as MathML",
+                "descriptive": "Math formulas in accessible format (MathML)"
+            },
+            "rich-content-accessible-math-described": {
+                "compact": "Text descriptions of math are provided",
+                "descriptive": "Text descriptions of math are provided"
+            },
+            "rich-content-closed-captions": {
+                "compact": "Videos have closed captions",
+                "descriptive": "Videos included in publications have closed captions"
+            },
+            "rich-content-extended": {
+                "compact": "Information-rich images are described by extended descriptions",
+                "descriptive": "Information-rich images are described by extended descriptions"
+            },
+            "rich-content-open-captions": {
+                "compact": "Videos have open captions",
+                "descriptive": "Videos included in publications have open captions"
+            },
+            "rich-content-title": "Rich content",
+            "rich-content-transcript": {
+                "compact": "Transcript(s) provided",
+                "descriptive": "Transcript(s) provided"
+            },
+            "rich-content-unknown": {
+                "compact": "No information is available",
+                "descriptive": "No information is available"
+            }
+        },
+        "ways-of-reading": {
+            "ways-of-reading-nonvisual-reading-alt-text": {
+                "compact": "Has alternative text",
+                "descriptive": "Has alternative text descriptions for images"
+            },
+            "ways-of-reading-nonvisual-reading-no-metadata": {
+                "compact": "No information about nonvisual reading is available",
+                "descriptive": "No information about nonvisual reading is available"
+            },
+            "ways-of-reading-nonvisual-reading-none": {
+                "compact": "Not readable in read aloud or dynamic braille",
+                "descriptive": "The content is not readable as read aloud speech or dynamic braille"
+            },
+            "ways-of-reading-nonvisual-reading-not-fully": {
+                "compact": "Not fully readable in read aloud or dynamic braille",
+                "descriptive": "Not all of the content will be readable as read aloud speech or dynamic braille"
+            },
+            "ways-of-reading-nonvisual-reading-readable": {
+                "compact": "Readable in read aloud or dynamic braille",
+                "descriptive": "All content can be read as read aloud speech or dynamic braille"
+            },
+            "ways-of-reading-prerecorded-audio-complementary": {
+                "compact": "Prerecorded audio clips",
+                "descriptive": "Prerecorded audio clips are embedded in the content"
+            },
+            "ways-of-reading-prerecorded-audio-only": {
+                "compact": "Prerecorded audio only",
+                "descriptive": "Audiobook with no text alternative"
+            },
+            "ways-of-reading-prerecorded-audio-synchronized": {
+                "compact": "Prerecorded audio synchronized with text",
+                "descriptive": "All the content is available as prerecorded audio synchronized with text"
+            },
+            "ways-of-reading-title": "Ways of reading",
+            "ways-of-reading-visual-adjustments-modifiable": {
+                "compact": "Appearance can be modified",
+                "descriptive": "Appearance of the text and page layout can be modified according to the capabilities of the reading system (font family and font size, spaces between paragraphs, sentences, words, and letters, as well as color of background and text)"
+            },
+            "ways-of-reading-visual-adjustments-unknown": {
+                "compact": "No information about appearance modifiability is available",
+                "descriptive": "No information about appearance modifiability is available"
+            },
+            "ways-of-reading-visual-adjustments-unmodifiable": {
+                "compact": "Appearance cannot be modified",
+                "descriptive": "Text and page layout cannot be modified as the reading experience is close to a print version, but reading systems can still provide zooming options"
+            }
+        }
+    },
+    "publication": {
+        "accessibility": {
+            "accessModeSufficient": {
+                "textual": "All content can be read as read aloud speech or dynamic braille"
+            },
+            "accessibilityFeature": {
+                "alternativeText": "Has alt text on images",
+                "displayTransformability": "Appearance of the text and page layout can be modified",
+                "longDescription": "Fully described graphical resources",
+                "printPageNumbers": "Contains a page list to go to pages from the print source version",
+                "readingOrder": "Contains a reading order",
+                "synchronizedAudioText": "Text & audio synchronised",
+                "tableOfContents": "Contains a Table Of Contents"
+            },
+            "accessibilityHazard": {
+                "flashing": "Flashing",
+                "motionSimulation": "Motion simulation",
+                "name": "Hazard:",
+                "noFlashing": "No flashing",
+                "noMotionSimulation": "No motion simulation",
+                "noSound": "No sound",
+                "none": "None",
+                "sound": "Sound",
+                "unknown": "Unknown"
+            },
+            "certifierReport": "Certifier report:",
+            "conformsTo": "Conforms to:",
+            "moreInformation": "More information",
+            "name": "Accessibility",
+            "noA11y": "No accessibility information available"
+        },
+        "actions": "Actions",
+        "audio": {
+            "tracks": "Tracks"
+        },
+        "author": "Author",
+        "cancelledLcp": "This publication's LCP license is cancelled.",
+        "certificateRevoked": "Revoked LCP license certificate.",
+        "certificateSignatureInvalid": "Invalid LCP license certificate signature.",
+        "cover": {
+            "img": "cover image"
+        },
+        "day": "day",
+        "days": "days",
+        "duration": {
+            "title": "Duration"
+        },
+        "encryptedNoLicense": "Publication is encrypted but lacks an LCP license!",
+        "expired": "Loan expired",
+        "expiredLcp": "This publication's LCP license is expired.",
+        "incorrectPassphrase": "No stored passphrase fits the publication, or the entered passphrase is wrong.",
+        "lcpEnd": "End",
+        "lcpNotSupported": "WARNING: this is a pre-release version of Thorium Desktop reader which does not support production LCP licenses, and only supports LCP 'basic profile' decryption without certificate validation.",
+        "lcpRightsCopy": "Copied characters",
+        "lcpRightsPrint": "Printed pages",
+        "lcpStart": "Start",
+        "licenceLCP": "License (LCP)",
+        "licenseCertificateDateInvalid": "The LCP provider certificate expired before the license issue date ({{- dateTime}}).",
+        "licenseOutOfDate": "Out of date LCP License.",
+        "licenseSignatureInvalid": "Invalid LCP license signature.",
+        "licensed": "Licensed",
+        "markAsRead": "Mark as read",
+        "notStarted": "Not Started",
+        "onGoing": "In Progress",
+        "progression": {
+            "title": "Progression"
+        },
+        "read": "Finished",
+        "remainingTime": "Loan (remaining time)",
+        "renewButton": "Renew",
+        "returnButton": "Return",
+        "returnedLcp": "This LCP-protected publication is returned.",
+        "revokedLcp": "This publication's LCP license is revoked.",
+        "seeLess": "See less",
+        "seeMore": "See more",
+        "timeLeft": "Remaining time",
+        "title": "Title",
+        "userKeyCheckInvalid": "Incorrect passphrase."
+    },
+    "reader": {
+        "annotations": {
+            "Color": "Color",
+            "addNote": "Annotate",
+            "advancedMode": "Instant mode (auto create after select)",
+            "annotationsExport": {
+                "description": "Name the exported notes:",
+                "title": "Title"
+            },
+            "annotationsOptions": "Annotation Options",
+            "date": "Modification date",
+            "error": {
+                "pdf": {
+                    "validationSelection": "Unable to create PDF annotation from this selection."
+                }
+            },
+            "export": "Save notes as...",
+            "filter": {
+                "all": "All",
+                "filterByColor": "Filter by Color",
+                "filterByCreator": "Filter by Creator",
+                "filterByDrawtype": "Filter by Type",
+                "filterByTag": "Filter by Tag",
+                "filterOptions": "Filter Options",
+                "none": "None"
+            },
+            "hide": "Do not display",
+            "highlight": "Highlight",
+            "noSelectionToast": "No selection",
+            "note": "{{- color}} Note",
+            "quickAnnotations": "Quick create (skip editor)",
+            "saveNote": "Save",
+            "sorting": {
+                "lastcreated": "Last created",
+                "lastmodified": "Last modified",
+                "progression": "Progression",
+                "sortingOptions": "Sorting Options"
+            },
+            "toggleMarginMarks": "Display in margins",
+            "type": {
+                "outline": "Outline",
+                "solid": "Solid background",
+                "strikethrough": "Strikethrough",
+                "underline": "Underline"
+            }
+        },
+        "bookmarks": {
+            "index": "Bookmark {{- index}}"
+        },
+        "divina": {
+            "mute": "mute audio",
+            "unmute": "unmute audio"
+        },
+        "dock": {
+            "dockDefault": "Show panel as a modal popup",
+            "dockLeft": "Dock panel to the left",
+            "dockRight": "Dock panel to the right"
+        },
+        "fxl": {
+            "fit": "Fit"
+        },
+        "goToContent": "Go to the content",
+        "imgViewer": {
+            "title": "Image viewer (zoom)",
+            "zoomIn": "Zoom In",
+            "zoomOut": "Zoom Out",
+            "zoomReset": "Reset Zoom"
+        },
+        "marks": {
+            "annotations": "Annotations",
+            "bookmarks": "Bookmarks",
+            "delete": "Delete",
+            "edit": "Edit",
+            "goTo": "Go to page",
+            "landmarks": "Landmarks",
+            "saveMark": "Save",
+            "search": "Search",
+            "searchResult": "Search [{{- searchText}}]",
+            "toc": "Table of Contents"
+        },
+        "media-overlays": {
+            "activate": "Activate Readaloud",
+            "captions": "Captions / clean view",
+            "captionsDescription": "Simplified text view with minimal captions styling.",
+            "disableContinuousPlay": "Disable continuous play",
+            "disableContinuousPlayDescription": "Do not automatically play the next item, pause immediately after the current item has finished playing.",
+            "ignoreAndUseTTS": "Ignore pre-recorded audio, use TTS",
+            "ignoreAndUseTTSDescription": "Ignore EPUB Media Overlays, read with Text To Speech instead",
+            "next": "Next Readaloud",
+            "pause": "Pause Readaloud",
+            "play": "Play Readaloud",
+            "previous": "Previous Readaloud",
+            "skip": "Skippability",
+            "skipDescription": "Jump over / ignore auxiliary content such as pagebreaks, footnotes/endnotes, etc.",
+            "speed": "Readaloud playback rate",
+            "stop": "Stop Readaloud",
+            "title": "Readaloud",
+            "useTTSHighlightsForMO": "Custom highlighting",
+            "useTTSHighlightsForMODescription": "Disable authored styles"
+        },
+        "navigation": {
+            "ZenModeExit": "Exit Zen mode",
+            "ZenModeTitle": "Zen mode",
+            "annotationTitle": "Annotation",
+            "backHomeTitle": "Close this reading window (back to bookshelf)",
+            "bookmarkTitle": "Bookmark",
+            "currentPage": "Current page: {{- current}}",
+            "currentPageTotal": "Current page: {{- current}}/{{- total}}",
+            "detachWindowTitle": "Show library / bookshelf window",
+            "goTo": "Go to",
+            "goToError": "Page break does not exist",
+            "goToPlaceHolder": "Enter page number",
+            "goToTitle": "Go to page",
+            "history": "Navigation history",
+            "historyNext": "Jump forward in navigation history",
+            "historyPrevious": "Jump back in navigation history",
+            "infoTitle": "Information",
+            "magnifyingGlassButton": "Search publication",
+            "openTableOfContentsTitle": "Navigation",
+            "page": "Page",
+            "pdfscalemode": "Page fit or width",
+            "print": "Print",
+            "printDisabled": "Print forbidden",
+            "screenNext": "Go forward",
+            "screenPrevious": "Go backward",
+            "settingsTitle": "Reader settings"
+        },
+        "notes": {
+            "colors": {
+                "cyan": "Cyan",
+                "darkorange": "Dark Orange",
+                "darkyellow": "Dark Yellow",
+                "green": "Green",
+                "orange": "Orange",
+                "purple": "Purple",
+                "red": "Red",
+                "yellow": "Yellow"
+            }
+        },
+        "picker": {
+            "search": {
+                "founds_one": "{{- count}} match",
+                "founds_other": "{{- count}} matches",
+                "input": "text to match",
+                "next": "Next",
+                "notFound": "no matches",
+                "previous": "Previous",
+                "results": "Results",
+                "submit": "Find"
+            },
+            "searchTitle": "Search:"
+        },
+        "print": {
+            "descriptionLcpCount": "Remaining pages limit: {{- count}}",
+            "descriptionLcpPrintable": "Previously printed pages: {{- printable}} ({{- count}})",
+            "howTo": "How to select a range of pages to print",
+            "lcpInfo": "The number of pages you can print in this publication is limited to {{- count}}. Choose the pages you require here.",
+            "noPagesLcpLimitReached": "You have reached the LCP limit",
+            "noPrintablePages": "No Printables pages",
+            "pageHelpInfo": "Page selector syntax:",
+            "pageHelpInfo1": "enter a page number to reference a single page (e.g. \"6\")",
+            "pageHelpInfo2": "enter two page numbers separated by a dash character to reference a range of contiguous pages (e.g. \"6-13\")",
+            "pageHelpInfo3": "use the semicolon character to separate multiple pages or page ranges (e.g. \"5;14-20;37\")",
+            "pageHelpInfo4": "leave out the first or last page of a range to reference the first or last page of the publication (e.g. \"-16\" is equivalent to \"1-16\", and \"34-\" is equivalent to \"34-100\" assuming a book with a total of 100 pages)",
+            "pages": "Pages",
+            "preview": "Preview",
+            "print": "Print",
+            "printablePages": "Printables pages (total)",
+            "title": "Selection of printable pages"
+        },
+        "settings": {
+            "column": {
+                "auto": "Default",
+                "one": "1 col",
+                "title": "Columns",
+                "two": "2 cols"
+            },
+            "customFontSelected": "You have chosen a personal font",
+            "customizeReader": "Customize text formatting",
+            "defaultValue": "default value",
+            "disabled": "disabled",
+            "display": "Display",
+            "disposition": {
+                "title": "Layout"
+            },
+            "font": "Font",
+            "fontSize": "Font size",
+            "increaseFontSize": "Increase font size",
+            "infoCustomFont": "Select custom font from operating system by typing its name",
+            "justification": "Alignment",
+            "justify": "Justify",
+            "letterSpacing": "Letter spacing",
+            "lineSpacing": "Line spacing",
+            "margin": "Margin",
+            "mathjax": "Enable MathJax",
+            "mathjaxDescription": "MathJax",
+            "noFootnotes": "Disable popup footnotes",
+            "noRTLFlip": "Disable Right-To-Left UI",
+            "noRuby": "Hide Japanese Ruby",
+            "noTemporaryNavTargetOutline": "Disable visual navigation indicators",
+            "paginated": "Paginated",
+            "paraSpacing": "Paragraph spacing",
+            "pdfZoom": {
+                "name": {
+                    "100pct": "100%",
+                    "150pct": "150%",
+                    "200pct": "200%",
+                    "300pct": "300%",
+                    "500pct": "500%",
+                    "50pct": "50%",
+                    "fit": "page fit",
+                    "width": "page width"
+                },
+                "title": "Zoom"
+            },
+            "preset": {
+                "apply": "Apply",
+                "applyDetails": "Apply your preferred configuration to the current publication.",
+                "detail": "Save / Apply / Reset your preferred configuration.",
+                "reset": "Reset",
+                "resetDetails": "Reset your preferred configuration (default settings).",
+                "save": "Save",
+                "saveDetails": "This action saves the current configuration, i.e. your preferred display and text formatting options. The settings can then be applied to other publications by clicking the 'apply' button in other reader windows.",
+                "title": "Preferences"
+            },
+            "preview": "Preview",
+            "reduceFontSize": "Reduce font size",
+            "reduceMotion": "Reduce motion",
+            "scrolled": "Scrollable",
+            "spacing": "Spacing",
+            "spreadModeEven": "Page spreads 'even' (default is 'odd')",
+            "text": "Text",
+            "theme": {
+                "name": {
+                    "Contrast1": "Contrast 1",
+                    "Contrast2": "Contrast 2",
+                    "Contrast3": "Contrast 3",
+                    "Contrast4": "Contrast 4",
+                    "Neutral": "Neutral",
+                    "Night": "Night",
+                    "Paper": "Paper",
+                    "Sepia": "Sepia"
+                },
+                "title": "Theme"
+            },
+            "wordSpacing": "Word spacing"
+        },
+        "svg": {
+            "left": "Left",
+            "right": "Right"
+        },
+        "toc": {
+            "publicationNoToc": "No table of contents"
+        },
+        "tts": {
+            "activate": "Activate Text To Speech (TTS)",
+            "language": "TTS language",
+            "next": "Next TTS",
+            "options": "TTS options",
+            "pause": "Pause TTS",
+            "play": "Play TTS",
+            "previous": "Previous TTS",
+            "sentenceDetect": "Split TTS text",
+            "sentenceDetectDescription": "Break long paragraphs into sentences.",
+            "speed": "TTS playback rate",
+            "stop": "Stop TTS",
+            "voice": "TTS voice"
+        }
+    },
+    "settings": {
+        "annotationCreator": {
+            "creator": "Annotations creator (optional)",
+            "help": "If specified, this name will be included in the metadata of exported notes.",
+            "name": "Name",
+            "organization": "Organization",
+            "person": "Person",
+            "type": "Type:"
+        },
+        "auth": {
+            "help": "This action deletes all OPDS login credentials.",
+            "title": "Access to publication catalogs",
+            "wipeData": "Clear login data"
+        },
+        "keyboard": {
+            "advancedMenu": "Keyboard shortcuts advanced menu",
+            "cancel": "Cancel",
+            "disclaimer": "The application defaults were designed based on the physical location of keys on a QWERTY layout",
+            "editUserJson": "Edit user file...",
+            "exportToHTML": "Export to HTML",
+            "keyboardShortcuts": "Keyboard shortcuts",
+            "list": {
+                "AddBookmarkWithLabel": {
+                    "description": "Open the bookmark creation dialog and edit the textual label (note), color and tag",
+                    "name": "Create Bookmark with Label"
+                },
+                "AnnotationsCreate": {
+                    "description": "Open the annotation creation dialog for the selected document text, and edit the textual note, highlight color and type, and tag",
+                    "name": "Create Annotation"
+                },
+                "AnnotationsCreateQuick": {
+                    "description": "Quickly create an annotation for the selected text, with the last-used highlight color and type (note and tag will be empty)",
+                    "name": "Create Quick Annotation"
+                },
+                "AnnotationsToggleMargin": {
+                    "description": "Alternate the annotation and bookmark visual indicators, either in the document margin or in the text",
+                    "name": "Toggle Annotation Margin"
+                },
+                "AudioNext": {
+                    "description": "Move forward to the next audio segment in the narration (EPUB3 Media Overlays, Text To Speech, or pre-recorded audiobook)",
+                    "name": "Next Audio Segment"
+                },
+                "AudioNextAlt": {
+                    "description": "Move forward to the next audio segment in the narration (EPUB3 Media Overlays, Text To Speech read-aloud, or pre-recorded audiobook). This skips any currently escapable structure",
+                    "name": "Next Audio Segment (escape)"
+                },
+                "AudioPlayPause": {
+                    "description": "Toggle play/pause for current narration (EPUB3 Media Overlays, Text To Speech read-aloud, or pre-recorded audiobook)",
+                    "name": "Play/Pause Audio"
+                },
+                "AudioPrevious": {
+                    "description": "Move back to the previous audio segment in the narration (EPUB3 Media Overlays, Text To Speech read-aloud, or pre-recorded audiobook)",
+                    "name": "Previous Audio Segment"
+                },
+                "AudioPreviousAlt": {
+                    "description": "Move back to the previous audio segment in the narration (EPUB3 Media Overlays, Text To Speech read-aloud, or pre-recorded audiobook). This skips any currently escapable structure",
+                    "name": "Previous Audio Segment (escape)"
+                },
+                "AudioSpeedDecrease": {
+                    "description": "Decrease the speed of EPUB3 Media Overlays audio playback or TTS read-aloud speech rate",
+                    "name": "Decrease audio speed"
+                },
+                "AudioSpeedIncrease": {
+                    "description": "Increase the speed of EPUB3 Media Overlays audio playback or TTS read-aloud speech rate",
+                    "name": "Increase audio speed"
+                },
+                "AudioSpeedReset": {
+                    "description": "Reset the speed of EPUB3 Media Overlays audio playback or TTS read-aloud speech rate",
+                    "name": "Reset audio speed"
+                },
+                "AudioStop": {
+                    "description": "Stop current audio (EPUB3 Media Overlays, Text To Speech read-aloud, or pre-recorded audiobook)",
+                    "name": "Stop Audio"
+                },
+                "CloseReader": {
+                    "description": "Close the reader window and return to the library",
+                    "name": "Close Reader"
+                },
+                "FXLZoomIn": {
+                    "description": "Zoom into a fixed layout single page or 2-page spread.",
+                    "name": "FXL Zoom In"
+                },
+                "FXLZoomOut": {
+                    "description": "Zoom out of a fixed layout single page or 2-page spread.",
+                    "name": "FXL Zoom Out"
+                },
+                "FXLZoomReset": {
+                    "description": "Reset zoom on a fixed layout single page or 2-page spread.",
+                    "name": "Reset FXL Zoom"
+                },
+                "FocusMain": {
+                    "description": "Move the keyboard focus to the 'main' landmark in the graphical user interface. In the reader window, this moves into the publication content",
+                    "name": "Focus on Main Content"
+                },
+                "FocusMainDeep": {
+                    "description": "In the reader window, this moves the keyboard focus into the publication content using a more reliable technique for screen readers",
+                    "name": "Deep Focus on Main Content"
+                },
+                "FocusReaderGotoPage": {
+                    "description": "Move the keyboard focus to the 'goto page' section of the reader window's navigation panel",
+                    "name": "Focus on 'Go to Page'"
+                },
+                "FocusReaderNavigation": {
+                    "description": "Move the keyboard focus to the reader window's navigation panel",
+                    "name": "Focus on Navigation Panel"
+                },
+                "FocusReaderNavigationAnnotations": {
+                    "description": "Move the keyboard focus to the 'annotations' section of the reader window's navigation panel",
+                    "name": "Focus on 'Annotations'"
+                },
+                "FocusReaderNavigationBookmarks": {
+                    "description": "Move the keyboard focus to the 'bookmarks' section of the reader window's navigation panel",
+                    "name": "Focus on 'Bookmarks'"
+                },
+                "FocusReaderNavigationSearch": {
+                    "description": "Move the keyboard focus to the 'search' section of the reader window's navigation panel",
+                    "name": "Focus on 'Search'"
+                },
+                "FocusReaderNavigationTOC": {
+                    "description": "Move the keyboard focus to the 'TOC' section of the reader window's navigation panel",
+                    "name": "Focus on 'table of contents'"
+                },
+                "FocusReaderSettings": {
+                    "description": "Move the keyboard focus to the reader window's settings panel (display preferences, etc.)",
+                    "name": "Focus on Reader Settings"
+                },
+                "FocusSearch": {
+                    "description": "Move the keyboard focus to the reader window's text search input, or in the library window this searches the bookshelf or the active OPDS feed",
+                    "name": "Search Command"
+                },
+                "FocusToolbar": {
+                    "description": "Move the keyboard focus to the landmark area of the graphical user interface immediately before the 'skip link' (which itself moves the focus to the main content area of the library or reader window)",
+                    "name": "Focus on Toolbar"
+                },
+                "NavigateNextChapter": {
+                    "description": "In the reader window, navigate to the next document in the reading order of the publication (e.g. chapter in the book spine). Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Next Chapter"
+                },
+                "NavigateNextChapterAlt": {
+                    "description": "In the reader window, navigate to the next document in the reading order of the publication (e.g. chapter in the book spine). This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Next Chapter (Alternative)"
+                },
+                "NavigateNextHistory": {
+                    "description": "In the reader window, jump one step forward in the navigation history",
+                    "name": "Go to Next History"
+                },
+                "NavigateNextLibraryPage": {
+                    "description": "In the library window, show the next page of a paginated list of publications. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Next Library Page"
+                },
+                "NavigateNextLibraryPageAlt": {
+                    "description": "In the library window, show the next page of a paginated list of publications. This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Next Library Page (Alternative)"
+                },
+                "NavigateNextOPDSPage": {
+                    "description": "In the library window for catalogs / OPDS feeds, follow the next pagination link. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Next OPDS Page"
+                },
+                "NavigateNextOPDSPageAlt": {
+                    "description": "In the library window for catalogs / OPDS feeds, follow the next pagination link. This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Next OPDS Page (Alternative)"
+                },
+                "NavigateNextPage": {
+                    "description": "In the reader window, turn to the next 'page' in the publication. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Next Page"
+                },
+                "NavigateNextPageAlt": {
+                    "description": "In the reader window, turn to the next 'page' in the publication. This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Next Page (Alternative)"
+                },
+                "NavigatePreviousChapter": {
+                    "description": "In the reader window, navigate to the previous document in the reading order of the publication (e.g. chapter in the book spine). Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Previous Chapter"
+                },
+                "NavigatePreviousChapterAlt": {
+                    "description": "In the reader window, navigate to the previous document in the reading order of the publication (e.g. chapter in the book spine). This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Previous Chapter (Alternative)"
+                },
+                "NavigatePreviousHistory": {
+                    "description": "In the reader window, jump one step backwards in the navigation history",
+                    "name": "Go to Previous History"
+                },
+                "NavigatePreviousLibraryPage": {
+                    "description": "In the library window, show the previous page of a paginated list of publications. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Previous Library Page"
+                },
+                "NavigatePreviousLibraryPageAlt": {
+                    "description": "In the library window, show the previous page of a paginated list of publications. This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Previous Library Page (Alternative)"
+                },
+                "NavigatePreviousOPDSPage": {
+                    "description": "In the library window for catalogs / OPDS feeds, follow the previous pagination link. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Previous OPDS Page"
+                },
+                "NavigatePreviousOPDSPageAlt": {
+                    "description": "In the library window for catalogs / OPDS feeds, follow the previous pagination link. This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Previous OPDS Page (Alternative)"
+                },
+                "NavigatePreviousPage": {
+                    "description": "In the reader window, turn to the previous 'page' in the publication. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Go to Previous Page"
+                },
+                "NavigatePreviousPageAlt": {
+                    "description": "In the reader window, turn to the previous 'page' in the publication. This is an alternative keyboard shortcut to the default one",
+                    "name": "Go to Previous Page (Alternative)"
+                },
+                "NavigateToBegin": {
+                    "description": "In the reader window, go to the beginning of the publication",
+                    "name": "Go to Beginning"
+                },
+                "NavigateToEnd": {
+                    "description": "In the reader window, go to the end of the publication",
+                    "name": "Go to End"
+                },
+                "OpenReaderInfo": {
+                    "description": "In the reader window, open the information dialog for the publication",
+                    "name": "Display Publication Information"
+                },
+                "OpenReaderInfoWhereAmI": {
+                    "description": "In the reader window, open the popup dialog that display information about the publication, and focus the keyboard on the section that shows the context of the current reading location",
+                    "name": "Display Publication Information, Show Reading Location"
+                },
+                "Print": {
+                    "description": "In the reader window, open the print dialog",
+                    "name": "Print"
+                },
+                "SearchNext": {
+                    "description": "In the reader window's search tool, go to the next search result. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Search Result Next"
+                },
+                "SearchNextAlt": {
+                    "description": "In the reader window's search tool, go to the next search result. This is an alternative keyboard shortcut to the default one",
+                    "name": "Search Result Next (Alternative)"
+                },
+                "SearchPrevious": {
+                    "description": "In the reader window's search tool, go to the previous search result. Note that there is an alternative keyboard shortcut to this default one",
+                    "name": "Search Result Previous"
+                },
+                "SearchPreviousAlt": {
+                    "description": "In the reader window's search tool, go to the previous search result. This is an alternative keyboard shortcut to the default one",
+                    "name": "Search Result Previous (Alternative)"
+                },
+                "SpeakReaderInfoWhereAmI": {
+                    "description": "In the reader window, describe the context of the current reading location, using speech text compatible with screen readers",
+                    "name": "Describe Reading Location (Speech)"
+                },
+                "ToggleBookmark": {
+                    "description": "Add a new bookmark or remove an existing one if it is currently selected",
+                    "name": "Toggle Bookmark"
+                },
+                "ToggleReaderFullscreen": {
+                    "description": "In the reader window, activate system fullscreen or restore normal window mode. Note that this is different from 'zen mode' which simplifies the user interface",
+                    "name": "Toggle Fullscreen"
+                }
+            },
+            "loadUserJson": "Load from user file",
+            "noShortcutFound": "No shortcut found with this label",
+            "resetDefaults": "Reset (load defaults)",
+            "save": "Save",
+            "searchPlaceholder": "Type to search a shortcut"
+        },
+        "language": {
+            "languageChoice": "Language"
+        },
+        "library": {
+            "enableAPIAPP": "Activate the 'PNB' library system",
+            "title": "Access to French library accounts"
+        },
+        "note": {
+            "export": {
+                "applyDefaultTemplate": "Load default template",
+                "enableCheckbox": "Customize the HTML template",
+                "overrideHTMLTemplate": "Notes export (annotations and bookmarks)"
+            }
+        },
+        "profiles": {
+            "info": "Switch profiles to customize the app with a partner vendor’s branding and colors. Each profile offers a tailored experience.",
+            "thorium": {
+                "description": "The Thorium Vanilla profile is the original one, designed by EDRLab.",
+                "title": "Thorium vanilla"
+            },
+            "version": "Version: {{- version}}"
+        },
+        "screenReaderActivate": {
+            "help": "When the application detects the presence of assistive technology, the user interface works better with screen readers",
+            "message": "Improved support for screen readers",
+            "title": "Enhance screen reader experience"
+        },
+        "session": {
+            "title": "Enable session saving"
+        },
+        "sharedComputer": {
+            "lcpAutoDeleteExpiredPublications": "Automatically remove expired publications and associated user data",
+            "lcpAutoDeleteExpiredPublicationsDescription": "Ensures that expired loans are automatically deleted (including personal annotations, reading bookmarks, etc.). This is useful in 'shared computers' environments such as library or university rooms.",
+            "title": "Shared computer mode"
+        },
+        "storage": {
+            "actions": {
+                "addDirectory": "Select an additional storage",
+                "changeDirectory": "Update additional storage",
+                "removeStorageDirectory": "Remove additional storage"
+            },
+            "beta": {
+                "availability": "This feature works only with recent versions of Thorium; external folder books will not appear in Thorium 3.4 or earlier.",
+                "integrity": "You must keep this directory safe and accessible. Avoid deleting it, restricting access to it, or using slow or unstable storage, such as network drives.",
+                "migration": "Thorium does not automatically transfer your books: if you update the additional storage, you must manually move your publications to the new location. If you remove it, you must manually move your publications to the original storage.",
+                "summary": "Learn more about this feature, currently in beta",
+                "warning": "Do not manually alter the files in this folder, as this may cause issues with your books or the reader. Think of this folder as a secure library managed by Thorium."
+            },
+            "configuration": {
+                "chooseFolderDescription": "Choose the directory that Thorium should use as additional storage.",
+                "configuredDescription": "The additional storage is configured and ready to use for newly stored publications.",
+                "notConfiguredDescription": "Publications imported into Thorium Reader will be stored in the selected directory. Publications previously imported will stay in the original system storage."
+            },
+            "dialogs": {
+                "add": {
+                    "confirm": "Continue",
+                    "description": "This feature is currently in beta. Do you want to continue and configure an additional storage by selecting a directory?",
+                    "title": "Select an additional storage"
+                },
+                "edit": {
+                    "confirm": "Edit directory",
+                    "description": "Updating the additional storage requires care. Thorium will not migrate existing publications for you; you'll have to do it manually. Do you want to continue?",
+                    "title": "Update the additional storage"
+                },
+                "remove": {
+                    "confirm": "Remove directory",
+                    "description": "Removing the additional storage requires care. Thorium will not migrate existing publications for you; you'll have to do it manually. Do you want to continue?",
+                    "title": "Remove additional storage"
+                }
+            },
+            "locations": {
+                "defaultDescription": "Publications managed by the application are by default stored in:",
+                "defaultInternal": "System Storage",
+                "externalStorage": "External storage",
+                "title": "Locations"
+            }
+        },
+        "tabs": {
+            "appearance": "Appearance",
+            "general": "General",
+            "keyboardShortcuts": "Keyboard shortcuts",
+            "profiles": "Profiles",
+            "storage": "Storage"
+        },
+        "theme": {
+            "auto": "Automatic",
+            "dark": "Dark",
+            "description": "Application theme matches operating system.",
+            "light": "Light",
+            "title": "Application Theme"
+        }
+    },
+    "tts": {
+        "highlight": {
+            "mainColor": "Main colour",
+            "maskBlockWordOutline": "Mask Block, Word Outline",
+            "maskBlockWordSolidBackground": "Mask Block, Word Solid Background",
+            "maskBlockWordUnderline": "Mask Block, Word Underline",
+            "maskWordOutline": "Mask, Word Outline",
+            "maskWordSolidBackground": "Mask, Word Solid Background",
+            "maskWordUnderline": "Mask, Word Underline",
+            "outlineWordOutline": "Outline, Word Outline",
+            "outlineWordSolidBackground": "Outline, Word Solid Background",
+            "outlineWordUnderline": "Outline, Word Underline",
+            "preview": "TTS highlight style preview",
+            "solidBackgroundWordOutline": "Solid Background, Word Outline",
+            "solidBackgroundWordSolidBackground": "Solid Background, Word Solid Background",
+            "solidBackgroundWordUnderline": "Solid Background, Word Underline",
+            "style": "TTS highlight style",
+            "underlineWordOutline": "Underline, Word Outline",
+            "underlineWordSolidBackground": "Underline, Word Solid Background",
+            "underlineWordUnderline": "Underline, Word Underline",
+            "wordColor": "Word colour"
+        }
+    },
+    "wizard": {
+        "buttons": {
+            "discover": "Discover Thorium Desktop",
+            "goToBooks": "Go to my publications"
+        },
+        "description": {
+            "home": "Thorium 3.4 brings a series of improvements to the user experience and fixes a set of issues. If you decide later to move back to an older version of the application, it is strongly recommended that you back up your ebook annotations and bookmarks by exporting them to an external file. You'll then import them back into the older version after it is installed. This is because the application stores annotations and bookmarks in a slightly different internal format in version 3.4. This resolves a performance issue, but breaks backward compatibility for annotations.",
+            "resources": "Connect with us and learn more about Thorium:"
+        },
+        "dontShow": "Don't show again",
+        "resources": {
+            "discord": "Discord: {{- url}}",
+            "website": "Website: {{- url}}"
+        },
+        "tab": {
+            "home": "Home",
+            "resources": "Resources"
+        },
+        "title": {
+            "resources": "Resources & Community",
+            "welcome": "Welcome to Thorium 3.4"
+        }
+    }
+}

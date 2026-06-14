@@ -1,0 +1,15 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "builder": "RAILPACK",
+    "buildCommand": "npm ci && npm run build --workspace=@simple-cloud-reader/sync-contract && npm run build --workspace=@simple-cloud-reader/api"
+  },
+  "deploy": {
+    "preDeployCommand": "npm run db:migrate --workspace=@simple-cloud-reader/api",
+    "startCommand": "node services/api/dist/src/server.js",
+    "healthcheckPath": "/health/ready",
+    "healthcheckTimeout": 120,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  }
+}

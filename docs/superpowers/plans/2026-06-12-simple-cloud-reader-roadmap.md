@@ -62,6 +62,8 @@ is revised before feature implementation.
 
 ## Phase 1: Backend and Synchronization Core
 
+**Plan:** `docs/superpowers/plans/2026-06-12-phase-1-backend-sync-core.md`
+
 Create a separate detailed plan covering:
 
 - Magic-link request and redemption.

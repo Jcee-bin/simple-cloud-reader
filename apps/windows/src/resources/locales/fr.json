@@ -1,0 +1,1362 @@
+{
+    "accessibility": {
+        "bookMenu": "Menu",
+        "closeDialog": "Fermer",
+        "leftSlideButton": "Faire défiler vers la gauche",
+        "mainContent": "Contenu principal",
+        "rightSlideButton": "Faire défiler vers la droite",
+        "skipLink": "Aller au contenu",
+        "toolbar": "Barre d'outils"
+    },
+    "apiapp": {
+        "documentation": "Documentation Thorium",
+        "howItWorks": "Comment ça marche ?",
+        "informations": "En France, de nombreuses bibliothèques publiques proposent un catalogue lisible par machine (similaire à l'OPDS mais pas identique), permettant aux usagers de télécharger des publications numériques à partir de leur bibliothèque personnelle. L'intégration de cette technologie dans Thorium Reader vous permet de télécharger un livre électronique ou un livre audio directement dans Thorium Reader pour une lecture instantanée.\nComment connecter votre compte de bibliothèque publique française à Thorium Reader ? C'est très simple. Entrez une ville française (\"Paris\") ou une partie du nom de la bibliothèque dans le champ de recherche et cliquez sur le bouton Rechercher. Une liste de bibliothèques publiques correspondant à votre recherche apparaîtra. Sélectionnez une bibliothèque et cliquez sur Ajouter. Dans la liste actualisée des catalogues, sélectionnez cette bibliothèque : un formulaire d'authentification s'affiche. Saisissez votre nom d'utilisateur/adresse électronique et votre mot de passe, puis cliquez sur Connexion. Vous pouvez maintenant voir le contenu de votre bibliothèque personnelle, à partir de laquelle vous pouvez télécharger et lire les livres électroniques et les livres audio que vous avez précédemment empruntés.",
+        "noLibraryFound": "Aucune bibliothèque trouvée ({{- name}})"
+    },
+    "app": {
+        "edit": {
+            "copy": "Copier",
+            "cut": "Couper",
+            "paste": "Coller",
+            "print": "Imprimer",
+            "redo": "Refaire",
+            "selectAll": "Tout sélectionner",
+            "title": "Modifier",
+            "undo": "Annuler"
+        },
+        "hide": "Masquer {{- appName}}",
+        "quit": "Quitter {{- appName}}",
+        "session": {
+            "exit": {
+                "askBox": {
+                    "button": {
+                        "no": "Non",
+                        "yes": "Oui"
+                    },
+                    "help": "Si cette case est cochée, les livres actuellement ouverts seront automatiquement ouverts au prochain démarrage de l'application.",
+                    "message": "Sauvegarde et restauration de session",
+                    "title": "Sauvegarder la session ?"
+                }
+            }
+        },
+        "update": {
+            "message": "Nouvelle version disponible, cliquez pour en savoir plus.",
+            "title": "Mise à jour du logiciel {{- appName}}."
+        },
+        "window": {
+            "showLibrary": "Afficher la bibliothèque"
+        }
+    },
+    "catalog": {
+        "AddToFavorites": "Ajouter aux favoris",
+        "about": {
+            "title": "À propos de {{- appName}} (en ligne)"
+        },
+        "addBookToLib": "Ajouter",
+        "addTags": "Ajouter un mot-clé",
+        "addTagsButton": "Ajouter",
+        "allBooks": "Tous mes livres",
+        "bookInfo": "À propos",
+        "column": {
+            "ascending": "Ordre croissant",
+            "descending": "Ordre décroissant",
+            "unsorted": "Non trié"
+        },
+        "customization": {
+            "fallback": {
+                "description": "",
+                "publications": "",
+                "screen": "",
+                "title": ""
+            }
+        },
+        "delete": "Supprimer",
+        "deleteBook": "Supprimer",
+        "deleteTag": "Supprimer le mot-clé",
+        "description": "Description",
+        "emptyTagList": "Aucune publication contenant des mots-clés.",
+        "entry": {
+            "continueReading": "Reprendre la lecture",
+            "lastAdditions": "Récemment ajouté"
+        },
+        "export": "Sauvegarder sous",
+        "exportAnnotation": "Exporter les notes",
+        "format": "Format",
+        "importAnnotation": "Importer les notes",
+        "lang": "Langue",
+        "lastRead": "Dernière lecture",
+        "login": "",
+        "logout": "",
+        "missing": "Fichiers manquants",
+        "missingUnavailableDescription": "Cette publication ne peut pas être chargée car ses fichiers ne sont pas disponibles. Il faut la réimporter, ou aller dans les préférences puis dans Stockage pour ajouter ou changer le stockage additionel.",
+        "moreInfo": "Plus d'informations",
+        "myBooks": "Mes livres",
+        "noPublicationHelpL1": "Déposez les fichiers ici",
+        "noPublicationHelpL2": "Ou bien utilisez le bouton \"{{- importTitle }}\" ci-dessus.",
+        "noPublicationHelpL3": "Les fichiers protégés par LCP sont pris en charge.",
+        "noPublicationHelpL4": "Extensions prises en charge :",
+        "numberOfPages": "Nombre de pages",
+        "opds": {
+            "auth": {
+                "cancel": "Annuler",
+                "external": "La page de connexion va s'ouvrir dans votre navigateur web, veuillez suivre les instructions. Une fois connecté, le navigateur web reviendra dans l'application.",
+                "fallback": "NB: dans le cas d'un problème de connexion avec votre navigateur web, veuillez réessayer avec la méthode alternative directement dans l'application.",
+                "login": "Connexion",
+                "password": "Mot de passe",
+                "register": "Créer un compte",
+                "retry": "Réessayer",
+                "unauthorized": "",
+                "unauthorizedUnsupportedType": "",
+                "username": "Nom d'utilisateur / Adresse courriel"
+            },
+            "info": {
+                "availableSince": "Depuis le",
+                "availableState": {
+                    "available": "Disponible",
+                    "ready": "Prêt",
+                    "reserved": "Réservé",
+                    "unavailable": "Indisponible",
+                    "unknown": "Inconnu"
+                },
+                "availableUntil": "Jusqu'au",
+                "copyAvalaible": "Disponible",
+                "copyTotal": "Copies",
+                "holdPosition": "Votre position",
+                "holdTotal": "Réservé",
+                "numberOfItems": "Nombre d'articles",
+                "priveValue": "Prix",
+                "state": "État"
+            }
+        },
+        "openFolder": "",
+        "publisher": "Éditeur",
+        "readBook": "Lire",
+        "released": "Publié le",
+        "removeFromFavorites": "Supprimer des favoris",
+        "selectTableHeaders": "Sélectionner les colonnes à afficher",
+        "sort": "Trier par",
+        "tag": "Mot-clé",
+        "tags": "Mots-clés",
+        "update": "Modifier"
+    },
+    "dialog": {
+        "annotations": {
+            "descAuthor": "par {{- author}}",
+            "descCreator": "créées par",
+            "descList_many": "{{- count}} note(s) {{- creator}} seront importées vers {{- title}} {{- author}}",
+            "descList_one": "{{- count}} note {{- creator}} sera importée vers {{- title}} {{- author}}",
+            "descList_other": "{{- count}} notes {{- creator}} seront importées vers {{- title}} {{- author}}",
+            "descNewer_many": "{{- count}} conflits: certaines notes associées à la publication sont plus récentes",
+            "descNewer_one": "{{- count}} conflit: une note associée à la publication est plus récente",
+            "descNewer_other": "{{- count}} conflits: certaines notes associées à la publication sont plus récentes",
+            "descOlder_many": "{{- count}} conflits: certaines notes associées à la publication sont plus anciennes",
+            "descOlder_one": "{{- count}} conflit: une note associée à la publication est plus ancienne",
+            "descOlder_other": "{{- count}} conflits: certaines notes associées à la publication sont plus anciennes",
+            "descTitle": "Titre de la liste de notes : ",
+            "importAll": "Importer toutes les notes",
+            "importWithoutConflict": "Importer les notes sans conflits",
+            "origin": "Source : {{- title}} {{- author}}",
+            "title": "Voulez-vous importer toutes ces notes ?"
+        },
+        "cancel": "Annuler",
+        "customization": {
+            "splashscreen": {
+                "fallbackWelcomeScreen": "",
+                "state": "",
+                "title": ""
+            }
+        },
+        "deleteAnnotations": "Supprimer la note",
+        "deleteAnnotationsText_many": "Voulez-vous supprimer {{- count}} note(s) ?",
+        "deleteAnnotationsText_one": "Voulez-vous supprimer {{- count}} note ?",
+        "deleteAnnotationsText_other": "Voulez-vous supprimer {{- count}} notes ?",
+        "deleteBookmarks": "Supprimer les marque-pages ?",
+        "deleteBookmarksText_many": "Êtes-vous certain de vouloir supprimer {{- count}} marque-page(s) ?",
+        "deleteBookmarksText_one": "Êtes-vous certain de vouloir supprimer {{- count}} marque-page ?",
+        "deleteBookmarksText_other": "Êtes-vous certain de vouloir supprimer {{- count}} marque-pages ?",
+        "deleteFeed": "Supprimer ce catalogue ?",
+        "deletePublication": "Supprimer ce livre ?",
+        "deletePublicationWithNotes": "Attention: cette publication contient des annotations et/ou des marque-pages, ils seront eux aussi supprimés ! (si vous voulez les conserver, assurez-vous d'avoir sauvegardé les notes avant de supprimer la publication)",
+        "import": "Confirmer l'ajout :",
+        "importError": "Une erreur est survenue, vérifiez l'extension du fichier ({{acceptedExtension}})",
+        "renew": "Voulez-vous étendre la durée de l'emprunt ?",
+        "return": "Voulez-vous retourner ce livre ?",
+        "yes": "Oui"
+    },
+    "error": {
+        "errorBox": {
+            "error": "Message d'erreur:",
+            "message": "Une erreur est survenue dans le fichier {{- filename}}",
+            "title": "Erreur interne {{- appName}}"
+        }
+    },
+    "header": {
+        "allBooks": "Mes livres",
+        "catalogs": "Catalogues",
+        "downloads": "Téléchargements",
+        "fitlerTagTitle": "Filtrer par mot-clé",
+        "gridTitle": "Grille",
+        "home": "Menu Principal",
+        "homeTitle": "Accueil",
+        "importTitle": "Ajouter un livre",
+        "listTitle": "Tableau",
+        "myCatalogs": "Mes catalogues",
+        "refreshTitle": "Mettre à jour",
+        "searchPlaceholder": "Rechercher",
+        "searchTitle": "Titre, auteur, format ou mot-clé",
+        "settings": "Préférences",
+        "settingsLabel": "Préférences de l'application",
+        "viewMode": "Mode d'affichage"
+    },
+    "library": {
+        "filter": {
+            "addFilters": "Ajouter des filtres",
+            "filterBy": "Filtrer par",
+            "selectOption": "Selectionner un élement"
+        },
+        "lcp": {
+            "hidePassphrase": "Cacher la passphrase",
+            "hint": "Indice : ",
+            "open": "Ouvrir",
+            "password": "Mot de passe",
+            "sentence": "Entrez la clé LCP associée à cette publication :",
+            "showPassphrase": "Montrer la passphrase",
+            "urlHint": "Vous avez oublié votre phrase d'accès ? Trouvez de l'aide avec ce lien",
+            "whatIsLcp?": "Qu'est-ce que LCP ?",
+            "whatIsLcpInfoDetails": "LCP signifie 'Licensed Content Protection'. Il s'agit d'une technologie de protection des libres numériques contre la copie pirate, souvent appelée DRM. Ouvrir un livre protégé par LCP nécessite une clé LCP, c'est à dire un ou plusieurs mots séparés par des espaces. LCP est un standard ouvert, qui équilibre facilité d'usage et demandes des éditeurs. ",
+            "whatIsLcpInfoDetailsLink": "Pour en savoir plus, cliquez ce lien, qui renvoie vers le site web de EDRLab."
+        },
+        "sorting": {
+            "addSorting": "Ajouter un tri",
+            "author": "Auteur",
+            "language": "Langue",
+            "readingState": "État de lecture",
+            "sortBy": "Trier par : ",
+            "title": "Titre"
+        }
+    },
+    "message": {
+        "annotations": {
+            "alreadyImported": "Toute les notes sont déjà importées, importation annulée",
+            "emptyFile": "Aucune note n'est disponible dans ce fichier",
+            "errorParsing": "Erreur lors de la lecture du fichier : ",
+            "noBelongTo": "Impossible d'importer les notes, au moins une note n'appartient pas à la publication finale",
+            "nothing": "Aucune note disponible, importation annulée",
+            "success": "Importation réussie"
+        },
+        "download": {
+            "cancelled": "",
+            "error": "Le téléchargement de {{- title}} a échoué: [{{- err}}]",
+            "errors": {
+                "hashMismatch": "",
+                "httpGet": "",
+                "invalidFilename": "",
+                "invalidLink": "",
+                "invalidTempDirectory": "",
+                "lengthMismatch": "",
+                "readStreamMissing": "",
+                "tooManyFilenameAttempts": ""
+            }
+        },
+        "import": {
+            "alreadyImport": "{{- title}} a déjà été ajouté.",
+            "fail": "L'ajout de {{- path}} a échoué. {{- err}}",
+            "success": "L'ajout de {{- title}} est achevé."
+        },
+        "open": {
+            "error": "Le livre ne peut pas être ouvert : {{- err}}",
+            "folderNotFound": ""
+        },
+        "storage": {
+            "removed": "",
+            "updateFailed": "",
+            "updated": ""
+        },
+        "wipeData": "Données d'authentification supprimées avec succès !"
+    },
+    "opds": {
+        "addForm": {
+            "addButton": "Ajouter",
+            "name": "Nom :",
+            "namePlaceholder": "Nom",
+            "url": "Adresse :",
+            "urlPlaceholder": "Adresse"
+        },
+        "addFormApiapp": {
+            "title": "Ajouter une bibliothèque"
+        },
+        "addMenu": "Ajouter un catalogue OPDS",
+        "breadcrumbRoot": "Mes catalogues",
+        "documentation": "Site web officiel d'OPDS",
+        "empty": "Aucune publication trouvée",
+        "firstPage": "Première",
+        "informations": "Imaginez un monde dans lequel vous pouvez explorer et télécharger en quelques clics les publications numériques des bibliothèques publiques et des librairies numériques. C'est exactement ce qu'offre le format de catalogue OPDS (Open Publication Distribution System). Avec OPDS, vous pouvez naviguer dans les catalogues de différents fournisseurs de livres électroniques, vous connecter, emprunter, acheter une publication ou visiter votre bibliothèque personnelle. Vous pouvez aussi télécharger un livre électronique ou un livre audio directement dans Thorium Reader pour une lecture instantanée.\nComment trouver un catalogue OPDS ? C'est très simple. Recherchez un lien hypertexte (URL) menant au catalogue. Copiez cette URL dans le champ \"Lien\" ci-dessus. N'oubliez pas qu'il n'existe pas de registre universel de tous les catalogues OPDS actifs. Vous devrez contacter la bibliothèque ou le libraire de votre choix et lui demander l'URL de son catalogue OPDS. Si vous ne savez pas par où commencer, Wikipedia propose quelques registres de catalogues OPDS dans différentes langues qui pourraient vous être utiles.\nLe champ Nom est laissé à votre convenance ; il permet d'identifier facilement le catalogue dans Thorium Reader.",
+        "lastPage": "Dernière",
+        "menu": {
+            "aboutBook": "À propos",
+            "addExtract": "Ajouter l'extrait",
+            "goBuyBook": "Aller sur la page d'achat",
+            "goLoanBook": "Aller sur la page d'emprunt",
+            "goRevokeLoanBook": "Mettre fin au prêt",
+            "goSubBook": "Aller sur la page d'abonnement"
+        },
+        "network": {
+            "error": "Une erreur est survenue",
+            "noInternet": "Pas de connexion Internet",
+            "noInternetMessage": "Essayez de vérifier le câble réseau, le modem, le routeur ou votre connexion wifi",
+            "reject": "Désolé, une erreur est survenue lors de la tentative de traitement du flux OPDS.",
+            "timeout": "Le flux OPDS met du temps à répondre, veuillez réessayer plus tard"
+        },
+        "next": "Suivant",
+        "previous": "Précédent",
+        "resumeBrowsing": "Reprendre le parcours",
+        "shelf": "Étagère",
+        "updateForm": {
+            "name": "Nom :",
+            "title": "Éditer un flux OPDS",
+            "updateButton": "Éditer",
+            "url": "Adresse :"
+        },
+        "whatIsOpds": "Qu'est-ce que OPDS?"
+    },
+    "publ-a11y-display-guide": {
+        "accessibility-summary": {
+            "accessibility-summary-title": "Informations d'accessibilité supplémentaires fournies par l'éditeur"
+        },
+        "additional-accessibility-information": {
+            "additional-accessibility-information-aria": {
+                "compact": "Information enrichie pour les technologies d'assistances",
+                "descriptive": "La structure est enrichi de rôles ARIA afin d'optimiser l'organisation et de faciliter la navigation via les technologies d'assistances"
+            },
+            "additional-accessibility-information-audio-descriptions": {
+                "compact": "Description audio",
+                "descriptive": "Description audio"
+            },
+            "additional-accessibility-information-braille": {
+                "compact": "Braille",
+                "descriptive": "Braille"
+            },
+            "additional-accessibility-information-full-ruby-annotations": {
+                "compact": "Annotations complètes au format ruby (langues asiatiques)",
+                "descriptive": "Annotations complètes au format ruby (langues asiatiques)"
+            },
+            "additional-accessibility-information-high-contrast-between-foreground-and-background-audio": {
+                "compact": "Contraste sonore amélioré",
+                "descriptive": "Contraste sonore amélioré entre les différents plans"
+            },
+            "additional-accessibility-information-high-contrast-between-text-and-background": {
+                "compact": "Contraste élevé entre le texte et l'arrière-plan",
+                "descriptive": "Contraste élevé entre le texte et l'arrière-plan"
+            },
+            "additional-accessibility-information-large-print": {
+                "compact": "Grand caractères",
+                "descriptive": "Grand caractères"
+            },
+            "additional-accessibility-information-page-breaks": {
+                "compact": "Pagination identique à l'imprimé",
+                "descriptive": "Contient une pagination identique à la version imprimée"
+            },
+            "additional-accessibility-information-ruby-annotations": {
+                "compact": "Annotations partielles au format ruby (langues asiatiques)",
+                "descriptive": "Annotations partielles au format ruby (langues asiatiques)"
+            },
+            "additional-accessibility-information-sign-language": {
+                "compact": "Langue des signes",
+                "descriptive": "Le contenu est disponible en langue des signes"
+            },
+            "additional-accessibility-information-tactile-graphics": {
+                "compact": "Graphiques tactiles",
+                "descriptive": "Des graphiques tactiles ont été intégrés pour faciliter l'accès des personnes aveugles aux éléments visuels"
+            },
+            "additional-accessibility-information-tactile-objects": {
+                "compact": "Objets 3D ou tactiles",
+                "descriptive": "Des objets 3D ou tactiles ont été intégrés pour faciliter l'accès des personnes aveugles aux éléments visuels"
+            },
+            "additional-accessibility-information-text-to-speech-hinting": {
+                "compact": "Prononciation améliorée pour la synthèse vocale",
+                "descriptive": "Contient des indications de prononciation pour la synthèse vocale"
+            },
+            "additional-accessibility-information-title": "Informations complémentaires sur l'accessibilité"
+        },
+        "conformance": {
+            "conformance-a": {
+                "compact": "Cette publication répond aux règles minimales d'accessibilité",
+                "descriptive": "La publication indique qu'elle respecte les règles d'accessibilité EPUB et WCAG 2 niveau A"
+            },
+            "conformance-aa": {
+                "compact": "Cette publication répond aux règles d'accessibilité reconnues",
+                "descriptive": "La publication indique qu'elle respecte les règles d'accessibilité EPUB et WCAG 2 niveau AA"
+            },
+            "conformance-aaa": {
+                "compact": "Cette publication dépasse les règles d'accessibilité reconnues",
+                "descriptive": "La publication indique qu'elle respecte les règles d'accessibilité EPUB et WCAG 2 niveau AAA"
+            },
+            "conformance-certifier": {
+                "compact": "Accessibilité évaluée par "
+            },
+            "conformance-certifier-credentials": {
+                "compact": "L'évaluateur est accrédité par "
+            },
+            "conformance-details-certifier-report": {
+                "compact": "Pour plus d'informations, voir le rapport d'évaluation"
+            },
+            "conformance-details-claim": {
+                "compact": "Respecte ",
+                "descriptive": "Cette publication indique respecter "
+            },
+            "conformance-details-epub-accessibility-1-0": {
+                "compact": "EPUB Accessibilité 1.0",
+                "descriptive": "EPUB Accessibilité 1.0"
+            },
+            "conformance-details-epub-accessibility-1-1": {
+                "compact": "EPUB Accessibilité 1.1",
+                "descriptive": "EPUB Accessibilité 1.1"
+            },
+            "conformance-details-level-a": {
+                "compact": "Niveau A",
+                "descriptive": "Niveau A"
+            },
+            "conformance-details-level-aa": {
+                "compact": "Niveau AA",
+                "descriptive": "Niveau AA"
+            },
+            "conformance-details-level-aaa": {
+                "compact": "Niveau AAA",
+                "descriptive": "Niveau AAA"
+            },
+            "conformance-details-wcag-2-0": {
+                "compact": "WCAG 2.0"
+            },
+            "conformance-details-wcag-2-1": {
+                "compact": "WCAG 2.1",
+                "descriptive": "Règles pour l’accessibilité des contenus Web (WCAG) 2.1"
+            },
+            "conformance-details-wcag-2-2": {
+                "compact": "WCAG 2.2",
+                "descriptive": "Règles pour l’accessibilité des contenus Web (WCAG) 2.2"
+            },
+            "conformance-no": {
+                "compact": "Aucune information disponible",
+                "descriptive": "Aucune information disponible"
+            },
+            "conformance-title": "Règles d'accessibilité",
+            "conformance-unknown-standard": {
+                "compact": "Aucune indication concernant les normes d'accessibilité",
+                "descriptive": "Aucune indication concernant les normes d'accessibilité"
+            }
+        },
+        "hazards": {
+            "hazards-flashing": {
+                "compact": "Flashs lumineux",
+                "descriptive": "La publication contient des flashs lumineux qui peuvent provoquer des crises d’épilepsie"
+            },
+            "hazards-flashing-none": {
+                "compact": "Pas de flashs lumineux",
+                "descriptive": "La publication ne contient pas de flashs lumineux susceptibles de provoquer des crises d’épilepsie"
+            },
+            "hazards-flashing-unknown": {
+                "compact": "Pas d'information concernant la présence de flashs lumineux",
+                "descriptive": "La présence de flashs lumineux susceptibles de provoquer des crises d’épilepsie n'a pas pu être déterminée"
+            },
+            "hazards-motion": {
+                "compact": "Sensations de mouvement",
+                "descriptive": "La publication contient des images en mouvement qui peuvent provoquer des nausées, des vertiges et des maux de tête"
+            },
+            "hazards-motion-none": {
+                "compact": "Pas de sensations de mouvement",
+                "descriptive": "La publication ne contient pas d'images en mouvement qui pourraient provoquer des nausées, des vertiges et des maux de tête"
+            },
+            "hazards-motion-unknown": {
+                "compact": "Pas d'information concernant la présence d'images en mouvement",
+                "descriptive": "La présence d'images en mouvement susceptibles de provoquer des nausées, des vertiges et des maux de tête n'a pas pu être déterminée"
+            },
+            "hazards-no-metadata": {
+                "compact": "Aucune information disponible",
+                "descriptive": "Aucune information disponible"
+            },
+            "hazards-none": {
+                "compact": "Aucun points d'attention",
+                "descriptive": "La publication ne présente aucun risque lié à la présence de flashs lumineux, de sensations de mouvement ou de sons"
+            },
+            "hazards-sound": {
+                "compact": "Sons",
+                "descriptive": "La publication contient des sons qui peuvent causer des troubles de la sensibilité"
+            },
+            "hazards-sound-none": {
+                "compact": "Pas de risques sonores",
+                "descriptive": "La publication ne contient pas de sons susceptibles de provoquer des troubles de la sensibilité"
+            },
+            "hazards-sound-unknown": {
+                "compact": "Pas d'information concernant la présence de sons",
+                "descriptive": "La présence de sons susceptibles de causer des troubles de sensibilité n'a pas pu être déterminée"
+            },
+            "hazards-title": "Points d'attention",
+            "hazards-unknown": {
+                "compact": "La présence de risques est inconnue",
+                "descriptive": "La présence de risques liés aux flashs lumineux, sensations de mouvement ou sons est inconnue"
+            }
+        },
+        "navigation": {
+            "navigation-index": {
+                "compact": "Index",
+                "descriptive": "Index comportant des liens vers les entrées référencées"
+            },
+            "navigation-no-metadata": {
+                "compact": "Aucune information disponible",
+                "descriptive": "Aucune information disponible"
+            },
+            "navigation-page-navigation": {
+                "compact": "Aller à la page",
+                "descriptive": "Permet d'accéder aux pages de la version source imprimée"
+            },
+            "navigation-structural": {
+                "compact": "Titres",
+                "descriptive": "Contient des titres pour une navigation structurée"
+            },
+            "navigation-title": "Points de repère",
+            "navigation-toc": {
+                "compact": "Table des matières",
+                "descriptive": "Table des matières"
+            }
+        },
+        "rich-content": {
+            "rich-content-accessible-chemistry-as-latex": {
+                "compact": "Formules chimiques en LaTeX",
+                "descriptive": "Formules chimiques en format accessible (LaTeX)"
+            },
+            "rich-content-accessible-chemistry-as-mathml": {
+                "compact": "Formules chimiques en MathML",
+                "descriptive": "Formules chimiques en format accessible (MathML)"
+            },
+            "rich-content-accessible-math-as-latex": {
+                "compact": "Mathématiques en LaTeX",
+                "descriptive": "Formules mathématiques en format accessible (LaTeX)"
+            },
+            "rich-content-accessible-math-as-mathml": {
+                "compact": "Mathématiques en MathML",
+                "descriptive": "Formules mathématiques en format accessible (MathML)"
+            },
+            "rich-content-accessible-math-described": {
+                "compact": "Mathématiques décrites en texte",
+                "descriptive": "Des descriptions textuelles des mathématiques sont fournies"
+            },
+            "rich-content-closed-captions": {
+                "compact": "Sous-titres disponibles pour les vidéos",
+                "descriptive": "Des sous titres sont disponibles pour les vidéos"
+            },
+            "rich-content-extended": {
+                "compact": "Descriptions longues pour les images",
+                "descriptive": "Les images porteuses d'informations complexes sont décrites par des descriptions longues"
+            },
+            "rich-content-open-captions": {
+                "compact": "Sous-titres incrustés",
+                "descriptive": "Des sous titres sont incrustés pour les vidéos"
+            },
+            "rich-content-title": "Contenus spécifiques",
+            "rich-content-transcript": {
+                "compact": "Transcriptions fournies",
+                "descriptive": "Des transcriptions textuelles sont fournies pour les contenus audio ou vidéo"
+            },
+            "rich-content-unknown": {
+                "compact": "Aucune information disponible",
+                "descriptive": "Aucune information disponible"
+            }
+        },
+        "ways-of-reading": {
+            "ways-of-reading-nonvisual-reading-alt-text": {
+                "compact": "Images décrites",
+                "descriptive": "Les images sont décrites par un texte"
+            },
+            "ways-of-reading-nonvisual-reading-no-metadata": {
+                "compact": "Aucune information pour la lecture en voix de synthèse ou en braille",
+                "descriptive": "Il n'est pas possible de savoir si le contenu sera totalement lisible en voix de synthèse ou en braille"
+            },
+            "ways-of-reading-nonvisual-reading-none": {
+                "compact": "Non lisible en voix de synthèse ou en braille",
+                "descriptive": "Le contenu n'est pas lisible en voix de synthèse ou en braille"
+            },
+            "ways-of-reading-nonvisual-reading-not-fully": {
+                "compact": "Pas entièrement lisible en voix de synthèse ou en braille",
+                "descriptive": "Tous les contenus ne pourront pas être lus à haute voix ou en braille"
+            },
+            "ways-of-reading-nonvisual-reading-readable": {
+                "compact": "Entièrement lisible en voix de synthèse ou en braille",
+                "descriptive": "Tous les contenus peuvent être lus en voix de synthèse ou en braille"
+            },
+            "ways-of-reading-prerecorded-audio-complementary": {
+                "compact": "Clips audio préenregistrés",
+                "descriptive": "Des clips audio préenregistrés sont intégrés au contenu"
+            },
+            "ways-of-reading-prerecorded-audio-only": {
+                "compact": "Audio préenregistré uniquement",
+                "descriptive": "Livre audio sans texte alternatif"
+            },
+            "ways-of-reading-prerecorded-audio-synchronized": {
+                "compact": "Audio préenregistré synchronisé avec du texte",
+                "descriptive": "Tous les contenus sont disponibles comme audio préenregistrés synchronisés avec le texte"
+            },
+            "ways-of-reading-title": "Lisibilité",
+            "ways-of-reading-visual-adjustments-modifiable": {
+                "compact": "L'affichage peut être adapté",
+                "descriptive": "L'apparence du texte et la mise en page peuvent être modifiées en fonction des capacités du système de lecture (famille et taille des polices, espaces entre les paragraphes, les phrases, les mots et les lettres, ainsi que la couleur de l'arrière-plan et du texte)"
+            },
+            "ways-of-reading-visual-adjustments-unknown": {
+                "compact": "Aucune information sur les possibilités d'adaptation de l'affichage",
+                "descriptive": "Il n'est pas possible de savoir si l'apparence du texte et la mise en page peuvent être modifiées"
+            },
+            "ways-of-reading-visual-adjustments-unmodifiable": {
+                "compact": "Mise en page fixe",
+                "descriptive": "L'aspect du texte et la mise en page ne peuvent pas être modifiés, l'expérience de lecture est proche d'une version imprimée, mais les systèmes de lecture peuvent toujours offrir des options de zoom"
+            }
+        }
+    },
+    "publication": {
+        "accessibility": {
+            "accessModeSufficient": {
+                "textual": "Texte et images disponibles en voix de synthèse et braille."
+            },
+            "accessibilityFeature": {
+                "alternativeText": "Contient un texte alternatif",
+                "displayTransformability": "Texte et mise en page adaptables",
+                "longDescription": "Ressources graphiques entièrement décrites",
+                "printPageNumbers": "Référence de pagination du livre imprimé",
+                "readingOrder": "Contient un ordre de lecture",
+                "synchronizedAudioText": "Texte et audio synchronisés",
+                "tableOfContents": "Contient une table des matières"
+            },
+            "accessibilityHazard": {
+                "flashing": "Clignotement",
+                "motionSimulation": "Simulation de mouvement",
+                "name": "Risque :",
+                "noFlashing": "Pas de clignotement",
+                "noMotionSimulation": "Pas de simulation de mouvement",
+                "noSound": "Pas de son",
+                "none": "Aucun",
+                "sound": "Son",
+                "unknown": "Inconnu"
+            },
+            "certifierReport": "Rapport de conformité",
+            "conformsTo": "Conforme à :",
+            "moreInformation": "Plus d'informations",
+            "name": "Accessibilité",
+            "noA11y": "Aucune information d'accessibilité disponible"
+        },
+        "actions": "Actions",
+        "audio": {
+            "tracks": "Pistes"
+        },
+        "author": "Auteur",
+        "cancelledLcp": "Ce livre ne peut être lu car la licence LCP a été annulée.",
+        "certificateRevoked": "Certificat LCP révoqué.",
+        "certificateSignatureInvalid": "Signature de certificat LCP invalide",
+        "cover": {
+            "img": "image de couverture"
+        },
+        "day": "jour",
+        "days": "jours",
+        "duration": {
+            "title": "Durée"
+        },
+        "encryptedNoLicense": "La publication est encryptée mais aucune licence LCP trouvée !",
+        "expired": "Prêt expiré",
+        "expiredLcp": "Ce livre ne peut être lu car la licence LCP a expiré.",
+        "incorrectPassphrase": "Aucune clé LCP enregistrée ne correspond à la publication ou la clé saisie est incorrecte.",
+        "lcpEnd": "Fin",
+        "lcpNotSupported": "",
+        "lcpRightsCopy": "Caractères copiés",
+        "lcpRightsPrint": "Pages imprimées",
+        "lcpStart": "Début",
+        "licenceLCP": "Licence (LCP)",
+        "licenseCertificateDateInvalid": "Le certificat de provider LCP a expiré avant la date de license ({{- dateTime}}).",
+        "licenseOutOfDate": "License LCP inutilisable à cette date.",
+        "licenseSignatureInvalid": "Signature de license LCP invalide",
+        "licensed": "Accès protégé",
+        "markAsRead": "Marquer comme lu",
+        "notStarted": "Non Demarré",
+        "onGoing": "En Cours",
+        "progression": {
+            "title": "Progression"
+        },
+        "read": "Terminé",
+        "remainingTime": "Prêt (temps restant)",
+        "renewButton": "Renouveler",
+        "returnButton": "Retourner",
+        "returnedLcp": "Ce livre ne peut être lu car la licence LCP a été retournée.",
+        "revokedLcp": "Ce livre ne peut être lu car la licence LCP a été révoquée.",
+        "seeLess": "Voir moins",
+        "seeMore": "Voir plus",
+        "timeLeft": "Temps restant",
+        "title": "Titre",
+        "userKeyCheckInvalid": "Mot de passe incorrect"
+    },
+    "reader": {
+        "annotations": {
+            "Color": "Couleur",
+            "addNote": "Annoter",
+            "advancedMode": "Mode instantané (création automatique après sélection)",
+            "annotationsExport": {
+                "description": "Nommez cette liste de notes",
+                "title": "Titre"
+            },
+            "annotationsOptions": "Notes Options",
+            "date": "Date de modification",
+            "error": {
+                "pdf": {
+                    "validationSelection": ""
+                }
+            },
+            "export": "Sauvegarder sous",
+            "filter": {
+                "all": "Tous",
+                "filterByColor": "Filtrer par couleur",
+                "filterByCreator": "Filtrer par créateur",
+                "filterByDrawtype": "Filtrer par Surlignage",
+                "filterByTag": "Filtrer par tag",
+                "filterOptions": "Filtre options",
+                "none": "Aucun"
+            },
+            "hide": "Ne pas afficher",
+            "highlight": "Surligner",
+            "noSelectionToast": "Aucun texte sélectionné",
+            "note": "Note {{- color}}",
+            "quickAnnotations": "Création rapide (sans édition)",
+            "saveNote": "Sauvegarder",
+            "sorting": {
+                "lastcreated": "Dernier créé",
+                "lastmodified": "Dernier modifié",
+                "progression": "Progression",
+                "sortingOptions": "Trie options"
+            },
+            "toggleMarginMarks": "Afficher dans la marge",
+            "type": {
+                "outline": "Encadré",
+                "solid": "Fond coloré",
+                "strikethrough": "Barrer",
+                "underline": "Souligner"
+            }
+        },
+        "bookmarks": {
+            "index": "Bookmark N°{{- index}}"
+        },
+        "divina": {
+            "mute": "Désactiver le son",
+            "unmute": "Activer le son"
+        },
+        "dock": {
+            "dockDefault": "",
+            "dockLeft": "",
+            "dockRight": ""
+        },
+        "fxl": {
+            "fit": "Remplir"
+        },
+        "goToContent": "Aller au contenu",
+        "imgViewer": {
+            "title": "Visualiseur d'image (zoom)",
+            "zoomIn": "Agrandir le zoom",
+            "zoomOut": "Rétrécir le zoom",
+            "zoomReset": "Réinitialiser le zoom"
+        },
+        "marks": {
+            "annotations": "Annotations",
+            "bookmarks": "Marque-pages",
+            "delete": "Supprimer",
+            "edit": "Éditer",
+            "goTo": "Aller à la page",
+            "landmarks": "Repères",
+            "saveMark": "Enregistrer",
+            "search": "Rechercher",
+            "searchResult": "Recherche - « {{- searchText}} »",
+            "toc": "Table des matières"
+        },
+        "media-overlays": {
+            "activate": "Activer la lecture en voix de synthèse",
+            "captions": "Vue simplifiée, style sous-titres",
+            "captionsDescription": "Affichage du texte simplifié avec un formatage minimal des légendes.",
+            "disableContinuousPlay": "Désactiver la progression automatique",
+            "disableContinuousPlayDescription": "Ne pas jouer automatiquement l'élément audio suivant, faire une pause immediatement après la fin de l'audio en cours.",
+            "ignoreAndUseTTS": "Ignorer l'enregistrement audio, utiliser la synthèse vocale",
+            "ignoreAndUseTTSDescription": "Ignorer EPUB Media Overlays, lire avec la synthèse vocale",
+            "next": "Suivant",
+            "pause": "Mettre en pause",
+            "play": "Lire",
+            "previous": "Précédent",
+            "skip": "Omettre les informations auxiliaires",
+            "skipDescription": "Omettre les sauts de pages, notes de de bas de page etc.",
+            "speed": "Vitesse de lecture",
+            "stop": "Arrêt",
+            "title": "Lire à haute voix",
+            "useTTSHighlightsForMO": "Surlignage personalisé",
+            "useTTSHighlightsForMODescription": "Désactiver les styles de l'éditeur"
+        },
+        "navigation": {
+            "ZenModeExit": "Sortir du mode Zen",
+            "ZenModeTitle": "Mode Zen",
+            "annotationTitle": "Annotation",
+            "backHomeTitle": "Retour à la bibliothèque",
+            "bookmarkTitle": "Marque-page",
+            "currentPage": "Page courante: {{- current}}",
+            "currentPageTotal": "Page courante: {{- current}}/{{- total}}",
+            "detachWindowTitle": "Afficher la bibliothèque",
+            "goTo": "Aller à",
+            "goToError": "Cette page n'existe pas",
+            "goToPlaceHolder": "Entrer un numéro de page",
+            "goToTitle": "Aller à la page",
+            "history": "Historique de navigation",
+            "historyNext": "Avancer dans l'historique de la navigation",
+            "historyPrevious": "Retourner en arrière dans l'historique de la navigation",
+            "infoTitle": "Informations",
+            "magnifyingGlassButton": "Recherche dans la publication",
+            "openTableOfContentsTitle": "Navigation",
+            "page": "Page",
+            "pdfscalemode": "Page entière ou pleine largeur",
+            "print": "Imprimer",
+            "printDisabled": "Impression non autorisée",
+            "screenNext": "Avancer",
+            "screenPrevious": "Reculer",
+            "settingsTitle": "Préférences du lecteur"
+        },
+        "notes": {
+            "colors": {
+                "cyan": "Cyan",
+                "darkorange": "",
+                "darkyellow": "",
+                "green": "Vert",
+                "orange": "Orange",
+                "purple": "Violet",
+                "red": "Rouge",
+                "yellow": "Jaune"
+            }
+        },
+        "picker": {
+            "search": {
+                "founds_many": "{{- count}} correspondance(s)",
+                "founds_one": "{{- count}} correspondance",
+                "founds_other": "{{- count}} correspondances",
+                "input": "Texte à trouver",
+                "next": "Suivant",
+                "notFound": "Auncune correspondance",
+                "previous": "Précédent",
+                "results": "Résultats",
+                "submit": "Trouver"
+            },
+            "searchTitle": "Recherche"
+        },
+        "print": {
+            "descriptionLcpCount": "Limite de pages restantes : {{- count}}",
+            "descriptionLcpPrintable": "Pages précédemment imprimées : {{- printable}}",
+            "howTo": "Comment sélectionner une série de pages à imprimer ?",
+            "lcpInfo": "Le nombre de pages que vous pouvez imprimer dans cette publication est limité à {{- count}}. Choisissez ici les pages désirées.",
+            "noPagesLcpLimitReached": "Vous avez atteint la limite LCP",
+            "noPrintablePages": "Aucune page imprimable",
+            "pageHelpInfo": "Syntaxe du sélecteur de page :",
+            "pageHelpInfo1": "Saisir un numéro de page pour faire référence à une seule page (par exemple : \"6\")",
+            "pageHelpInfo2": "Saisir deux numéros de page séparés par un tiret pour faire référence à une série de pages contiguës (par exemple, \"6-13\")",
+            "pageHelpInfo3": "Utiliser le caractère point-virgule pour séparer plusieurs pages ou plages de pages (par exemple : \"5;14-20;37\")",
+            "pageHelpInfo4": "Omettre la première ou la dernière page d'un intervalle pour faire référence à la première ou à la dernière page de la publication (par exemple, \"-16\" équivaut à \"1-16\", et \"34-\" équivaut à \"34-100\" dans l'hypothèse d'un livre de 100 pages au total).",
+            "pages": "Pages",
+            "preview": "Prévisualisation",
+            "print": "Imprimer",
+            "printablePages": "Pages imprimables (total) :",
+            "title": "Sélection des pages à imprimer"
+        },
+        "settings": {
+            "column": {
+                "auto": "Défaut",
+                "one": "1 colonne",
+                "title": "Colonnes",
+                "two": "2 colonnes"
+            },
+            "customFontSelected": "Vous avez sélectionné une police personnelle",
+            "customizeReader": "Personnaliser la mise en forme",
+            "defaultValue": "",
+            "disabled": "Désactivé",
+            "display": "Affichage",
+            "disposition": {
+                "title": "Pagination"
+            },
+            "font": "Police de caractères",
+            "fontSize": "Taille du texte",
+            "increaseFontSize": "Augmenter la taille du texte",
+            "infoCustomFont": "Vous pouvez sélectionner une police système ou personnelle en entrant son nom.",
+            "justification": "Alignement",
+            "justify": "Justifié",
+            "letterSpacing": "Espacement des lettres",
+            "lineSpacing": "Espacement des lignes",
+            "margin": "Marge",
+            "mathjax": "Activer MathJax",
+            "mathjaxDescription": "",
+            "noFootnotes": "Désactiver la fenêtre pop-up des notes de bas de page",
+            "noRTLFlip": "Désactiver l'interface droite-à-gauche",
+            "noRuby": "Cacher les caractères Ruby Japonais",
+            "noTemporaryNavTargetOutline": "Désactiver les indications visuelles de navigation",
+            "paginated": "Paginé",
+            "paraSpacing": "Espacement des paragraphes",
+            "pdfZoom": {
+                "name": {
+                    "100pct": "100%",
+                    "150pct": "150%",
+                    "200pct": "200%",
+                    "300pct": "300%",
+                    "500pct": "500%",
+                    "50pct": "50%",
+                    "fit": "Remplir la page",
+                    "width": "Largeur de la page"
+                },
+                "title": "Loupe"
+            },
+            "preset": {
+                "apply": "Appliquer les paramètres de lecture préférés.",
+                "applyDetails": "Appliquer au livre courant les paramètres de lecture précédemment enregistrés.",
+                "detail": "Sauvegarder/Appliquer vos paramètres de lecture favoris.",
+                "reset": "Réinitialiser les paramètres de lecture préférés.",
+                "resetDetails": "Effacer les paramètres de lecture précédemment appliqués, et revenir à la mise en forme et aux choix d'affichage par défaut.",
+                "save": "Enregistrer les paramètres de lecture préférés.",
+                "saveDetails": "Sauvegarder les modifications appliquées à la mise en forme du livre courant et les choix d'affichage du logiciel. Ces paramètres pourront être appliqués à d'autres livres, une fois ouverts, en cliquant sur le bouton ci-dessous.",
+                "title": "Préférences"
+            },
+            "preview": "Aperçu",
+            "reduceFontSize": "Réduire la taille du texte",
+            "reduceMotion": "Réduire les animations visuelles",
+            "scrolled": "Défilement vertical",
+            "spacing": "Espacement",
+            "spreadModeEven": "",
+            "text": "Texte",
+            "theme": {
+                "name": {
+                    "Contrast1": "Contrasté",
+                    "Contrast2": "Contrasté 2",
+                    "Contrast3": "Contrasté 3",
+                    "Contrast4": "Contrasté 4",
+                    "Neutral": "Neutre",
+                    "Night": "Nuit",
+                    "Paper": "Papier",
+                    "Sepia": "Sépia"
+                },
+                "title": "Thème de lecture"
+            },
+            "wordSpacing": "Espacement des mots"
+        },
+        "svg": {
+            "left": "Gauche",
+            "right": "Droite"
+        },
+        "toc": {
+            "publicationNoToc": "Pas de table des matières"
+        },
+        "tts": {
+            "activate": "Activer la synthèse vocale",
+            "language": "Langue de la synthèse vocale",
+            "next": "Suivant",
+            "options": "Options synthèse vocale",
+            "pause": "Pause",
+            "play": "Lire",
+            "previous": "Précédent",
+            "sentenceDetect": "Découper à la phrase",
+            "sentenceDetectDescription": "Diviser les longs paragraphes en phrases.",
+            "speed": "Vitesse de lecture",
+            "stop": "Arrêter",
+            "voice": "Voix de synthèse"
+        }
+    },
+    "settings": {
+        "annotationCreator": {
+            "creator": "Créateur",
+            "help": "Il sera utilisé comme créateur des notes que vous pouvez exporter.",
+            "name": "Nom",
+            "organization": "Organisation",
+            "person": "Personne",
+            "type": "Type"
+        },
+        "auth": {
+            "help": "Souhaitez-vous supprimer vos identifiants de connexion à l'OPDS ?",
+            "title": "Gérer l'accès aux catalogues",
+            "wipeData": "Effacer les données d'authentification"
+        },
+        "keyboard": {
+            "advancedMenu": "Menu avancé raccourcis clavier",
+            "cancel": "Annuler",
+            "disclaimer": "Les paramètres par défaut de l'application ont été conçus en fonction de l'emplacement physique des touches sur une disposition QWERTY",
+            "editUserJson": "Modifier le fichier utilisateur…",
+            "exportToHTML": "Exporter en HTML",
+            "keyboardShortcuts": "Raccourcis clavier",
+            "list": {
+                "AddBookmarkWithLabel": {
+                    "description": "Ouvrir la modal de creation de marque-pages et éditer les labels (notes)",
+                    "name": "Ajouter un Signet avec Libellé"
+                },
+                "AnnotationsCreate": {
+                    "description": "Lorsqu'un texte est sélectionné, il sera marqué comme annotation et la boîte de dialogue d'annotation s'ouvrira pour permettre d'ajouter du texte supplémentaire et de sélectionner une couleur et un trait.",
+                    "name": "Créer une Annotation"
+                },
+                "AnnotationsCreateQuick": {
+                    "description": "Créez rapidement une annotation pour le texte sélectionné, avec la dernière couleur et le type (note et étiquette seront vides)",
+                    "name": "Créer une annotation rapide"
+                },
+                "AnnotationsToggleMargin": {
+                    "description": "Change les marques d'annotations du texte à la marge ou inversement.",
+                    "name": "Basculer la marge d'annotation"
+                },
+                "AudioNext": {
+                    "description": "Dans la fenêtre du lecteur, appelle la commande « suivant » pour l'audio (synthède vocale, lecture à voix haute des superpositions multimédias EPUB3, ou « avance rapide » pour les livres audio).",
+                    "name": "Segment audio suivant"
+                },
+                "AudioNextAlt": {
+                    "description": "Dans la fenêtre du lecteur, appelle la commande « suivant » pour l'audio (synthèse vocale, lecture à voix haute des superpositions multimédias EPUB3, ou « avance rapide » pour les livres audio).",
+                    "name": "Segment audio suivant (alternatif)"
+                },
+                "AudioPlayPause": {
+                    "description": "Dans la fenêtre du lecteur, appelle les commandes de basculement \"lecture\" ou \"pause\" pour l'audio (TTS ou lecture à voix haute des superpositions multimédias EPUB3).",
+                    "name": "Lire/Pause Audio"
+                },
+                "AudioPrevious": {
+                    "description": "Dans la fenêtre du lecteur, appelle la commande « précédent » pour l'audio (synthèse vocale, lecture à voix haute des superpositions multimédias EPUB3, ou « rembobiner » pour les livres audio).",
+                    "name": "Segment audio précédent"
+                },
+                "AudioPreviousAlt": {
+                    "description": "Dans la fenêtre du lecteur, appelle la commande « précédent » pour l'audio (synthèse vocale, lecture à voix haute des superpositions multimédias EPUB3, ou « rembobiner » pour les livres audio). Raccourci clavier alternatif.",
+                    "name": "Segment audio précédent (alternatif)"
+                },
+                "AudioSpeedDecrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedIncrease": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioSpeedReset": {
+                    "description": "",
+                    "name": ""
+                },
+                "AudioStop": {
+                    "description": "Dans la fenêtre du lecteur, appelle la commande \"arrêter\" pour l'audio (TTS ou lecture à voix haute des superpositions multimédias EPUB3, ou \"pause\" pour les livres audio).",
+                    "name": "Arrêter l'Audio"
+                },
+                "CloseReader": {
+                    "description": "Dans la fenêtre du lecteur, ferme la fenêtre et retourne à la vue de la bibliothèque.",
+                    "name": "Fermer le lecteur"
+                },
+                "FXLZoomIn": {
+                    "description": "Zoom avant sur une page à mise en page fixe.",
+                    "name": "Zoom Avant FXL"
+                },
+                "FXLZoomOut": {
+                    "description": "Zoom arrière sur une page à mise en page fixe.",
+                    "name": "Zoom arrière FXL"
+                },
+                "FXLZoomReset": {
+                    "description": "Réinitialiser à 100 % de zoom sur une page à mise en page fixe.",
+                    "name": "Réinitialiser le zoom FXL"
+                },
+                "FocusMain": {
+                    "description": "Dans les fenêtres du lecteur et de la bibliothèque, déplace le focus clavier vers le repère de la zone « principale ». Dans la vue du lecteur, le focus clavier se déplace d'un pas supplémentaire dans le cadre qui affiche le contenu de la publication (les lecteurs d'écran lisent automatiquement l'élément HTML actuellement focalisé à l'intérieur du document affiché).",
+                    "name": "Focus sur le contenu principal"
+                },
+                "FocusMainDeep": {
+                    "description": "Tout comme \"Contenu principal\" / FocusMainDeep dans la vue du lecteur (voir ci-dessus), mais le focus clavier est forcé plus profondément dans le cadre qui affiche le contenu de la publication (cela peut aider dans les cas où les lecteurs d'écran ne lisent pas automatiquement l'élément HTML actuellement focalisé à l'intérieur du document affiché).",
+                    "name": "Focus profond sur le contenu principal"
+                },
+                "FocusReaderGotoPage": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers la section « aller à la page » dans le panneau de navigation.",
+                    "name": "Aller à la Page du lecteur"
+                },
+                "FocusReaderNavigation": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers le panneau de navigation (table des matières, signets, etc.).",
+                    "name": "Focus sur la navigation du lecteur"
+                },
+                "FocusReaderNavigationAnnotations": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers la section Annotations du panneau de navigation.",
+                    "name": "Focus sur les annotations"
+                },
+                "FocusReaderNavigationBookmarks": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers la section Marque-pages du panneau de navigation",
+                    "name": "Focus sur les Signets de Navigation du Lecteur"
+                },
+                "FocusReaderNavigationSearch": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers la section Recherche du panneau de navigation",
+                    "name": "Focus sur la recherche"
+                },
+                "FocusReaderNavigationTOC": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers le panneau de navigation, mais plus spécifiquement dans la table des matières, et si possible au niveau du titre détecté / le plus proche de l'emplacement de lecture.",
+                    "name": "Focus sur la Table des matières"
+                },
+                "FocusReaderSettings": {
+                    "description": "Dans la fenêtre du lecteur, déplace le focus clavier vers le panneau des paramètres (préférences utilisateur pour l'affichage du contenu de la publication).",
+                    "name": "Focus sur les Paramètres du Lecteur"
+                },
+                "FocusSearch": {
+                    "description": "Disponible depuis la bibliothèque et les infos de lecture. Dans la fenêtre de la bibliothèque, déplace le focus clavier vers l'entrée de texte de recherche de la bibliothèque locale ou du flux OPDS. Dans la fenêtre du lecteur, déplace le focus clavier vers l'entrée de texte de recherche globale de la publication.",
+                    "name": "Focus sur la Recherche"
+                },
+                "FocusToolbar": {
+                    "description": "Dans les fenêtres du lecteur et de la bibliothèque, déplace le focus clavier vers la barre d'outils horizontale supérieure, juste avant le lien \"sauter\" (qui lui-même déplace le focus vers le repère de la zone \"principale\").",
+                    "name": "Focus sur la Barre d'Outils"
+                },
+                "NavigateNextChapter": {
+                    "description": "Dans la fenêtre du lecteur, se déplace vers le \"chapitre\" précédent ou suivant (élément de la colonne vertébrale dans l'ordre de lecture de la publication). Notez que le focus clavier est automatiquement déplacé vers le repère de la zone \"principale\", qui se trouve juste avant le cadre affichant le contenu de la publication (comme lors du suivi / activation d'un lien dans la table des matières).",
+                    "name": "Aller au Chapitre Suivant"
+                },
+                "NavigateNextChapterAlt": {
+                    "description": "Dans la fenêtre du lecteur, se déplace vers le \"chapitre\" précédent ou suivant (élément de la colonne vertébrale dans l'ordre de lecture de la publication). Notez que le focus clavier est automatiquement déplacé vers le repère de la zone \"principale\", qui se trouve juste avant le cadre affichant le contenu de la publication (comme lors du suivi / activation d'un lien dans la table des matières).",
+                    "name": "Aller au Chapitre Suivant (Alternatif)"
+                },
+                "NavigateNextHistory": {
+                    "description": "dans la fenêtre du lecteur, revenir en arrière ou en avant dans l'historique de navigation : Début ou Fin de la publication.",
+                    "name": "Aller à l'Historique Suivant"
+                },
+                "NavigateNextLibraryPage": {
+                    "description": "Dans la vue de la bibliothèque, affiche le prochain ensemble de livres.",
+                    "name": "Aller à la Page Suivante de la Bibliothèque"
+                },
+                "NavigateNextLibraryPageAlt": {
+                    "description": "Dans la vue de la bibliothèque, affiche le prochain ensemble de livres (raccourci clavier alternatif).",
+                    "name": "Aller à la Page Suivante de la Bibliothèque (Alternatif)"
+                },
+                "NavigateNextOPDSPage": {
+                    "description": "Dans la fenêtre de la bibliothèque pour les flux de Catalogues (OPD), active les liens de pagination suivants.",
+                    "name": "Aller à la Page OPDS Suivante"
+                },
+                "NavigateNextOPDSPageAlt": {
+                    "description": "Dans la fenêtre de la bibliothèque pour les flux de Catalogues (OPD), active les liens de pagination suivants (raccourci clavier alternatif).",
+                    "name": "Aller à la Page OPDS Suivante (Alternatif)"
+                },
+                "NavigateNextPage": {
+                    "description": "dans la fenêtre du lecteur, se déplace vers la \"page\" précédente ou suivante (ou unité de défilement, si la pagination est désactivée).",
+                    "name": "Aller à la Page Suivante"
+                },
+                "NavigateNextPageAlt": {
+                    "description": "Dans la fenêtre du lecteur, se déplace vers la \"page\" précédente ou suivante (ou unité de défilement, si la pagination est désactivée).",
+                    "name": "Aller à la Page Suivante (Alternatif)"
+                },
+                "NavigatePreviousChapter": {
+                    "description": "dans la fenêtre du lecteur, se déplace vers le \"chapitre\" précédent (élément de la colonne vertébrale dans l'ordre de lecture de la publication). Notez que le focus clavier est automatiquement déplacé vers le repère de la zone \"principale\", qui se trouve juste avant le cadre affichant le contenu de la publication (comme lors du suivi / activation d'un lien dans la table des matières).",
+                    "name": "Aller au Chapitre Précédent"
+                },
+                "NavigatePreviousChapterAlt": {
+                    "description": "Dans la fenêtre du lecteur, se déplace vers le \"chapitre\" précédent (élément de la colonne vertébrale dans l'ordre de lecture de la publication). Notez que le focus clavier est automatiquement déplacé vers le repère de la zone \"principale\", qui se trouve juste avant le cadre affichant le contenu de la publication (comme lors du suivi / activation d'un lien dans la table des matières).",
+                    "name": "Aller au Chapitre Précédent (Alternatif)"
+                },
+                "NavigatePreviousHistory": {
+                    "description": "Dans la fenêtre du lecteur, revenir en arrière ou en avant dans l'historique de navigation : Début ou Fin de la publication.",
+                    "name": "Aller à l'Historique Précédent"
+                },
+                "NavigatePreviousLibraryPage": {
+                    "description": "Dans la vue de la bibliothèque, affiche l'ensemble précédent de livres.",
+                    "name": "Aller à la Page Précédente de la Bibliothèque"
+                },
+                "NavigatePreviousLibraryPageAlt": {
+                    "description": "Dans la vue de la bibliothèque, affiche l'ensemble précédent de livres (raccourci clavier alternatif).",
+                    "name": "Aller à la Page Précédente de la Bibliothèque (Alternatif)"
+                },
+                "NavigatePreviousOPDSPage": {
+                    "description": "Dans la fenêtre de la bibliothèque pour les flux de Catalogues (OPD), active les liens de pagination précédents.",
+                    "name": "Aller à la Page OPDS Précédente"
+                },
+                "NavigatePreviousOPDSPageAlt": {
+                    "description": "Dans la fenêtre de la bibliothèque pour les flux de Catalogues (OPD), active les liens de pagination précédents (raccourci clavier alternatif).",
+                    "name": "Aller à la Page OPDS Précédente (Alternatif)"
+                },
+                "NavigatePreviousPage": {
+                    "description": "Dans la fenêtre du lecteur, se déplace vers la \"page\" précédente ou suivante (ou unité de défilement, si la pagination est désactivée).",
+                    "name": "Aller à la Page Précédente"
+                },
+                "NavigatePreviousPageAlt": {
+                    "description": "Dans la fenêtre du lecteur, se déplace vers la \"page\" précédente ou suivante (ou unité de défilement, si la pagination est désactivée).",
+                    "name": "Aller à la Page Précédente (Alternatif)"
+                },
+                "NavigateToBegin": {
+                    "description": "dans la fenêtre du lecteur, va au début de la publication.",
+                    "name": "Aller au Début"
+                },
+                "NavigateToEnd": {
+                    "description": "Dans la fenêtre du lecteur, va à la fin de la publication.",
+                    "name": "Aller à la Fin"
+                },
+                "OpenReaderInfo": {
+                    "description": "Dans la fenêtre du lecteur, ouvre une boîte de dialogue modale d'informations sur la publication (peut être utilisée dans une future version de Thorium pour une fonctionnalité similaire dans la fenêtre de la bibliothèque).",
+                    "name": "Ouvrir les Infos du Lecteur"
+                },
+                "OpenReaderInfoWhereAmI": {
+                    "description": "Dans la fenêtre du lecteur, ouvre une boîte de dialogue modale d'informations sur la publication avec un focus clavier direct sur la section qui affiche la hiérarchie des titres et d'autres informations contextuelles pour l'emplacement de lecture actuel, telles que la pause de page précédente la plus proche, ainsi que l'index du document dans l'ordre de lecture (c'est la fonctionnalité \"où suis-je\").",
+                    "name": "Ouvrir les Infos du Lecteur : Où Suis-je ?"
+                },
+                "Print": {
+                    "description": "Dans la fenêtre du lecteur, ouvre une boîte de dialogue d'impression",
+                    "name": "Imprimer"
+                },
+                "SearchNext": {
+                    "description": "Dans la fenêtre du lecteur, lorsque l'entrée de texte de recherche globale de la publication est ouverte, trouve la correspondance précédente / suivante.",
+                    "name": "Rechercher le résultat suivant"
+                },
+                "SearchNextAlt": {
+                    "description": "Identique à ci-dessus (raccourci clavier alternatif).",
+                    "name": "Rechercher le résultat suivant (alternatif)"
+                },
+                "SearchPrevious": {
+                    "description": "Dans la fenêtre du lecteur, lorsque l'entrée de texte de recherche globale de la publication est ouverte, trouve la correspondance précédente / suivante.",
+                    "name": "Rechercher le résultat précédent"
+                },
+                "SearchPreviousAlt": {
+                    "description": "Identique à ci-dessus (raccourci clavier alternatif).",
+                    "name": "Rechercher le résultat précédent (alternatif)"
+                },
+                "SpeakReaderInfoWhereAmI": {
+                    "description": "Dans la fenêtre du lecteur, c'est la fonctionnalité \"où suis-je\", exactement comme ci-dessus, mais uniquement parlée via le lecteur d'écran TTS grâce à une région en direct ARIA avec une parole assertive qui interrompt la narration en cours.",
+                    "name": "Décrire le lieu de lecture (Oral)"
+                },
+                "ToggleBookmark": {
+                    "description": "Dans la fenêtre du lecteur, bascule le signet (une notification est produite pour que les lecteurs d'écran annoncent le changement).",
+                    "name": "Basculer le signet"
+                },
+                "ToggleReaderFullscreen": {
+                    "description": "Dans la fenêtre du lecteur, bascule en plein écran. Notez que cela est différent du mode Zen. Le raccourci clavier est le seul moyen de passer en plein écran.",
+                    "name": "Basculer en plein écran"
+                }
+            },
+            "loadUserJson": "Charger le fichier",
+            "noShortcutFound": "Aucun raccourci trouvé avec ce label",
+            "resetDefaults": "Réinitialiser (défaut)",
+            "save": "Enregistrer",
+            "searchPlaceholder": "Cherchez un raccourci"
+        },
+        "language": {
+            "languageChoice": "Choix de la langue"
+        },
+        "library": {
+            "enableAPIAPP": "Activer l'accès à l'API Dilicom PNB (Prêt numérique en bibliothèque)",
+            "title": "Ajouter un compte bibliothèque"
+        },
+        "note": {
+            "export": {
+                "applyDefaultTemplate": "Charger le modèle par défaut",
+                "enableCheckbox": "Personnaliser le modèle HTML",
+                "overrideHTMLTemplate": "Exportation de notes (annotations et marque-pages)"
+            }
+        },
+        "profiles": {
+            "info": "",
+            "thorium": {
+                "description": "",
+                "title": ""
+            },
+            "version": ""
+        },
+        "screenReaderActivate": {
+            "help": "",
+            "message": "",
+            "title": ""
+        },
+        "session": {
+            "title": "Sauvegarder la session"
+        },
+        "sharedComputer": {
+            "lcpAutoDeleteExpiredPublications": "Supprimer automatiquement les publications LCP inutilisables et les données locales",
+            "lcpAutoDeleteExpiredPublicationsDescription": "Après synchronisation du statut LCP/LSD, les publications LCP expirées, rendues, révoquées ou annulées sont retirées de la bibliothèque avec leurs notes et leur état de lecture locaux. En mode personnel, l'import d'un nouvel exemplaire peut tout de même remplacer une copie précédente inutilisable en préservant ses notes et ses données de lecture lorsque c'est possible.",
+            "title": "Poste partagé"
+        },
+        "storage": {
+            "actions": {
+                "addDirectory": "",
+                "changeDirectory": "",
+                "removeStorageDirectory": ""
+            },
+            "beta": {
+                "availability": "",
+                "integrity": "",
+                "migration": "",
+                "summary": "",
+                "warning": ""
+            },
+            "configuration": {
+                "chooseFolderDescription": "",
+                "configuredDescription": "",
+                "notConfiguredDescription": ""
+            },
+            "dialogs": {
+                "add": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "edit": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                },
+                "remove": {
+                    "confirm": "",
+                    "description": "",
+                    "title": ""
+                }
+            },
+            "locations": {
+                "defaultDescription": "",
+                "defaultInternal": "",
+                "externalStorage": "",
+                "title": ""
+            }
+        },
+        "tabs": {
+            "appearance": "Apparence",
+            "general": "Géneral",
+            "keyboardShortcuts": "Raccourcis clavier",
+            "profiles": "Profils",
+            "storage": ""
+        },
+        "theme": {
+            "auto": "Automatique",
+            "dark": "Sombre",
+            "description": "Le thème de l'application correspond au thème de votre système.",
+            "light": "Clair",
+            "title": "Thème de l'application"
+        }
+    },
+    "tts": {
+        "highlight": {
+            "mainColor": "Couleur principale",
+            "maskBlockWordOutline": "Bloque Masqué, mot Encadré",
+            "maskBlockWordSolidBackground": "Bloque Masqué, mot Surligné",
+            "maskBlockWordUnderline": "Bloque Masqué, mot Souligné",
+            "maskWordOutline": "Masqué, mot Encadré",
+            "maskWordSolidBackground": "Masqué, mot Surligné",
+            "maskWordUnderline": "Masqué, mot Souligné",
+            "outlineWordOutline": "Encadré, mot Encadré",
+            "outlineWordSolidBackground": "Encadré, mot Surligné",
+            "outlineWordUnderline": "Encadré, mot Souligné",
+            "preview": "Aperçu du style d'affichage de synthèse vocale",
+            "solidBackgroundWordOutline": "Surligné, mot Encadré",
+            "solidBackgroundWordSolidBackground": "Surligné, mot Surligné",
+            "solidBackgroundWordUnderline": "Surligné, mot Souligné",
+            "style": "Style d'affichage de la synthèse vocale",
+            "underlineWordOutline": "Souligné, mot Encadré",
+            "underlineWordSolidBackground": "Souligné, mot Surligné",
+            "underlineWordUnderline": "Souligné, mot Souligné",
+            "wordColor": "Couleur de mot"
+        }
+    },
+    "wizard": {
+        "buttons": {
+            "discover": "Découvrir Thorium Desktop",
+            "goToBooks": "Accéder à mes livres"
+        },
+        "description": {
+            "home": "Thorium 3.4 apporte une série d'améliorations à l'expérience utilisateur et corrige un ensemble de problèmes. Si vous décidez ultérieurement de revenir à une version antérieure de l'application, il est fortement recommandé de sauvegarder vos annotations et signets dans vos livres électroniques en les exportant vers un fichier externe. Vous pourrez ensuite les réimporter dans la version antérieure après l'avoir installée. En effet, l'application stocke les annotations et les signets dans un format interne légèrement différent dans la version 3.4. Cela résout un problème de performances, mais rompt la compatibilité ascendante pour les annotations.",
+            "resources": "Rejoignez-nous et découvrez-en davantage sur Thorium :"
+        },
+        "dontShow": "Ne plus afficher",
+        "resources": {
+            "discord": "Discord: {{- url}}",
+            "website": "Website: {{- url}}"
+        },
+        "tab": {
+            "home": "Accueil",
+            "resources": "Ressources"
+        },
+        "title": {
+            "resources": "Ressources et Communauté",
+            "welcome": "Bienvenue dans Thorium 3.4"
+        }
+    }
+}
