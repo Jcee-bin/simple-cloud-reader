@@ -184,6 +184,61 @@
     gap: 22px;
 }
 
+.cover_wrap {
+    position: relative;
+
+    &:hover .cover_edit_btn {
+        opacity: 1;
+    }
+}
+
+.cover_edit_btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 150ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cover_picker {
+    position: absolute;
+    top: 38px;
+    right: 0;
+    z-index: 10;
+    display: grid;
+    grid-template-columns: repeat(4, 28px);
+    gap: 6px;
+    padding: 10px;
+    background: var(--sc-surface);
+    border: 1px solid var(--sc-outline);
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.cover_preset {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+
+    &:hover {
+        border-color: var(--sc-accent);
+    }
+}
+
 /* Empty state */
 .empty_state {
     text-align: center;

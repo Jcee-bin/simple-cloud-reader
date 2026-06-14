@@ -7,6 +7,7 @@
 
 import { IOpdsLinkView, IOpdsPublicationView } from "readium-desktop/common/views/opds";
 import { PublicationView } from "readium-desktop/common/views/publication";
+import { CustomCover } from "readium-desktop/common/models/custom-cover";
 import { SagaGenerator } from "typed-redux-saga";
 
 export interface IRecoverablePublication {
@@ -34,6 +35,10 @@ export interface IPublicationApi {
     updateTags: (
         identifier: string,
         tags: string[],
+    ) => SagaGenerator<PublicationView>;
+    updateCover: (
+        identifier: string,
+        customCover: CustomCover,
     ) => SagaGenerator<PublicationView>;
     importFromLink: (
         link: IOpdsLinkView,
@@ -75,6 +80,7 @@ export interface IPublicationModuleApi {
     "publication/findAll": IPublicationApi["findAll"];
     "publication/findByTag": IPublicationApi["findByTag"];
     "publication/updateTags": IPublicationApi["updateTags"];
+    "publication/updateCover": IPublicationApi["updateCover"];
     "publication/importFromLink": IPublicationApi["importFromLink"];
     "publication/importFromFs": IPublicationApi["importFromFs"];
     "publication/selectFiles": IPublicationApi["selectFiles"];

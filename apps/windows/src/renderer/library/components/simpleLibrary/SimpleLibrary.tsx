@@ -25,12 +25,15 @@ import {
 import ResumeHero from "./ResumeHero";
 import LibraryFilters from "./LibraryFilters";
 import SyncStatusPill from "./SyncStatusPill";
+import CoverPicker from "./CoverPicker";
+import { CustomCover } from "readium-desktop/common/models/custom-cover";
 
 const SUBSCRIBE_CHANNELS: TApiMethodName[] = [
     "publication/importFromFs",
     "publication/delete",
     "publication/importFromLink",
     "publication/updateTags",
+    "publication/updateCover",
     "publication/findAllRefresh",
     "publication/recover",
 ];
@@ -43,6 +46,7 @@ const SimpleLibrary: React.FC = () => {
     const [pubs, setPubs] = React.useState<PublicationView[] | undefined>(undefined);
     const [filter, setFilter] = React.useState<LibraryFilter>("all");
     const [query, setQuery] = React.useState("");
+    const [pickerOpen, setPickerOpen] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         const refresh = () => {
@@ -57,6 +61,14 @@ const SimpleLibrary: React.FC = () => {
     const openReader = React.useCallback(
         (identifier: string) => dispatch(readerActions.openRequest.build(identifier)),
         [dispatch],
+    );
+
+    const applycover = React.useCallback(
+        (identifier: string, cover: CustomCover) => {
+            apiAction("publication/updateCover", identifier, cover)
+                .catch((e) => console.error("simpleLibrary updateCover error", e));
+        },
+        [],
     );
 
     // All filter labels use existing Thorium en.json keys — no new strings added.
@@ -117,11 +129,27 @@ const SimpleLibrary: React.FC = () => {
                     ) : (
                         <div className={styles.cover_grid}>
                             {visible.map((pub) => (
-                                <PublicationCard
-                                    key={pub.identifier}
-                                    publicationViewMaybeOpds={pub}
-                                    isReading={false}
-                                />
+                                <div key={pub.identifier} className={styles.cover_wrap}>
+                                    <PublicationCard
+                                        publicationViewMaybeOpds={pub}
+                                        isReading={false}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={styles.cover_edit_btn}
+                                        aria-label="Change cover color"
+                                        onClick={(e) => { e.stopPropagation(); setPickerOpen(pub.identifier); }}
+                                    >
+                                        ✎
+                                    </button>
+                                    {pickerOpen === pub.identifier ? (
+                                        <CoverPicker
+                                            identifier={pub.identifier}
+                                            onSelect={applycover}
+                                            onClose={() => setPickerOpen(null)}
+                                        />
+                                    ) : null}
+                                </div>
                             ))}
                         </div>
                     )}
