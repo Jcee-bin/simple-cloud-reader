@@ -40,6 +40,9 @@ export interface IPublicationApi {
         identifier: string,
         customCover: CustomCover,
     ) => SagaGenerator<PublicationView>;
+    selectCoverImage: (
+        identifier: string,
+    ) => SagaGenerator<PublicationView>;
     importFromLink: (
         link: IOpdsLinkView,
         willBeImmediatelyFollowedByOpen: boolean,
@@ -81,6 +84,7 @@ export interface IPublicationModuleApi {
     "publication/findByTag": IPublicationApi["findByTag"];
     "publication/updateTags": IPublicationApi["updateTags"];
     "publication/updateCover": IPublicationApi["updateCover"];
+    "publication/selectCoverImage": IPublicationApi["selectCoverImage"];
     "publication/importFromLink": IPublicationApi["importFromLink"];
     "publication/importFromFs": IPublicationApi["importFromFs"];
     "publication/selectFiles": IPublicationApi["selectFiles"];

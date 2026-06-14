@@ -8,6 +8,7 @@
 import * as React from "react";
 import { CustomCover } from "readium-desktop/common/models/custom-cover";
 import * as styles from "readium-desktop/renderer/assets/styles/components/simpleLibrary.scss";
+import { apiAction } from "readium-desktop/renderer/library/apiAction";
 import { COVER_PRESETS } from "./coverPresets";
 
 interface IProps {
@@ -29,8 +30,22 @@ const CoverPicker: React.FC<IProps> = ({ identifier, onSelect, onClose }) => {
         return () => document.removeEventListener("mousedown", handleClick);
     }, [onClose]);
 
+    const pickImage = () => {
+        apiAction("publication/selectCoverImage", identifier)
+            .catch((e) => console.error("selectCoverImage error", e));
+        onClose();
+    };
+
     return (
-        <div ref={ref} className={styles.cover_picker} role="dialog" aria-label="Choose cover color">
+        <div ref={ref} className={styles.cover_picker} role="dialog" aria-label="Choose cover">
+            <button
+                type="button"
+                className={styles.cover_photo_btn}
+                onClick={pickImage}
+                title="Choose image from file"
+            >
+                🖼
+            </button>
             {COVER_PRESETS.map((preset, i) => (
                 <button
                     key={i}

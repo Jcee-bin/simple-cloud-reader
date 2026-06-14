@@ -239,6 +239,23 @@
     }
 }
 
+.cover_photo_btn {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 6px 0;
+    border-radius: 6px;
+    border: 1px dashed var(--sc-outline);
+    background: transparent;
+    color: var(--sc-ink-muted);
+    font-size: 13px;
+    cursor: pointer;
+
+    &:hover {
+        border-color: var(--sc-accent);
+        color: var(--sc-accent);
+    }
+}
+
 /* Empty state */
 .empty_state {
     text-align: center;

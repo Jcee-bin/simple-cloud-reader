@@ -34,6 +34,7 @@ const SUBSCRIBE_CHANNELS: TApiMethodName[] = [
     "publication/importFromLink",
     "publication/updateTags",
     "publication/updateCover",
+    "publication/selectCoverImage",
     "publication/findAllRefresh",
     "publication/recover",
 ];

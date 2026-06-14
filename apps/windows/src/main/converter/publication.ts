@@ -214,7 +214,10 @@ export class PublicationViewConverter {
         const title = document.title || "-"; // default title;
         
         let cover: CoverView | undefined;
-        if (document.coverFile) {
+        if (document.customCoverImagePath) {
+            const fileUrl = "file:///" + document.customCoverImagePath.replace(/\\/g, "/");
+            cover = { thumbnailUrl: fileUrl, coverUrl: fileUrl };
+        } else if (document.coverFile) {
             cover = {
                 thumbnailUrl : document.coverFile.url,
                 coverUrl: document.coverFile.url,
@@ -274,7 +277,10 @@ export class PublicationViewConverter {
         }
 
         let cover: CoverView | undefined;
-        if (document.coverFile) {
+        if (document.customCoverImagePath) {
+            const fileUrl = "file:///" + document.customCoverImagePath.replace(/\\/g, "/");
+            cover = { thumbnailUrl: fileUrl, coverUrl: fileUrl };
+        } else if (document.coverFile) {
             cover = {
                 thumbnailUrl : document.coverFile.url,
                 coverUrl: document.coverFile.url,

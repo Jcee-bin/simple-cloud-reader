@@ -25,5 +25,6 @@ export declare const cover_wrap: string;
 export declare const cover_edit_btn: string;
 export declare const cover_picker: string;
 export declare const cover_preset: string;
+export declare const cover_photo_btn: string;
 export declare const empty_state: string;
 export declare const empty_actions: string;
