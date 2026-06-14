@@ -40,13 +40,13 @@
   user-select: none;
 
   --sideButtonColor: rgb(130 130 130 / 50%);
-  --reader-mainColor: #FEFEFE;
-  --reader-secondaryColor: #FEFEFE;
-  --color-text-reader: #1E1E1E;
-  --reader-separatorColor: #c1c1c1;
-  --reader-menuPartColor: #f8f8f8;
-  --reader-menuPartTitleColor: #ededed;
-  --reader-menuPartTitleHoverColor: #d8d8d8;
+  --reader-mainColor: var(--sc-canvas, #FEFEFE);
+  --reader-secondaryColor: var(--sc-surface, #FEFEFE);
+  --color-text-reader: var(--sc-ink, #1E1E1E);
+  --reader-separatorColor: var(--sc-outline, #c1c1c1);
+  --reader-menuPartColor: var(--sc-surface-muted, #f8f8f8);
+  --reader-menuPartTitleColor: var(--sc-outline, #ededed);
+  --reader-menuPartTitleHoverColor: var(--sc-surface-muted, #d8d8d8);
 }
 
 *,

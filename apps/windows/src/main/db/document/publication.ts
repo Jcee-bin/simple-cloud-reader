@@ -34,6 +34,7 @@ export interface PublicationDocument extends Identifiable, Timestampable {
     files?: File[];
     coverFile?: File;
     customCover?: CustomCover;
+    customCoverImagePath?: string;
 
     lcp?: LcpInfo;
     lcpRightsCopies?: number;

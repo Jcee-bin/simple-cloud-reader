@@ -17,6 +17,8 @@ import { findAllRecoverable, recover } from "./recovery";
 import { search, searchEqTitle } from "./search";
 import { selectFiles } from "./selectFiles";
 import { updateTags } from "./updateTags";
+import { updateCover } from "./updateCover";
+import { selectCoverImage } from "./selectCoverImage";
 import { SagaGenerator } from "typed-redux-saga";
 
 export const publicationApi: IPublicationApi = {
@@ -32,6 +34,8 @@ export const publicationApi: IPublicationApi = {
     importFromString,
     searchEqTitle,
     updateTags,
+    updateCover,
+    selectCoverImage,
 
     // used as a fake refresh signal for components subscribing around publication/findAll
     findAllRefresh: function* (): SagaGenerator<void> { },

@@ -2,7 +2,8 @@
     "extends": "./tsconfig",
     "compilerOptions": {
         "lib": ["ES2023"]
-    }
+    },
+    "exclude": ["./node_modules", "./test/**/*"]
 }
 // --------
 // ATTTEMPT TO EXCLUDE LIB.DOM FAILS BECAUSE:
