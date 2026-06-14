@@ -9,7 +9,7 @@ import { push } from "redux-first-history";
 import { Location } from "history";
 import { TDispatch } from "readium-desktop/typings/redux";
 
-import Catalog from "./components/catalog/Catalog";
+import SimpleLibrary from "./components/simpleLibrary/SimpleLibrary";
 import Browser from "./components/opds/Browser";
 import Opds from "./components/opds/Opds";
 import AllPublicationPage from "./components/searchResult/AllPublicationPage";
@@ -88,12 +88,12 @@ const _routes = {
     "/home": {
         path: "/home",
         // exact: true,
-        component: Catalog,
+        component: SimpleLibrary,
     } as Route,
     "/": {
         path: "/",
         // exact: false,
-        component: Catalog,
+        component: SimpleLibrary,
     } as Route,
 };
 
