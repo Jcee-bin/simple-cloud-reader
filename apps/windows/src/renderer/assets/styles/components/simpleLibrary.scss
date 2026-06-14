@@ -1,0 +1,204 @@
+// Quiet Slate Library — see DESIGN.md. Uses --sc-* tokens from
+// partials/_simpleCloudTheme.scss.
+
+.library_root {
+    padding: 16px 28px 40px;
+    background-color: var(--sc-canvas);
+    color: var(--sc-ink);
+}
+
+.top_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+/* Sync status pill */
+.sync_pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 13px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.sync_synced {
+    color: var(--sc-status-synced-text);
+    background: var(--sc-status-synced-bg);
+}
+
+.sync_syncing {
+    color: var(--sc-status-syncing-text);
+    background: var(--sc-status-syncing-bg);
+}
+
+.sync_offline {
+    color: var(--sc-status-offline-text);
+    background: var(--sc-status-offline-bg);
+}
+
+.sync_attention {
+    color: var(--sc-status-attention-text);
+    background: var(--sc-status-attention-bg);
+}
+
+/* Resume hero */
+.resume_section {
+    margin: 4px 0 22px;
+}
+
+.resume_kicker {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: var(--sc-ink-muted);
+    margin: 0 0 10px;
+}
+
+.resume_card {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    background: var(--sc-surface-muted);
+    border: 1px solid var(--sc-outline);
+    border-radius: 14px;
+    padding: 22px;
+}
+
+.resume_cover {
+    width: 92px;
+    flex: 0 0 auto;
+}
+
+.resume_meta {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.resume_title {
+    font-size: 21px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.resume_sub {
+    font-size: 14px;
+    color: var(--sc-ink-muted);
+    margin: 5px 0 13px;
+}
+
+.resume_progress {
+    height: 8px;
+    max-width: 520px;
+    background: var(--sc-surface-muted);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.resume_progress_fill {
+    height: 100%;
+    background: var(--sc-accent);
+}
+
+.resume_button {
+    flex: 0 0 auto;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sc-surface);
+    background: var(--sc-accent);
+    border: none;
+    border-radius: 10px;
+    padding: 13px 28px;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--sc-accent-hover);
+    }
+}
+
+/* Filters + search */
+.filters_row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.search_field {
+    flex: 1 1 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--sc-ink-muted);
+    }
+
+    input {
+        height: 44px;
+        background: var(--sc-surface);
+        border: 1px solid var(--sc-outline);
+        border-radius: 10px;
+        font-size: 15px;
+        padding: 0 16px;
+        color: var(--sc-ink);
+    }
+}
+
+.filter_pills {
+    display: flex;
+    gap: 11px;
+    flex-wrap: wrap;
+}
+
+.filter_pill {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--sc-surface);
+    border: 1px solid var(--sc-outline);
+    color: var(--sc-accent);
+    cursor: pointer;
+}
+
+.filter_pill_on {
+    background: var(--sc-accent);
+    border-color: var(--sc-accent);
+    color: var(--sc-surface);
+}
+
+/* Cover grid — fills the width (DESIGN.md auto-fit rule) */
+.cover_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 22px;
+}
+
+/* Empty state */
+.empty_state {
+    text-align: center;
+    padding: 64px 32px;
+    color: var(--sc-ink-muted);
+
+    h2 {
+        color: var(--sc-ink);
+        font-size: 18px;
+        margin: 0 0 8px;
+    }
+}
+
+.empty_actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}

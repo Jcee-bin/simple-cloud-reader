@@ -1,0 +1,42 @@
+// Quiet Slate — Simple Cloud Reader theme overrides (additive; see DESIGN.md).
+// Anchored onto Thorium's existing token layer in partials/variables.scss.
+// The --theme-*_light/_dark custom properties are consumed via var() inside
+// variables.scss, so setting them here re-skins without forking Thorium.
+
+:root {
+    // Override layer consumed by variables.scss (slate accent + cool neutrals)
+    --theme-primary_light: #5b6b8c;
+    --theme-secondary_light: #eef1f5;
+    --theme-background_light: #f7f8fa;
+    --theme-neutral_light: #fff;
+    --theme-border_light: #e1e5ec;
+    --theme-buttonsBorder_light: #5b6b8c;
+    --theme-primary_dark: #93a4c7;
+    --theme-secondary_dark: #20242b;
+    --theme-background_dark: #15181d;
+    --theme-neutral_dark: #1c2027;
+    --theme-border_dark: #2a2f37;
+    --theme-buttonsBorder_dark: #93a4c7;
+
+    // New product tokens (not present in Thorium) used by simpleLibrary.scss
+    --sc-accent: #5b6b8c;
+    --sc-accent-hover: #4c5b79;
+    --sc-accent-soft: #e6ebf3;
+    --sc-canvas: #f7f8fa;
+    --sc-surface: #fff;
+    --sc-surface-muted: #eef1f5;
+    --sc-ink: #2b2f36;
+    --sc-ink-muted: #6b7280;
+    --sc-outline: #e1e5ec;
+    --sc-focus: #2e6f9a;
+
+    // Sync-status tokens (text / background)
+    --sc-status-synced-text: #0b8454;
+    --sc-status-synced-bg: #e4efe4;
+    --sc-status-syncing-text: #5b6b8c;
+    --sc-status-syncing-bg: #e6ebf3;
+    --sc-status-offline-text: #6b7280;
+    --sc-status-offline-bg: #eceef1;
+    --sc-status-attention-text: #9a6f24;
+    --sc-status-attention-bg: #f7ead0;
+}
