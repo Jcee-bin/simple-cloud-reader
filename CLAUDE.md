@@ -14,11 +14,12 @@ There is no iOS, macOS, Linux, web, Kindle, or Kobo client in scope.
 Read these in order:
 
 1. `HANDOFF.md`
-2. `docs/superpowers/specs/2026-06-12-simple-cloud-reader-design.md`
-3. `NEXT_STEPS.md`
-4. `docs/superpowers/plans/2026-06-12-phase-2-windows-vertical-slice.md`
-5. `docs/BACKEND.md`
-6. `packages/sync-contract/openapi/simple-cloud-reader-v1.json`
+2. `FRONTEND_HANDOFF.md`
+3. `docs/superpowers/specs/2026-06-12-simple-cloud-reader-design.md`
+4. `NEXT_STEPS.md`
+5. `docs/superpowers/plans/2026-06-12-phase-2-windows-vertical-slice.md`
+6. `docs/BACKEND.md`
+7. `packages/sync-contract/openapi/simple-cloud-reader-v1.json`
 
 The checked-in OpenAPI document is the client/backend contract. Do not invent
 routes from prose when the schema can answer the question.

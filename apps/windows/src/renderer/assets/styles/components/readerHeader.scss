@@ -21,11 +21,11 @@
 }
 
 .toolbar_navigation {
-    height: 70px;
+    height: var(--sc-toolbar-height, 70px);
     width: 100%;
     padding: 0;
     background-color: var(--color-gray-50);
-    border-bottom: 3px solid var(--color-gray-100);
+    border-bottom: 1px solid var(--sc-outline, var(--color-gray-100));
     box-sizing: border-box;
 
     &.ttsAudioActivated .tts_toolbar::before {
